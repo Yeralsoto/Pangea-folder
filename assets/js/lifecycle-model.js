@@ -17,6 +17,35 @@
   var canvas = document.getElementById('cycle-model');
   if (!canvas || !canvas.getContext) return;
 
+  /* This is the fallback. When WebGL is available, lifecycle-3d.js renders
+     the model instead; it calls PangeaModel2D() itself if it cannot start. */
+  function webglOK() {
+    try {
+      var c = document.createElement('canvas');
+      return !!(window.WebGLRenderingContext &&
+                (c.getContext('webgl2') || c.getContext('webgl')));
+    } catch (e) { return false; }
+  }
+  var started = false;
+  window.PangeaModel2D = function () { if (!started) { started = true; init(); } };
+  if (webglOK()) {
+    /* The 3D module normally claims the canvas. If it never does — a failed
+       import, a blocked module, an old browser that lies about WebGL — start
+       the 2D renderer so the panel is never left empty. */
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        if (canvas && canvas.dataset.gl !== '1') window.PangeaModel2D();
+      }, 500);
+    });
+    return;
+  }
+  window.PangeaModel2D();
+  return;
+
+  function init() {
+    canvas = document.getElementById('cycle-model');   /* may have been swapped */
+    if (!canvas) return;
+
   var ctx     = canvas.getContext('2d');
   var caption = document.querySelector('[data-model-caption]');
   var reduce  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -368,5 +397,6 @@
     }, { rootMargin: '120px' }).observe(canvas);
   } else {
     start();
+  }
   }
 })();

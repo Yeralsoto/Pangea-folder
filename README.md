@@ -27,7 +27,9 @@ index.html              The whole page. One document, one story.
 assets/css/pangea.css   Tokens, layout, components, motion.
 assets/js/pangea.js     Progressive enhancement only.
 assets/img/topo.svg     Hero contour field (generated, do not hand-edit).
-assets/js/lifecycle-model.js  The rotating site model in section 03.
+assets/js/lifecycle-3d.js     The rotating site model in section 03 (WebGL).
+assets/js/lifecycle-model.js  2D fallback for the same model.
+assets/vendor/three.module.min.js  Three.js r160, MIT. Vendored on purpose.
 assets/logos/           SVG lockups (+ PNG in assets/logos/png).
 tools/make_topo.py      Regenerates assets/img/topo.svg.
 serve.py                Local static server for preview.
@@ -105,11 +107,28 @@ are what the firm actually produces.
 
 ## The site model (section 03)
 
-`assets/js/lifecycle-model.js` draws a site model on a turntable: real
-vertices, a rotation about Y, an elevated camera, perspective projection and
-painter's depth sorting, on a 2D canvas. No WebGL, no dependency, ~12 KB.
+A site model on a turntable, rendered in WebGL with Three.js: a real sun with
+soft shadows, a sky/ground hemisphere bounce, a procedural environment map so
+the glass and plaster have something to reflect, physically-based materials
+and ACES tone mapping. It reads as an architectural render rather than a
+diagram.
 
-It is driven by `phase` (0 → 4), read from the position of the five `.stage`
+**The library is vendored**, not loaded from a CDN: `assets/vendor/three.module.min.js`,
+Three.js r160, MIT, 670 KB on disk and about 167 KB gzipped. The site has no
+external runtime dependency and works offline.
+
+**There is a fallback.** `lifecycle-model.js` draws the same model on a 2D
+canvas — hand-rolled vertices, rotation about Y, perspective projection,
+painter's depth sorting, no dependency. It starts when WebGL is unavailable,
+when the 3D module throws, and when the module never loads at all (a failed
+import is caught by a timer, so the panel is never left empty). Because a
+canvas that has issued a WebGL context can never return a 2D one, the
+fallback is handed a fresh canvas element.
+
+Only a handful of rooms are lit. Terracotta is the signal, not the cladding —
+a facade of glowing windows would blow the brand's ≤8%.
+
+Both renderers are driven by `phase` (0 → 4), read from the position of the five `.stage`
 elements, so the model and the written stages never drift apart:
 
 | phase | stage | what is drawn |
