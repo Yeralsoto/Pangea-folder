@@ -59,10 +59,10 @@ set of panels.
 | — | Positioning | "Most real estate firms are paid to close a transaction." |
 | 02 | What we believe | The six beliefs. |
 | 03 | The full cycle | Five stages with a live progress meter, beside a rotating site model that builds from raw land to an operating hotel as you read. |
-| — | Asset types / Markets | Every asset type; the four markets with coordinates. |
+| — | Every asset type | Nine asset classes on Forest. Land is where a deal often starts, not where the work stops. |
+| — | Markets | The four markets with coordinates, on the Umber ground. |
 | 04 | Services | Five lines, rates in expandable panels. |
 | — | Service standards | 1 day · 48 hours · 5 days · Same day. |
-| 05 | How we speak | "We write" against "we never write", plus the word lists. |
 | — | The disclosure block | A live Parcel 4-37 block, rows landing in order. |
 | — | The symbol | Spire, wings and open arch, isolated on hover or tap. |
 | — | Founders / Contact | Erin Berger and Yeraldin Soto. |
@@ -91,6 +91,30 @@ rather than a flat sticker. Terracotta appears only in the lit rooms.
 The canvas animates only while it is on screen, and pins to the top on narrow
 screens so the transformation plays while the stages are read. Under
 `prefers-reduced-motion` it draws one static frame of the finished asset.
+
+## Staying distinct from yeraldinsoto.com
+
+They are separate identities and must not read as the same site. The risk is
+real: that site runs a cream ground, a high-contrast display serif
+(Bodoni / Cormorant / Cinzel) and an amber-terracotta accent at #B5603A —
+close neighbours to Bone, Newsreader and Terracotta #C46738.
+
+The separation is deliberate, not accidental:
+
+- **Forest leads, not cream.** The hero, the story, the asset grid, the
+  disclosure block, the contact and the footer are all Deep Forest, with
+  Umber carrying the markets. A visitor's first and last impression is dark
+  green, where yeraldinsoto.com is cream throughout.
+- **Terracotta is rationed.** It marks the active stage, risk, the one figure
+  in the disclosure block and the lit rooms in the model. Nowhere else. It is
+  never a surface, a heading colour, or a button on a light ground.
+- **Documentary, not editorial.** Left-aligned, rule-driven, numbered
+  sections, uppercase labels, tabular figures, coordinates. Newsreader is set
+  tight (-0.025em) so it reads as an investment memorandum rather than a
+  fashion masthead.
+- **Geist, not a geometric sans.** Precise grotesk for every figure and label.
+
+If either brand moves, re-check this section first.
 
 ## Brand compliance
 

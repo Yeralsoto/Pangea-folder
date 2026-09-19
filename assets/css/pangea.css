@@ -70,7 +70,7 @@ a:hover{ color:var(--terracotta); }
 
 h1,h2,h3{
   font-family:var(--display); font-weight:300;
-  line-height:1.08; letter-spacing:-0.02em;
+  line-height:1.06; letter-spacing:-0.025em;
   color:var(--forest); margin:0;
   text-wrap:balance;
 }
@@ -115,12 +115,22 @@ p{ margin:0; }
 .ground-forest .sec-head::after{ color:var(--sand); opacity:.3; }
 .ground-linen{ background:var(--linen); }
 
+/* Umber section ground — the brand book's ~10% share. Used once, between the
+   asset grid and the markets grid, so two Forest blocks don't merge. */
+.ground-umber{ background:var(--umber); color:var(--bone); }
+.ground-umber h1,.ground-umber h2,.ground-umber h3{ color:var(--bone); }
+.ground-umber .sec-head::after{ color:var(--sand); opacity:.36; }
+
 /* ---------- 4. Navigation ---------- */
 .nav{
   position:fixed; z-index:60;
   top:var(--frame); left:var(--frame); right:var(--frame);
-  --logo-h:clamp(38px, 3.4vw, 60px);
+  --logo-h:clamp(54px, 5.4vw, 94px);
   border-bottom:1px solid transparent;
+  background:linear-gradient(to bottom,
+              color-mix(in srgb, var(--forest) 94%, transparent) 0%,
+              color-mix(in srgb, var(--forest) 72%, transparent) 55%,
+              transparent 100%);
   transition:top .4s var(--ease), left .4s var(--ease), right .4s var(--ease),
              background .4s var(--ease), border-color .4s var(--ease);
 }
@@ -132,7 +142,7 @@ p{ margin:0; }
 }
 .nav[data-solid="true"]{
   top:0; left:0; right:0;
-  --logo-h:clamp(28px, 2.2vw, 36px);
+  --logo-h:clamp(30px, 2.6vw, 42px);
   background:color-mix(in srgb, var(--bone) 94%, transparent);
   backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
   border-bottom-color:color-mix(in srgb, var(--forest) 12%, transparent);
@@ -144,7 +154,7 @@ p{ margin:0; }
   height:var(--logo-h); width:auto; display:block;
   transition:height .4s var(--ease), opacity .35s var(--ease);
 }
-.nav__logo .is-dark{ position:absolute; inset:0; }
+.nav__logo .is-dark{ position:absolute; left:0; top:0; }
 .nav[data-solid="false"] .nav__logo .is-dark{ opacity:0; }
 .nav[data-solid="true"]  .nav__logo .is-light{ opacity:0; }
 
@@ -243,7 +253,7 @@ p{ margin:0; }
 .hero__eyebrow{ color:var(--sand); margin-bottom:1.75rem; }
 .hero h1{ font-size:var(--d-hero); max-width:15ch; margin-bottom:2rem; }
 .hero__sub{ max-width:min(54rem, 100%); font-size:clamp(1rem,.92rem + .4vw,1.3rem); line-height:1.6;
-  color:color-mix(in srgb,var(--bone) 88%, var(--forest)); margin-bottom:2.75rem; }
+  color:color-mix(in srgb,var(--bone) 92%, var(--forest)); margin-bottom:2.75rem; }
 .hero__actions{ display:flex; flex-wrap:wrap; gap:1rem; }
 .hero__actions .btn{ padding:1rem 1.6rem; border-radius:0; }
 
@@ -257,7 +267,7 @@ p{ margin:0; }
 @media (min-width:64rem){ .story__grid{ grid-template-columns:1fr 1.05fr; } }
 .story h2{ font-size:var(--d-1); margin-bottom:1.5rem; max-width:14ch; }
 .story__body > * + *{ margin-top:1.15rem; }
-.story__body p{ color:color-mix(in srgb,var(--bone) 76%, var(--forest)); max-width:44ch; }
+.story__body p{ color:color-mix(in srgb,var(--bone) 84%, var(--forest)); max-width:44ch; }
 .story__body .is-key{ color:var(--bone); }
 
 .plates{ width:100%; height:auto; overflow:visible; }
@@ -280,7 +290,9 @@ p{ margin:0; }
   font-family:var(--display); font-weight:300; line-height:1.12; letter-spacing:-0.02em;
   font-size:var(--d-1); color:var(--forest); max-width:20ch;
 }
-.pull__quote .muted{ color:color-mix(in srgb,var(--forest) 42%, var(--bone)); }
+/* 42% fell to 2.26:1; large text needs 3:1. 62% reads 3.5:1 and still
+   sits clearly behind the second clause. */
+.pull__quote .muted{ color:color-mix(in srgb,var(--forest) 62%, var(--bone)); }
 .pull__rule{ width:4.5rem; height:2px; background:var(--terracotta); margin:2rem 0; }
 .pull__note{ max-width:38ch; color:var(--umber); }
 
@@ -306,6 +318,9 @@ p{ margin:0; }
 .model__state{
   font-size:var(--t14); color:var(--umber);
   font-variant-numeric:tabular-nums;
+}
+.model__note{
+  flex-basis:100%; font-size:var(--t12); color:var(--stone); line-height:1.5;
 }
 .cycle__meter{ display:flex; align-items:center; gap:.75rem; margin-top:2rem; }
 .cycle__track{ flex:1; height:2px; background:color-mix(in srgb,var(--forest) 14%, transparent); position:relative; }
@@ -347,7 +362,9 @@ p{ margin:0; }
 .stage[data-active="true"] .stage__num{ color:var(--terracotta); }
 .stage__name{ font-family:var(--display); font-weight:300; font-size:var(--t31);
   line-height:1.1; color:var(--forest); letter-spacing:-0.01em; }
-.stage__what{ font-size:var(--t14); color:var(--clay); margin-top:.3rem; }
+.stage__what{ font-size:var(--t14); color:var(--stone); margin-top:.3rem;
+  transition:color .4s var(--ease); }
+.stage[data-active="true"] .stage__what{ color:var(--clay); }
 .stage__detail{ margin-top:.85rem; color:var(--umber); max-width:42ch; }
 .stage__bar{ height:2px; width:0; background:var(--terracotta); margin-top:1.15rem;
   transition:width .7s var(--ease); }
@@ -399,37 +416,12 @@ p{ margin:0; }
 .belief h3{ font-size:var(--t20); line-height:1.25; margin-bottom:.65rem; letter-spacing:0; }
 .belief p{ color:var(--umber); font-size:var(--t14); line-height:1.6; }
 
-/* ---------- 12. Voice ---------- */
-.voice{ background:var(--bone); }
-.voice__grid{ display:grid; gap:1.5rem; }
-@media (min-width:56rem){ .voice__grid{ grid-template-columns:repeat(3,1fr); } }
-.vcard{ border:1px solid color-mix(in srgb,var(--forest) 13%, transparent); padding:clamp(1.35rem,2.6vw,1.9rem); background:var(--bone); }
-.vcard h3{ font-size:var(--t25); margin-bottom:.35rem; }
-.vcard__rule{ font-size:var(--t14); color:var(--stone); margin-bottom:1.5rem; }
-.vsay + .vsay{ margin-top:1.15rem; padding-top:1.15rem; border-top:var(--rule); }
-.vsay__tag{ font-size:var(--t12); font-weight:500; letter-spacing:.14em; text-transform:uppercase;
-  display:flex; align-items:center; gap:.45rem; margin-bottom:.5rem; }
-.vsay--do .vsay__tag{ color:var(--forest); }
-.vsay--dont .vsay__tag{ color:var(--clay); }
-.vsay__mark{ font-size:.7em; }
-.vsay p{ font-size:var(--t14); line-height:1.6; }
-.vsay--do p{ color:var(--graphite); }
-.vsay--dont p{ color:var(--stone); }
-
-.words{ display:grid; gap:2rem; margin-top:3rem; padding-top:2rem; border-top:var(--rule); }
-@media (min-width:56rem){ .words{ grid-template-columns:1fr 1fr; gap:3rem; } }
-.chips{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1rem; }
-.chip{ font-size:var(--t14); padding:.3rem .7rem; border-radius:2px;
-  background:var(--linen); color:var(--umber); }
-.chip--never{ background:transparent; border:1px dashed color-mix(in srgb,var(--clay) 40%, transparent);
-  color:var(--stone); text-decoration:line-through; text-decoration-color:color-mix(in srgb,var(--clay) 55%,transparent); }
-
 /* ---------- 13. Disclosure block ---------- */
 .disclose{ background:var(--forest); color:var(--bone); }
 .disclose__grid{ display:grid; gap:clamp(2rem,5vw,4rem); align-items:start; }
 @media (min-width:64rem){ .disclose__grid{ grid-template-columns:20rem 1fr; } }
 .disclose h2{ font-size:var(--d-2); margin-bottom:1.25rem; }
-.disclose__note{ color:color-mix(in srgb,var(--bone) 72%, var(--forest)); font-size:var(--t14); max-width:32ch; }
+.disclose__note{ color:color-mix(in srgb,var(--bone) 82%, var(--forest)); font-size:var(--t14); max-width:32ch; }
 
 .dblock{ background:var(--bone); color:var(--graphite); padding:clamp(1.25rem,3vw,2rem); border-radius:2px; }
 .dblock__head{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:.5rem;
@@ -466,23 +458,23 @@ p{ margin:0; }
 .std__t{ font-size:var(--t14); color:var(--umber); margin-top:.6rem; }
 
 /* ---------- 15. Assets & markets ---------- */
-.assets{ display:grid; gap:1px; background:color-mix(in srgb,var(--forest) 12%, transparent);
-  border-block:1px solid color-mix(in srgb,var(--forest) 12%, transparent); }
+.assets{ display:grid; gap:1px; background:color-mix(in srgb,var(--sand) 26%, transparent);
+  border-block:1px solid color-mix(in srgb,var(--sand) 26%, transparent); }
 @media (min-width:40rem){ .assets{ grid-template-columns:repeat(2,1fr); } }
 @media (min-width:64rem){ .assets{ grid-template-columns:repeat(3,1fr); } }
-.asset{ background:var(--bone); padding:clamp(1.25rem,2.4vw,1.75rem); transition:background .3s var(--ease); }
-.asset:hover{ background:var(--linen); }
-.asset h3{ font-size:var(--t20); letter-spacing:0; margin-bottom:.35rem; }
-.asset p{ font-size:var(--t14); color:var(--stone); }
+.asset{ background:var(--forest); padding:clamp(1.25rem,2.4vw,1.75rem); transition:background .3s var(--ease); }
+.asset:hover{ background:color-mix(in srgb, var(--bone) 7%, var(--forest)); }
+.asset h3{ font-size:var(--t20); letter-spacing:0; margin-bottom:.35rem; color:var(--bone); }
+.asset p{ font-size:var(--t14); color:color-mix(in srgb,var(--bone) 72%, var(--forest)); }
 
-.markets{ display:grid; gap:1px; background:color-mix(in srgb,var(--sand) 26%, transparent); }
+.markets{ display:grid; gap:1px; background:color-mix(in srgb,var(--sand) 30%, transparent); }
 @media (min-width:40rem){ .markets{ grid-template-columns:repeat(2,1fr); } }
 @media (min-width:72rem){ .markets{ grid-template-columns:repeat(4,1fr); } }
-.market{ background:var(--forest); padding:clamp(1.35rem,2.6vw,2rem); display:flex; flex-direction:column; gap:.5rem; min-height:12rem; }
+.market{ background:var(--umber); padding:clamp(1.35rem,2.6vw,2rem); display:flex; flex-direction:column; gap:.5rem; min-height:12rem; }
 .market__c{ color:var(--sand); }
 .market h3{ font-size:var(--t25); color:var(--bone); letter-spacing:0; }
-.market p{ font-size:var(--t14); color:color-mix(in srgb,var(--bone) 70%, var(--forest)); flex:1; }
-.market__coord{ font-size:var(--t12); letter-spacing:.06em; color:var(--gold); }
+.market p{ font-size:var(--t14); color:color-mix(in srgb,var(--bone) 86%, var(--umber)); flex:1; }
+.market__coord{ font-size:var(--t12); letter-spacing:.06em; color:var(--sand); }
 
 /* ---------- 16. Services ---------- */
 .svc{ border-top:var(--rule); }
@@ -497,8 +489,9 @@ p{ margin:0; }
 .svc__title{ font-family:var(--display); font-weight:300; font-size:var(--t31);
   color:var(--forest); line-height:1.12; letter-spacing:-0.01em; }
 .svc__promise{ font-size:var(--t14); color:var(--umber); margin-top:.35rem; display:block; }
-.svc__toggle{ font-size:var(--t12); letter-spacing:.14em; color:var(--clay); font-weight:500;
-  white-space:nowrap; align-self:center; }
+.svc__toggle{ font-size:var(--t12); letter-spacing:.14em; color:var(--stone); font-weight:500;
+  white-space:nowrap; align-self:center; transition:color .25s var(--ease); }
+.svc__head:hover .svc__toggle, .svc[data-open="true"] .svc__toggle{ color:var(--clay); }
 .svc__panel{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .45s var(--ease); }
 .svc[data-open="true"] .svc__panel{ grid-template-rows:1fr; }
 .svc__panelIn{ overflow:hidden; }
@@ -542,14 +535,14 @@ p{ margin:0; }
 .contact__qs{ list-style:none; margin:0; padding:0; display:grid; gap:.55rem; }
 .contact__qs li{ font-size:var(--t14); color:color-mix(in srgb,var(--bone) 74%, var(--forest));
   padding-left:1.1rem; position:relative; }
-.contact__qs li::before{ content:"○"; position:absolute; left:0; color:var(--gold); font-size:.7em; top:.45em; }
+.contact__qs li::before{ content:"○"; position:absolute; left:0; color:var(--sand); font-size:.7em; top:.45em; }
 
 .footer{ background:var(--forest); color:var(--bone);
   border-top:1px solid color-mix(in srgb,var(--sand) 22%, transparent); padding-block:2.5rem; }
 .footer__grid{ display:flex; flex-wrap:wrap; gap:1.5rem; justify-content:space-between; align-items:center; }
 .footer img{ height:30px; width:auto; }
 .footer .label{ color:color-mix(in srgb,var(--sand) 80%, transparent); }
-.footer__legal{ font-size:var(--t12); color:color-mix(in srgb,var(--bone) 55%, var(--forest)); }
+.footer__legal{ font-size:var(--t12); color:color-mix(in srgb,var(--bone) 74%, var(--forest)); }
 
 /* ---------- 19. Reveal motion ---------- */
 .rv{ opacity:0; transform:translateY(14px); }
