@@ -55,17 +55,30 @@ set of panels.
 | # | Section | What it does |
 |---|---------|--------------|
 | — | Hero | The primary tagline, on Deep Forest. |
-| 01 | Our story | The six plates of Pangea drift together into one landmass as you scroll. The seams fade as they lock. This is the brand's core metaphor made literal. |
+| 01 | Our story | The supercontinent breaks apart. Real continent silhouettes, pinned and centred, splitting and drifting to today's map as the text scrolls past. |
 | — | Positioning | "Most real estate firms are paid to close a transaction." |
 | 02 | What we believe | The six beliefs. |
 | 03 | The full cycle | Five stages with a live progress meter, beside a rotating site model that builds from raw land to an operating hotel as you read. |
-| — | Every asset type | Nine asset classes on Forest. Land is where a deal often starts, not where the work stops. |
-| — | Markets | The four markets with coordinates, on the Umber ground. |
+| 04 | What we build | Land, Building, Hospitality, Rentals — four written sections, each with its own drawn plat, section or elevation that draws itself on entry. |
+| — | Every asset type | The nine classes as a typographic register. |
+| — | Markets | Four markets as an editorial register — place, coordinate, one sentence. No cards. |
+| 05 | Who we work with | Each client type, what they arrive with, and what we actually do. |
 | 04 | Services | Five lines, rates in expandable panels. |
 | — | Service standards | 1 day · 48 hours · 5 days · Same day. |
 | — | The disclosure block | A live Parcel 4-37 block, rows landing in order. |
 | — | The symbol | Spire, wings and open arch, isolated on hover or tap. |
 | — | Founders / Contact | Erin Berger and Yeraldin Soto. |
+
+## The drawings (section 04)
+
+Land, Building, Hospitality and Rentals each carry a technical drawing — a
+plat, a section, two elevations — authored as inline SVG. On entry the strokes
+release from their own path length, shortest first, so the frame lands before
+the detail and the drawing appears to draw itself. Fills and labels arrive
+after the line work. Under `prefers-reduced-motion` they are simply present.
+
+These are deliberately drawings, not more 3D: the register is survey and
+drafting work, which is what the firm actually produces.
 
 ## The site model (section 03)
 
@@ -101,6 +114,9 @@ close neighbours to Bone, Newsreader and Terracotta #C46738.
 
 The separation is deliberate, not accidental:
 
+- **No cards.** Asset types, markets and clients are hairline registers, not
+  boxes. A rule separates two things more quietly than a card, and it keeps
+  the page from reading as software.
 - **Forest leads, not cream.** The hero, the story, the asset grid, the
   disclosure block, the contact and the footer are all Deep Forest, with
   Umber carrying the markets. A visitor's first and last impression is dark

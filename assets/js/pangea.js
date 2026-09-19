@@ -87,39 +87,58 @@
     els.forEach(function (el) { io.observe(el); });
   })();
 
-  /* ---------- 3. The continent: six plates drift into one landmass ---------- */
+  /* ---------- 3. Pangea breaking apart ---------- */
   (function () {
-    var svg = $('.plates');
+    var svg = $('.drift');
     if (!svg) return;
-    var plates = $$('.plate', svg);
-    if (!plates.length) return;
+    var lands = $$('.land', svg);
+    var cap = $('[data-drift-caption]');
+    if (!lands.length) return;
 
-    if (reduce) { plates.forEach(function (p) { p.style.transform = 'none'; }); return; }
-
-    function apply() {
-      var r = svg.getBoundingClientRect();
-      var vh = window.innerHeight || 1;
-      /* progress 0 -> 1 as the figure travels from just below the fold
-         to roughly the middle of the viewport */
-      var start = vh * 0.92, end = vh * 0.34;
-      var p = (start - r.top) / (start - end);
-      p = p < 0 ? 0 : p > 1 ? 1 : p;
-      var eased = 1 - Math.pow(1 - p, 3);   /* easeOutCubic */
-      var away = 1 - eased;
-
-      plates.forEach(function (g) {
+    /* progress 0 = the supercontinent, 1 = the world today */
+    function apply(p) {
+      var away = 1 - Math.pow(1 - p, 2.2);           /* slow start, then release */
+      lands.forEach(function (g) {
         var dx  = parseFloat(g.getAttribute('data-dx'))  || 0;
         var dy  = parseFloat(g.getAttribute('data-dy'))  || 0;
         var rot = parseFloat(g.getAttribute('data-rot')) || 0;
-        g.style.transform =
-          'translate(' + (dx * away).toFixed(2) + 'px,' + (dy * away).toFixed(2) + 'px) ' +
-          'rotate(' + (rot * away).toFixed(2) + 'deg)';
-        g.style.opacity = (0.45 + 0.55 * eased).toFixed(3);
+        var cx  = parseFloat(g.getAttribute('data-cx')) || 0;
+        var cy  = parseFloat(g.getAttribute('data-cy')) || 0;
+        var k = 1 - away;                             /* 1 = still in Pangea */
+        g.setAttribute('transform',
+          'translate(' + (dx * k).toFixed(2) + ',' + (dy * k).toFixed(2) + ') ' +
+          'rotate(' + (rot * k).toFixed(2) + ',' + cx + ',' + cy + ')');
       });
-      /* the seams between the plates close as the continent assembles */
-      svg.style.setProperty('--seam', (1 - eased * 0.9).toFixed(3));
+      /* the seams open as the landmass splits */
+      svg.style.setProperty('--seam', (0.15 + 0.85 * away).toFixed(3));
+      if (cap) {
+        cap.textContent = away < 0.5
+          ? 'Pangea · 200 million years ago'
+          : 'Today · the same land, in pieces';
+      }
     }
-    onScroll(apply);
+
+    if (reduce) { apply(1); return; }
+
+    var section = svg.closest('.story');
+    onScroll(function () {
+      var vh = window.innerHeight || 1;
+      var p;
+      if (section && section.offsetHeight > vh * 1.2) {
+        /* pinned: progress tracks the section's travel, so the whole
+           break-apart happens while the map is centred */
+        var r = section.getBoundingClientRect();
+        var travel = Math.max(r.height - vh, 1);
+        p = (vh * 0.12 - r.top) / travel;
+      } else {
+        /* not pinned: track the figure's centre across the viewport, so the
+           break plays while the map is actually on screen */
+        var f = svg.getBoundingClientRect();
+        var mid = f.top + f.height / 2;
+        p = (vh * 0.82 - mid) / (vh * 0.52);
+      }
+      apply(p < 0 ? 0 : p > 1 ? 1 : p);
+    });
   })();
 
   /* ---------- 4. Lifecycle: active stage + progress meter ---------- */
@@ -253,4 +272,53 @@
       });
     });
   })();
+})();
+
+/* ============================================================
+   Technical drawings — the line draws itself.
+   Each <svg data-draw> has its strokes dashed to their own length
+   and released in sequence when the drawing comes into view.
+   ============================================================ */
+(function () {
+  'use strict';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var svgs = Array.prototype.slice.call(document.querySelectorAll('svg[data-draw]'));
+  if (!svgs.length) return;
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    svgs.forEach(function (s) { s.classList.add('is-drawn'); });
+    return;
+  }
+
+  svgs.forEach(function (svg) {
+    var lines = Array.prototype.slice.call(svg.querySelectorAll('.dl'));
+    lines.forEach(function (el) {
+      var len;
+      try { len = el.getTotalLength(); } catch (e) { len = 0; }
+      if (!len) return;
+      el.style.strokeDasharray = len;
+      el.style.strokeDashoffset = len;
+      el.dataset.len = len;
+    });
+  });
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var svg = e.target;
+      io.unobserve(svg);
+      var lines = Array.prototype.slice.call(svg.querySelectorAll('.dl'));
+      /* shortest first: the frame lands before the detail */
+      lines.sort(function (a, b) { return (+a.dataset.len || 0) - (+b.dataset.len || 0); });
+      lines.forEach(function (el, i) {
+        el.style.transition = 'stroke-dashoffset 900ms cubic-bezier(.22,.61,.36,1) ' +
+                              (i * 45) + 'ms';
+        el.style.strokeDashoffset = '0';
+      });
+      setTimeout(function () { svg.classList.add('is-drawn'); },
+                 400 + lines.length * 45);
+    });
+  }, { threshold: 0.25 });
+
+  svgs.forEach(function (s) { io.observe(s); });
 })();
