@@ -24,22 +24,24 @@
 
 <!-- ============ NAV ============ -->
 <header class="nav" data-solid="false">
-  <a class="nav__logo" href="#top" aria-label="Pangea Ventures International — home">
-    <img class="is-light" src="assets/logos/pangea-horizontal-reversed.svg" alt="Pangea Ventures International">
-    <img class="is-dark" src="assets/logos/pangea-horizontal-twotone.svg" alt="">
-  </a>
-  <nav class="nav__links" aria-label="Primary">
-    <a href="#story">Approach</a>
-    <a href="#cycle">Lifecycle</a>
-    <a href="#services">Services</a>
-    <a href="#markets">Markets</a>
-    <a class="btn btn--signal nav__cta" href="#contact">Discuss an opportunity</a>
-  </nav>
+  <div class="nav__bar">
+    <a class="nav__logo" href="#top" aria-label="Pangea Ventures International — home">
+      <img class="is-light" src="assets/logos/pangea-horizontal-reversed.svg" alt="Pangea Ventures International">
+      <img class="is-dark" src="assets/logos/pangea-horizontal-twotone.svg" alt="" aria-hidden="true">
+    </a>
 
-  <button class="nav__burger" type="button" aria-expanded="false" aria-controls="nav-panel">
-    <span class="nav__burgerLabel">Menu</span>
-    <span class="nav__burgerIcon" aria-hidden="true"><i></i><i></i></span>
-  </button>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#story">Approach</a>
+      <a href="#cycle">Lifecycle</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <button class="nav__burger" type="button" aria-expanded="false" aria-controls="nav-panel">
+      <span class="nav__burgerLabel">Menu</span>
+      <span class="nav__burgerIcon" aria-hidden="true"><i></i><i></i></span>
+    </button>
+  </div>
 
   <nav class="nav__panel" id="nav-panel" aria-label="Primary, mobile" hidden>
     <a href="#story">Approach</a>
@@ -48,7 +50,7 @@
     <a href="#markets">Markets</a>
     <a href="#symbol">The symbol</a>
     <a href="#founders">Founders</a>
-    <a class="btn btn--signal" href="#contact">Discuss an opportunity <span aria-hidden="true">→</span></a>
+    <a class="btn btn--bone" href="#contact">Discuss an opportunity</a>
   </nav>
 </header>
 
@@ -56,101 +58,15 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="top">
-  <div class="hero__glow" aria-hidden="true"></div>
-  <div class="hero__mark" aria-hidden="true"><svg viewBox="-112 -2 224 174" aria-hidden="true" focusable="false"><g transform="translate(0,-2) scale(0.114461) translate(-998.5,-20) translate(0,1552) scale(0.1,-0.1)"><path d="M9967 15178 c-11 -88 -101 -435 -158 -613 -95 -297 -313 -878 -353
--940 -7 -11 -28 -60 -46 -110 -135 -373 -349 -832 -525 -1125 -51 -85 -116
--195 -145 -245 -85 -145 -428 -639 -670 -964 -188 -254 -390 -556 -476 -712
--31 -57 -89 -162 -129 -234 -41 -71 -98 -175 -129 -230 -105 -187 -314 -711
--391 -976 -121 -421 -188 -820 -215 -1273 -10 -160 -26 -329 -51 -541 -77
--636 -340 -1283 -714 -1750 -393 -493 -806 -830 -1710 -1400 -393 -247 -711
--474 -976 -695 -302 -251 -744 -728 -1039 -1120 -428 -570 -932 -1126 -1291
--1426 -85 -70 -184 -154 -221 -185 -37 -31 -156 -116 -264 -189 -221 -149
--264 -184 -264 -211 0 -49 22 -46 590 70 205 43 399 74 595 97 72 8 159 19
-195 25 110 16 736 23 925 10 233 -16 698 -74 823 -102 89 -20 357 -68 432 -78
-41 -5 134 -17 205 -25 72 -9 164 -21 205 -27 292 -40 902 -9 1220 62 484 107
-860 256 1325 522 440 252 941 701 1342 1203 235 295 326 426 633 906 125 196
-406 760 495 993 12 33 51 121 85 195 207 451 440 1347 475 1835 4 50 16 176
-26 280 11 105 23 234 26 288 5 85 8 97 24 97 18 0 19 104 22 3243 2 3043 4
-3251 20 3382 21 165 58 368 93 515 24 105 24 105 22 805 -2 385 -6 674 -11
-643z m-2807 -6834 c6 -17 10 -44 10 -62 0 -17 5 -34 10 -37 6 -3 10 -28 10
--54 0 -26 3 -51 7 -55 5 -4 13 -29 20 -54 58 -221 91 -322 172 -517 120 -292
-154 -364 228 -491 29 -50 56 -100 60 -110 11 -31 142 -264 188 -334 23 -36 54
--87 69 -115 14 -27 39 -70 54 -95 223 -356 413 -733 497 -985 128 -378 186
--717 186 -1086 1 -165 -14 -269 -45 -331 -17 -33 -31 -90 -46 -195 -44 -299
--167 -579 -363 -823 -103 -129 -373 -388 -511 -491 -326 -244 -782 -452 -1226
--558 -74 -18 -180 -44 -235 -58 -97 -25 -166 -36 -425 -68 -170 -21 -544 -55
--590 -53 -8 0 -145 -3 -305 -7 -159 -4 -297 -7 -305 -7 -8 0 -76 -3 -150 -8
--74 -5 -187 -12 -250 -16 -63 -3 -131 -7 -150 -9 -40 -4 -155 -7 -185 -6 -26
-1 28 31 56 31 11 0 27 4 37 9 29 16 147 51 170 51 11 0 23 4 26 9 3 4 29 11
-58 14 29 4 85 13 123 21 39 8 102 19 140 26 39 6 93 15 120 20 92 16 285 39
-483 59 56 5 126 14 155 20 29 6 120 15 202 21 83 6 184 15 225 20 437 55 430
-54 545 83 55 14 161 40 235 57 541 129 1029 392 1389 749 321 318 469 577 517
-909 21 144 25 137 -85 147 -42 4 -105 15 -141 25 -190 51 -235 62 -340 85 -63
-14 -173 37 -245 51 -71 13 -164 31 -205 39 -41 8 -127 19 -190 25 -63 6 -155
-15 -205 20 -220 23 -873 -10 -1066 -54 -35 -8 -107 -22 -159 -31 -112 -21
--390 -89 -417 -103 -10 -5 -56 -19 -103 -31 -98 -25 -463 -156 -585 -211 -122
--54 -295 -137 -325 -155 -19 -12 -51 -27 -70 -35 -19 -8 -57 -27 -85 -44 -57
--33 -220 -118 -249 -129 -32 -12 3 22 124 123 99 82 149 117 323 232 213 139
-613 343 804 409 48 17 95 35 105 40 26 14 348 94 458 114 52 9 124 23 159 31
-197 45 877 78 1106 54 50 -5 140 -14 200 -19 113 -11 189 -23 430 -72 200 -40
-359 -75 445 -99 132 -36 193 -49 297 -62 101 -13 101 -13 108 27 17 107 -5
-489 -39 685 -31 173 -147 587 -176 625 -4 6 -29 60 -55 120 -38 88 -149 306
--196 385 -22 38 -100 172 -139 239 -23 41 -55 92 -71 114 -16 22 -29 44 -29
-50 0 5 -15 33 -34 61 -102 156 -320 562 -361 676 -90 249 -190 599 -200 700
--6 55 -27 185 -32 193 -7 12 -4 333 3 364 7 28 7 28 16 -2 5 -17 13 -44 18
--61z" fill="#594132"/><path d="M9980 14586 c0 -405 4 -736 9 -738 19 -7 96 -388 128 -633 16 -131
-18 -339 20 -3382 3 -3139 4 -3243 22 -3243 16 0 19 -12 24 -97 3 -54 15 -183
-26 -288 10 -104 22 -230 26 -280 35 -488 268 -1384 475 -1835 34 -74 73 -162
-85 -195 89 -233 370 -797 495 -993 191 -299 363 -557 436 -654 400 -528 725
--864 1159 -1199 185 -142 205 -156 380 -256 760 -436 1460 -622 2254 -600 119
-3 250 11 291 16 41 6 134 18 205 27 72 8 164 20 205 25 75 10 343 58 432 78
-125 28 590 86 823 102 189 13 815 6 925 -10 36 -6 124 -17 195 -25 196 -23
-390 -54 595 -97 568 -116 590 -119 590 -70 0 27 -43 62 -264 211 -108 73 -227
-158 -264 189 -37 31 -136 115 -221 185 -359 300 -863 856 -1291 1426 -295 392
--737 869 -1039 1120 -265 221 -583 448 -976 695 -904 570 -1317 907 -1710
-1400 -374 467 -637 1114 -714 1750 -25 212 -41 381 -51 541 -27 453 -94 852
--215 1273 -77 265 -286 789 -391 976 -31 55 -88 159 -129 230 -40 72 -98 177
--129 234 -86 156 -288 458 -476 712 -242 325 -585 819 -670 964 -29 50 -94
-160 -145 245 -176 293 -390 752 -525 1125 -18 50 -39 99 -46 110 -40 62 -258
-643 -353 940 -69 215 -149 538 -164 658 -6 53 -15 97 -19 97 -4 0 -8 -330 -8
--734z m2881 -6367 c0 -93 -2 -172 -4 -176 -5 -8 -26 -138 -32 -193 -10 -101
--110 -451 -200 -700 -41 -114 -259 -520 -361 -676 -19 -28 -34 -56 -34 -61 0
--6 -13 -28 -29 -50 -16 -22 -48 -73 -71 -114 -39 -67 -117 -201 -139 -239 -47
--79 -158 -297 -196 -385 -26 -60 -51 -114 -55 -120 -29 -38 -145 -452 -176
--625 -34 -196 -56 -578 -39 -685 7 -40 7 -40 108 -27 104 13 165 26 297 62 86
-24 245 59 445 99 241 49 317 61 430 72 61 5 151 14 200 19 229 24 909 -9 1106
--54 35 -8 107 -22 159 -31 110 -20 432 -100 458 -114 10 -5 57 -23 105 -40
-191 -66 591 -270 804 -409 174 -115 224 -150 323 -232 121 -101 156 -135 124
--123 -29 11 -192 96 -249 129 -27 17 -66 36 -85 44 -19 8 -51 23 -70 35 -30
-18 -203 101 -325 155 -122 55 -487 186 -585 211 -47 12 -93 26 -103 31 -27 14
--305 82 -417 103 -52 9 -124 23 -159 31 -193 44 -846 77 -1066 54 -49 -5 -142
--14 -205 -20 -63 -6 -149 -17 -190 -25 -41 -8 -133 -26 -205 -39 -71 -14 -182
--37 -245 -51 -105 -23 -150 -34 -340 -85 -36 -10 -99 -21 -141 -25 -110 -10
--106 -3 -85 -147 48 -332 196 -591 517 -909 360 -357 848 -620 1389 -749 74
--17 180 -43 235 -57 115 -29 108 -28 545 -83 41 -5 143 -14 225 -20 83 -6 173
--15 202 -21 29 -6 99 -15 155 -20 198 -20 391 -43 483 -59 28 -5 82 -14 120
--20 39 -7 102 -18 140 -26 39 -8 94 -17 123 -21 29 -3 55 -10 58 -14 3 -5 15
--9 26 -9 23 0 141 -35 170 -51 10 -5 26 -9 37 -9 28 0 82 -30 56 -31 -30 -1
--145 2 -185 6 -19 2 -87 6 -150 9 -63 4 -176 11 -250 16 -74 5 -142 8 -150 8
--8 0 -145 3 -305 7 -159 4 -297 7 -305 7 -46 -2 -420 32 -590 53 -259 32 -328
-43 -425 68 -55 14 -161 40 -235 58 -444 106 -900 314 -1226 558 -138 103 -408
-362 -511 491 -196 244 -319 524 -363 823 -15 105 -29 162 -46 195 -31 62 -46
-166 -45 331 0 369 58 708 186 1086 84 252 274 629 497 985 15 25 40 68 54 95
-15 28 46 79 69 115 46 70 177 303 188 334 4 10 31 60 60 110 74 127 108 199
-228 491 81 195 114 296 172 517 7 25 15 50 20 54 4 4 7 28 7 54 0 25 4 50 9
-56 5 5 11 27 14 49 25 192 47 156 48 -76z" fill="#27372D"/></g></svg></div>
+  <div class="hero__topo" aria-hidden="true"></div>
   <div class="wrap hero__inner">
     <p class="label hero__eyebrow rv">Real estate investment, advisory &amp; operations</p>
     <h1 class="rv" style="--rv-delay:90ms">Clarity across the real estate lifecycle.</h1>
     <p class="hero__sub rv" style="--rv-delay:180ms">From acquisition and development to operations and management, Pangea brings disciplined analysis, transparent communication and practical expertise to every stage of real estate.</p>
     <div class="hero__actions rv" style="--rv-delay:260ms">
-      <a class="btn btn--signal" href="#contact">Discuss an opportunity <span class="btn__arrow" aria-hidden="true">→</span></a>
+      <a class="btn btn--bone" href="#contact">Discuss an opportunity</a>
       <a class="btn btn--ghost-light" href="#disclosure">How we evaluate a deal</a>
     </div>
-  </div>
-  <div class="hero__foot" aria-hidden="true">
-    <p class="label">United States · Colombia · Costa Rica</p>
-    <p class="label hide-sm">Land. Capital. Operations.</p>
   </div>
 </section>
 
@@ -682,7 +598,7 @@
         <p class="label label--onforest rv" style="margin-bottom:1.5rem">Start here</p>
         <h2 class="rv" style="--rv-delay:70ms">Tell us about the asset. We will tell you what we actually think.</h2>
         <div class="contact__actions rv" style="--rv-delay:140ms">
-          <a class="btn btn--signal" href="mailto:erin@pangeaventures.com?subject=Discuss%20an%20opportunity">Discuss an opportunity <span class="btn__arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn--bone" href="mailto:erin@pangeaventures.com?subject=Discuss%20an%20opportunity">Discuss an opportunity</a>
           <a class="btn btn--ghost-light" href="#services">See services and rates</a>
         </div>
       </div>

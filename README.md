@@ -21,9 +21,30 @@ Then open <http://localhost:4173>.
 index.html              The whole page. One document, one story.
 assets/css/pangea.css   Tokens, layout, components, motion.
 assets/js/pangea.js     Progressive enhancement only.
+assets/img/topo.svg     Hero contour field (generated, do not hand-edit).
 assets/logos/           SVG lockups (+ PNG in assets/logos/png).
+tools/make_topo.py      Regenerates assets/img/topo.svg.
 serve.py                Local static server for preview.
 ```
+
+## The hero
+
+Built to the approved hero on Brand Book p.30 / Guidelines p.14: the Forest
+panel inset in a Bone frame, the reversed lockup at full size, four nav links
+and no button in the bar, a Bone-filled primary action with an outlined
+secondary, and a topographic contour field behind it all.
+
+The contour field is real topography, not decoration: `tools/make_topo.py`
+evaluates a smooth terrain function and traces its contour lines with marching
+squares, so the lines nest around high ground and run long and parallel across
+the flats. Retune the peaks in `field()` and regenerate:
+
+```bash
+python3 tools/make_topo.py assets/img/topo.svg
+```
+
+On Forest grounds the primary action is Bone, per the mockup. Terracotta stays
+the one signal on Bone grounds and in the data.
 
 ## The narrative spine
 
@@ -75,5 +96,6 @@ set of panels.
 
 - Spanish version (`Claridad en todo el ciclo inmobiliario.` — the approved
   ES copy is in the brand kit, ready to drop in).
-- Insights / writing section — no content exists for it yet.
+- Insights / writing section — no content exists for it yet, so the nav
+  carries Services in that slot rather than a dead link.
 - A real contact form. The CTAs currently open email to the founders.

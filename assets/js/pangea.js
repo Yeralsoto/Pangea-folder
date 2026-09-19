@@ -29,8 +29,15 @@
     var nav = $('.nav'), hero = $('.hero');
     if (!nav) return;
     onScroll(function () {
-      var limit = hero ? hero.offsetHeight - 80 : 80;
-      nav.setAttribute('data-solid', window.scrollY > limit ? 'true' : 'false');
+      var solid;
+      if (hero) {
+        /* Flip before the hero panel's bone frame slides under the bar,
+           so Bone nav text is never sitting on Bone. */
+        solid = hero.getBoundingClientRect().bottom <= nav.offsetHeight + 8;
+      } else {
+        solid = window.scrollY > 80;
+      }
+      nav.setAttribute('data-solid', solid ? 'true' : 'false');
     });
   })();
 
