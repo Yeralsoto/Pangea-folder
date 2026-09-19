@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "pangea-site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/Users/yeraldin/Documents/Pangea folder/serve.py", "4173"],
+      "port": 4173
+    }
+  ]
+}

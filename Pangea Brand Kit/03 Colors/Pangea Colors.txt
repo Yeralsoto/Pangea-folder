@@ -1,0 +1,17 @@
+PANGEA VENTURES INTERNATIONAL · COLOR PALETTE
+
+Name | HEX | RGB | CMYK (approx.) | Use
+
+Deep Forest | #27372D | 39, 55, 45 | 29/0/18/78 | Primary. Grounds, logo, headlines (~30%)
+Bone | #F1ECE2 | 241, 236, 226 | 0/2/6/5 | Primary background (~45%)
+Umber | #594132 | 89, 65, 50 | 0/27/44/65 | Secondary, left half of the two-tone symbol (~10%)
+Terracotta | #C46738 | 196, 103, 56 | 0/47/71/23 | The one accent: one number or action per page (~8%). Large text only.
+Clay | #9E4D28 | 158, 77, 40 | 0/51/75/38 | Terracotta for small text: links, risk labels
+Warm Sand | #C9B69B | 201, 182, 155 | 0/9/23/21 | Fills, charts, reversed logo (~5%). Never text on Bone.
+Graphite | #252522 | 37, 37, 34 | 0/0/8/85 | Long body text
+Mineral Gold | #A58A5F | 165, 138, 95 | 0/16/42/35 | Foil, embossing, hairlines only (~2%)
+Stone | #655E52 | 101, 94, 82 | 0/7/19/60 | Captions and labels
+Linen | #E6DECF | 230, 222, 207 | 0/3/10/10 | Panels and table stripes
+
+Primary pair: Deep Forest on Bone.
+CMYK values are conversions. Ask the printer to match the HEX values on a proof.
