@@ -459,26 +459,60 @@ p{ margin:0; }
 }
 .var__fig{ margin:0; }
 
-/* The drawings. Line work first, fills after — the drawing draws itself. */
+/* The drawings. Staged: a step's line work draws itself, then its fills and
+   labels arrive, then the caption names what appeared. */
 .dwg{ width:100%; height:auto; display:block; }
 .dwg .dl{
   fill:none; stroke:var(--forest); stroke-width:1.1;
   stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke;
 }
-.dwg .df{ fill:var(--linen); stroke:var(--forest); stroke-width:.7;
-  vector-effect:non-scaling-stroke; opacity:0; transition:opacity .5s var(--ease); }
-.dwg .df.lit{ fill:var(--terracotta); stroke:var(--clay); }
-.dwg.is-drawn .df{ opacity:1; }
-.dwg .dt{
-  font-family:var(--text); font-size:8.5px; font-weight:500; letter-spacing:.14em;
-  fill:var(--stone); text-transform:uppercase;
-  opacity:0; transition:opacity .6s var(--ease) .5s;
+.dwg .dl--bdy{ stroke-width:1.7; }
+.dwg .dl--creek{ stroke-dasharray:none; stroke:var(--stone); }
+
+.dwg .df{
+  fill:var(--linen); stroke:var(--forest); stroke-width:.6;
+  vector-effect:non-scaling-stroke;
+  opacity:0; transition:opacity .45s var(--ease);
 }
-.dwg.is-drawn .dt{ opacity:1; }
+.dwg .dstep.is-on .df{ opacity:1; transition-delay:calc(420ms + var(--i, 0) * 55ms); }
+.dwg .lot{ fill:color-mix(in srgb, var(--sand) 42%, var(--bone)); }
+.dwg .lot--premium{ fill:color-mix(in srgb, var(--terracotta) 26%, var(--bone)); }
+.dwg .room{ fill:var(--linen); }
+.dwg .room.sold{ fill:color-mix(in srgb, var(--sand) 34%, var(--bone)); }
+/* Terracotta is the signal: it marks what is NOT sold or NOT let. */
+.dwg .room.vacant{ fill:var(--terracotta); stroke:var(--clay); }
+
+.dwg .dt{
+  font-family:var(--text); font-size:9px; font-weight:500; letter-spacing:.14em;
+  fill:var(--stone); text-transform:uppercase;
+  opacity:0; transition:opacity .5s var(--ease);
+}
+.dwg .dstep.is-on .dt{ opacity:1; transition-delay:calc(560ms + var(--i, 0) * 55ms); }
+.dwg .dt--lot{ font-size:11px; letter-spacing:.04em; fill:var(--umber); }
+.dwg .dt--sig{ fill:var(--clay); }
+.dwg .dnum{
+  font-family:var(--text); font-size:22px; font-weight:500; letter-spacing:-0.02em;
+  fill:var(--clay); font-variant-numeric:tabular-nums;
+  opacity:0; transition:opacity .5s var(--ease) .3s;
+}
+.dwg .dstep.is-on .dnum{ opacity:1; }
+
+/* The caption is part of the drawing, not a label under it. */
+.dwg__cap{
+  position:relative; display:block; margin-top:1rem;
+  min-height:3.2em; font-size:var(--t14); color:var(--umber);
+}
+.dwg__capItem{
+  position:absolute; inset:0; opacity:0; transform:translateY(6px);
+  transition:opacity .45s var(--ease), transform .45s var(--ease);
+}
+.dwg__capItem.is-on{ opacity:1; transform:none; }
 
 @media (prefers-reduced-motion: reduce){
   .dwg .dl{ stroke-dasharray:none !important; stroke-dashoffset:0 !important; }
-  .dwg .df, .dwg .dt{ opacity:1 !important; }
+  .dwg .df, .dwg .dt, .dwg .dnum{ opacity:1 !important; }
+  .dwg__capItem{ opacity:0; }
+  .dwg__capItem.is-on{ opacity:1; transform:none; }
 }
 
 /* ---------- 13. Disclosure block ---------- */

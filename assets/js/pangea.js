@@ -275,50 +275,98 @@
 })();
 
 /* ============================================================
-   Technical drawings — the line draws itself.
-   Each <svg data-draw> has its strokes dashed to their own length
-   and released in sequence when the drawing comes into view.
+   Technical drawings — staged, informative sequences.
+   Each <svg data-draw> holds groups tagged data-step. They are released
+   in order: the line work of a step draws itself from its own path
+   length, its fills and labels follow, the caption says what appeared,
+   and any counter counts up. The final step holds.
    ============================================================ */
 (function () {
   'use strict';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var svgs = Array.prototype.slice.call(document.querySelectorAll('svg[data-draw]'));
-  if (!svgs.length) return;
+  var figs = Array.prototype.slice.call(document.querySelectorAll('svg[data-draw]'));
+  if (!figs.length) return;
 
-  if (reduce || !('IntersectionObserver' in window)) {
-    svgs.forEach(function (s) { s.classList.add('is-drawn'); });
-    return;
-  }
+  var STEP_MS = 1000;      /* dwell on each step */
+  var DRAW_MS = 760;       /* how long one stroke takes to draw */
 
-  svgs.forEach(function (svg) {
-    var lines = Array.prototype.slice.call(svg.querySelectorAll('.dl'));
-    lines.forEach(function (el) {
-      var len;
-      try { len = el.getTotalLength(); } catch (e) { len = 0; }
+  function prepare(svg) {
+    Array.prototype.forEach.call(svg.querySelectorAll('.dl'), function (el) {
+      var len = 0;
+      try { len = el.getTotalLength(); } catch (e) {}
       if (!len) return;
       el.style.strokeDasharray = len;
       el.style.strokeDashoffset = len;
       el.dataset.len = len;
     });
+  }
+
+  function countUp(el, ms) {
+    var to = +el.dataset.countTo || 0, suffix = el.dataset.suffix || '';
+    var t0 = null;
+    function frame(t) {
+      if (t0 === null) t0 = t;
+      var k = Math.min((t - t0) / ms, 1);
+      el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + suffix;
+      if (k < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function runStep(svg, g) {
+    g.classList.add('is-on');
+    var lines = Array.prototype.slice.call(g.querySelectorAll('.dl'));
+    lines.sort(function (a, b) { return (+a.dataset.len || 0) - (+b.dataset.len || 0); });
+    lines.forEach(function (el, i) {
+      el.style.transition = 'stroke-dashoffset ' + DRAW_MS +
+        'ms cubic-bezier(.22,.61,.36,1) ' + (i * 38) + 'ms';
+      el.style.strokeDashoffset = '0';
+    });
+    Array.prototype.forEach.call(g.querySelectorAll('.dnum'), function (el) {
+      countUp(el, 1100);
+    });
+  }
+
+  function play(figure) {
+    var svg = figure.svg, steps = figure.steps, caps = figure.caps;
+    steps.forEach(function (g, i) {
+      setTimeout(function () {
+        runStep(svg, g);
+        caps.forEach(function (c, j) { c.classList.toggle('is-on', j === i); });
+      }, i * STEP_MS);
+    });
+  }
+
+  var items = figs.map(function (svg) {
+    var fc = svg.parentNode.querySelector('[data-dwg-cap]');
+    return {
+      svg: svg,
+      steps: Array.prototype.slice.call(svg.querySelectorAll('.dstep')),
+      caps: fc ? Array.prototype.slice.call(fc.querySelectorAll('.dwg__capItem')) : []
+    };
   });
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    items.forEach(function (f) {
+      f.steps.forEach(function (g) { g.classList.add('is-on'); });
+      f.caps.forEach(function (c, j) { c.classList.toggle('is-on', j === f.caps.length - 1); });
+      Array.prototype.forEach.call(f.svg.querySelectorAll('.dnum'), function (el) {
+        el.textContent = (el.dataset.countTo || '') + (el.dataset.suffix || '');
+      });
+    });
+    return;
+  }
+
+  items.forEach(function (f) { prepare(f.svg); });
 
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {
       if (!e.isIntersecting) return;
-      var svg = e.target;
-      io.unobserve(svg);
-      var lines = Array.prototype.slice.call(svg.querySelectorAll('.dl'));
-      /* shortest first: the frame lands before the detail */
-      lines.sort(function (a, b) { return (+a.dataset.len || 0) - (+b.dataset.len || 0); });
-      lines.forEach(function (el, i) {
-        el.style.transition = 'stroke-dashoffset 900ms cubic-bezier(.22,.61,.36,1) ' +
-                              (i * 45) + 'ms';
-        el.style.strokeDashoffset = '0';
-      });
-      setTimeout(function () { svg.classList.add('is-drawn'); },
-                 400 + lines.length * 45);
+      io.unobserve(e.target);
+      var f = items.filter(function (x) { return x.svg === e.target; })[0];
+      if (f) play(f);
     });
-  }, { threshold: 0.25 });
+  }, { threshold: 0.3 });
 
-  svgs.forEach(function (s) { io.observe(s); });
+  items.forEach(function (f) { io.observe(f.svg); });
 })();
