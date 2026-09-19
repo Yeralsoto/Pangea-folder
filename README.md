@@ -15,6 +15,11 @@ python3 serve.py 4173
 
 Then open <http://localhost:4173>.
 
+`.claude/launch.json` is an **attach** config, not a launch one: it points the
+preview at `http://localhost:4173` rather than spawning its own copy. Start
+the server yourself with the command above; the preview connects to it. This
+avoids a second process fighting for the port.
+
 ## Structure
 
 ```
