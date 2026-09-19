@@ -43,8 +43,8 @@
   --rule: 1px solid color-mix(in srgb, var(--forest) 14%, transparent);
   --ease: cubic-bezier(.22,.61,.36,1);
 
-  /* Bone frame around the Forest hero panel (brand book hero) */
-  --frame: 14px;
+  /* Hero runs full-bleed. */
+  --frame: 0px;
 }
 
 /* ---------- 2. Reset & base ---------- */
@@ -229,8 +229,7 @@ p{ margin:0; }
 /* ---------- 6. Hero ---------- */
 .hero{
   position:relative; display:flex; align-items:center;
-  margin:var(--frame);
-  min-height:calc(100svh - (var(--frame) * 2));
+  min-height:100svh;
   background:var(--forest); color:var(--bone);
   padding-block:11rem 6rem; overflow:hidden; isolation:isolate;
 }
@@ -287,15 +286,52 @@ p{ margin:0; }
 
 /* ---------- 9. Lifecycle ---------- */
 .cycle__grid{ display:grid; gap:clamp(2rem,5vw,4.5rem); }
-@media (min-width:64rem){ .cycle__grid{ grid-template-columns:22rem 1fr; align-items:start; } }
+@media (min-width:64rem){ .cycle__grid{ grid-template-columns:minmax(0,30rem) 1fr; align-items:start; } }
 .cycle__aside{ position:static; }
 @media (min-width:64rem){ .cycle__aside{ position:sticky; top:7.5rem; } }
 .cycle__aside h2{ font-size:var(--d-2); margin-bottom:1.25rem; }
-.cycle__aside p{ color:var(--umber); font-size:var(--t16); max-width:30ch; }
+.cycle__aside p{ color:var(--umber); font-size:var(--t16); max-width:34ch; }
+
+/* The site model on its turntable */
+.model{ margin:2rem 0 0; }
+.model canvas{
+  display:block; width:100%; height:auto; aspect-ratio:13 / 10;
+  background:var(--forest);
+  border-radius:2px;
+}
+.model figcaption{
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:.25rem .9rem;
+  margin-top:.85rem;
+}
+.model__state{
+  font-size:var(--t14); color:var(--umber);
+  font-variant-numeric:tabular-nums;
+}
 .cycle__meter{ display:flex; align-items:center; gap:.75rem; margin-top:2rem; }
 .cycle__track{ flex:1; height:2px; background:color-mix(in srgb,var(--forest) 14%, transparent); position:relative; }
 .cycle__fill{ position:absolute; inset:0 auto 0 0; width:0%; background:var(--terracotta); transition:width .45s var(--ease); }
 .cycle__count{ font-size:var(--t12); letter-spacing:.14em; color:var(--stone); font-weight:500; }
+
+/* Below 1024px the grid is one column, so the model would scroll away before
+   the stages are read. `display:contents` promotes the aside's children to
+   grid items, which makes the grid container the model's containing block —
+   so it can pin while the stages pass underneath it. */
+@media (max-width:63.99rem){
+  /* block, not grid: a grid item's sticky containing block is its own row,
+     which is only as tall as the item — so it could never actually pin. */
+  .cycle__grid{ display:block; }
+  .cycle__aside{ display:contents; }
+  .cycle__aside > h2{ margin-bottom:1.25rem; }
+  .model{
+    position:sticky; top:3.5rem; z-index:2;
+    margin:1.5rem 0 0;
+    background:var(--bone);
+    padding-bottom:.75rem;
+    border-bottom:var(--rule);
+  }
+  .model canvas{ aspect-ratio:16 / 10; max-height:40vh; margin-inline:auto; }
+  .cycle__meter{ margin-top:1.25rem; }
+}
 
 .stages{ list-style:none; margin:0; padding:0; }
 .stage{

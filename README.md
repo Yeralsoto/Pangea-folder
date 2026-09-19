@@ -22,6 +22,7 @@ index.html              The whole page. One document, one story.
 assets/css/pangea.css   Tokens, layout, components, motion.
 assets/js/pangea.js     Progressive enhancement only.
 assets/img/topo.svg     Hero contour field (generated, do not hand-edit).
+assets/js/lifecycle-model.js  The rotating site model in section 03.
 assets/logos/           SVG lockups (+ PNG in assets/logos/png).
 tools/make_topo.py      Regenerates assets/img/topo.svg.
 serve.py                Local static server for preview.
@@ -57,7 +58,7 @@ set of panels.
 | 01 | Our story | The six plates of Pangea drift together into one landmass as you scroll. The seams fade as they lock. This is the brand's core metaphor made literal. |
 | — | Positioning | "Most real estate firms are paid to close a transaction." |
 | 02 | What we believe | The six beliefs. |
-| 03 | The full cycle | Five stages with a live progress meter in the sticky column. |
+| 03 | The full cycle | Five stages with a live progress meter, beside a rotating site model that builds from raw land to an operating hotel as you read. |
 | — | Asset types / Markets | Every asset type; the four markets with coordinates. |
 | 04 | Services | Five lines, rates in expandable panels. |
 | — | Service standards | 1 day · 48 hours · 5 days · Same day. |
@@ -65,6 +66,31 @@ set of panels.
 | — | The disclosure block | A live Parcel 4-37 block, rows landing in order. |
 | — | The symbol | Spire, wings and open arch, isolated on hover or tap. |
 | — | Founders / Contact | Erin Berger and Yeraldin Soto. |
+
+## The site model (section 03)
+
+`assets/js/lifecycle-model.js` draws a site model on a turntable: real
+vertices, a rotation about Y, an elevated camera, perspective projection and
+painter's depth sorting, on a 2D canvas. No WebGL, no dependency, ~12 KB.
+
+It is driven by `phase` (0 → 4), read from the position of the five `.stage`
+elements, so the model and the written stages never drift apart:
+
+| phase | stage | what is drawn |
+|-------|-------|----------------|
+| 0 | Identify | Bare parcel, boundary, ground contours |
+| 1 | Evaluate | Plat lines, setbacks, yield |
+| 2 | Create | Structural frame at full height, six plates |
+| 3 | Operate | Solid massing, glazing, lit rooms, terrace |
+| 4 | Optimize | Stabilised, set-back crown |
+
+Walls are lit by a sun fixed in *camera* space, so whichever face turns toward
+the viewer is the one that lights up — that is what makes it read as an object
+rather than a flat sticker. Terracotta appears only in the lit rooms.
+
+The canvas animates only while it is on screen, and pins to the top on narrow
+screens so the transformation plays while the stages are read. Under
+`prefers-reduced-motion` it draws one static frame of the finished asset.
 
 ## Brand compliance
 
