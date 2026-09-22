@@ -113,6 +113,34 @@
   </div>
 </section>
 
+<!-- ============ THE RECORD ============ -->
+<section class="section record" id="record">
+  <div class="wrap">
+    <div class="sec-head rv"><p class="label">The record</p></div>
+    <div class="record__grid">
+      <div>
+        <h2 class="record__quote rv">Judge us by our failures, not by our wins.</h2>
+        <p class="record__body rv" style="--rv-delay:80ms">Pangea is new. We are not going to pad a track record to look otherwise, because the day we do, nothing else on this page is worth reading.</p>
+        <p class="record__body rv" style="--rv-delay:140ms">What we will show you is the working: the assumptions behind every number, the risk we think is real, and the recommendation we would give if the capital were ours. Then you can decide.</p>
+      </div>
+      <ul class="facts rv" style="--rv-delay:200ms">
+        <li class="fact">
+          <span class="fact__n">2026</span>
+          <span class="fact__t">Founded by Erin Berger and Yeraldin Soto, after <!-- TODO confirm -->[YEARS] years each in land, capital, construction and operations.</span>
+        </li>
+        <li class="fact">
+          <span class="fact__n">15</span>
+          <span class="fact__t">Founding consulting clients. That is the number we are taking, not the number we have — <!-- TODO confirm -->[N] places remain.</span>
+        </li>
+        <li class="fact">
+          <span class="fact__n">48 hrs</span>
+          <span class="fact__t">To a standard underwrite, with assumptions stated. Bad news reaches you the same day we find it.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- ============ 02 BELIEFS ============ -->
 <section class="section ground-linen" id="beliefs">
   <div class="wrap">
@@ -727,6 +755,22 @@
     <p class="footer__legal">© 2026 Pangea Ventures International · Founders Erin Berger and Yeraldin Soto</p>
   </div>
 </footer>
+
+
+<!-- ============ EXIT PROMPT ============ -->
+<div class="exit" id="exit-prompt" hidden aria-hidden="true">
+  <div class="exit__scrim" data-exit-close></div>
+  <div class="exit__panel" role="dialog" aria-modal="true" aria-labelledby="exit-title" tabindex="-1">
+    <p class="label exit__eyebrow">Before you go</p>
+    <h2 id="exit-title" class="exit__title">Have a deal you cannot read?</h2>
+    <p class="exit__body">Send it over. We will underwrite it against the model it actually fits and come back inside 48 hours with the assumptions, the downside, the primary risk, and one of three words: proceed, renegotiate, pass.</p>
+    <div class="exit__actions">
+      <a class="btn btn--signal" href="mailto:erin@pangeaventures.com?subject=A%20deal%20to%20underwrite">Send us the deal</a>
+      <button class="btn btn--ghost-dark" type="button" data-exit-close>Not right now</button>
+    </div>
+    <p class="exit__note">No list, no sequence. One reply, from one of us.</p>
+  </div>
+</div>
 
 <script src="assets/js/pangea.js" defer></script>
 <script src="assets/js/lifecycle-model.js" defer></script>

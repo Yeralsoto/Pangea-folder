@@ -308,6 +308,32 @@ p{ margin:0; }
 .pull__rule{ width:4.5rem; height:2px; background:var(--terracotta); margin:2rem 0; }
 .pull__note{ max-width:38ch; color:var(--umber); }
 
+/* ---------- The record ---------- */
+.record{ background:var(--bone); }
+.record__grid{ display:grid; gap:clamp(2.5rem,6vw,5rem); align-items:start; }
+@media (min-width:64rem){ .record__grid{ grid-template-columns:1.1fr .9fr; } }
+.record__quote{
+  font-family:var(--display); font-weight:300; font-size:var(--d-1);
+  line-height:1.08; letter-spacing:-0.025em; color:var(--forest);
+  max-width:16ch; margin-bottom:1.5rem;
+}
+.record__body{ color:var(--umber); max-width:44ch; }
+.record__body + .record__body{ margin-top:1rem; }
+
+.facts{ list-style:none; margin:0; padding:0; }
+.fact{
+  display:grid; gap:.35rem 1.75rem; padding-block:1.35rem;
+  border-top:var(--rule);
+}
+.fact:last-child{ border-bottom:var(--rule); }
+@media (min-width:36rem){ .fact{ grid-template-columns:7rem 1fr; align-items:baseline; } }
+.fact__n{
+  font-family:var(--text); font-weight:500; font-size:var(--t31);
+  color:var(--forest); letter-spacing:-0.02em; font-variant-numeric:tabular-nums;
+  line-height:1;
+}
+.fact__t{ font-size:var(--t14); color:var(--umber); max-width:40ch; }
+
 /* ---------- 9. Lifecycle ---------- */
 .cycle__grid{ display:grid; gap:clamp(2rem,5vw,4.5rem); }
 @media (min-width:64rem){ .cycle__grid{ grid-template-columns:minmax(0,30rem) 1fr; align-items:start; } }
@@ -725,4 +751,36 @@ p{ margin:0; }
   .land{ transform:none !important; }
   .btn:hover{ transform:none; }
   *{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
+}
+
+/* ---------- 20. Exit prompt ---------- */
+/* One appearance per visitor per session, dismissible every way a dialog
+   should be. The decline reads as a real option, not a punishment — the
+   brand book says Pangea is never pushy and never salesy. */
+.exit{ position:fixed; inset:0; z-index:90; display:grid; place-items:center; padding:var(--gutter); }
+.exit[hidden]{ display:none !important; }
+.exit__scrim{
+  position:absolute; inset:0; cursor:pointer;
+  background:color-mix(in srgb, var(--forest) 72%, transparent);
+  backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
+  opacity:0; transition:opacity .4s var(--ease);
+}
+.exit__panel{
+  position:relative; width:min(38rem, 100%);
+  background:var(--bone); color:var(--graphite);
+  padding:clamp(1.75rem,4vw,3rem); border-radius:2px;
+  border-top:3px solid var(--terracotta);
+  opacity:0; transform:translateY(12px);
+  transition:opacity .45s var(--ease), transform .45s var(--ease);
+}
+.exit.is-open .exit__scrim{ opacity:1; }
+.exit.is-open .exit__panel{ opacity:1; transform:none; }
+.exit__eyebrow{ margin-bottom:1rem; }
+.exit__title{ font-size:var(--d-2); max-width:18ch; margin-bottom:1rem; }
+.exit__body{ color:var(--umber); max-width:46ch; margin-bottom:1.75rem; }
+.exit__actions{ display:flex; flex-wrap:wrap; gap:.75rem; }
+.exit__note{ margin-top:1.25rem; font-size:var(--t12); color:var(--stone); }
+
+@media (prefers-reduced-motion: reduce){
+  .exit__scrim, .exit__panel{ transition:none; }
 }

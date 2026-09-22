@@ -370,3 +370,76 @@
 
   items.forEach(function (f) { io.observe(f.svg); });
 })();
+
+/* ============================================================
+   Exit prompt. Shows once per session, on intent to leave on a
+   pointer device, or after a deep scroll then a long pause on
+   touch (where there is no such thing as leaving the viewport).
+   ============================================================ */
+(function () {
+  'use strict';
+  var root = document.getElementById('exit-prompt');
+  if (!root) return;
+
+  var KEY = 'pangea.exit.seen';
+  try { if (sessionStorage.getItem(KEY)) return; } catch (e) { /* private mode */ }
+
+  var panel = root.querySelector('.exit__panel');
+  var lastFocus = null;
+  var armed = false;
+
+  function open() {
+    if (root.dataset.open === '1') return;
+    root.dataset.open = '1';
+    try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+    lastFocus = document.activeElement;
+    root.hidden = false;
+    root.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(function () { root.classList.add('is-open'); });
+    if (panel) panel.focus();
+    document.addEventListener('keydown', onKey);
+  }
+
+  function close() {
+    root.classList.remove('is-open');
+    root.setAttribute('aria-hidden', 'true');
+    document.removeEventListener('keydown', onKey);
+    setTimeout(function () { root.hidden = true; }, 420);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') { close(); return; }
+    if (e.key !== 'Tab' || !panel) return;
+    var f = panel.querySelectorAll('a[href], button');
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
+  Array.prototype.forEach.call(root.querySelectorAll('[data-exit-close]'), function (el) {
+    el.addEventListener('click', close);
+  });
+
+  /* Don't fire at someone who just arrived. */
+  setTimeout(function () { armed = true; }, 12000);
+
+  if (window.matchMedia('(pointer: fine)').matches) {
+    document.addEventListener('mouseout', function (e) {
+      if (!armed || e.relatedTarget || e.clientY > 8) return;
+      open();
+    });
+  } else {
+    /* Touch: read most of the page, then stop for a while. */
+    var idle = null;
+    window.addEventListener('scroll', function () {
+      if (!armed) return;
+      var d = document.documentElement;
+      var past = (window.scrollY + window.innerHeight) / d.scrollHeight;
+      if (past < 0.55) return;
+      clearTimeout(idle);
+      idle = setTimeout(open, 9000);
+    }, { passive: true });
+  }
+})();
