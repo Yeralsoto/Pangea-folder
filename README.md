@@ -76,6 +76,32 @@ set of panels.
 | — | The symbol | Spire, wings and open arch, isolated on hover or tap. |
 | — | Founders / Contact | Erin Berger and Yeraldin Soto. |
 
+## The Americas coverage map
+
+`tools/make_americas.py` draws the Markets map in the same language as the
+Pangea map in section 01 — one landmass, sand on Forest, hairline seams — so
+the two read as the same system.
+
+It says two different things, and the distinction is the point:
+
+- **On the ground** (terracotta, solid) — a market we work in ourselves.
+- **We underwrite here** (sand, hollow) — a market we will model but not
+  operate.
+
+That is the honest version of a coverage map. It is not a client-density map,
+and it does not imply work we have not done. Pins are real coordinates and
+drop in sequence once the map is on screen.
+
+## Motion
+
+Deliberately quiet, and all of it off under `prefers-reduced-motion`:
+
+- A terracotta hairline at the top reports read progress.
+- Major headings arrive word by word from behind their own baseline.
+- Section rules draw from the left rather than fading in.
+- Figures count up when they land.
+- Nothing loops, nothing bounces, nothing slides in from the side.
+
 ## The drawings (section 04)
 
 Land, Building, Hospitality and Rentals each carry a technical drawing —
