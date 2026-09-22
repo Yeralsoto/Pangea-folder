@@ -55,11 +55,65 @@ FOOT = '''</main>
   </div>
 </footer>
 
+<!-- exit prompt, same as the homepage -->
+<div class="exit" id="exit-prompt" hidden aria-hidden="true">
+  <div class="exit__scrim" data-exit-close></div>
+  <div class="exit__panel" role="dialog" aria-modal="true" aria-labelledby="exit-title" tabindex="-1">
+    <p class="label exit__eyebrow">Before you go</p>
+    <h2 id="exit-title" class="exit__title">Have a deal you cannot read?</h2>
+    <p class="exit__body">Send it over. We will underwrite it against the model it actually fits and come back inside 48 hours with the assumptions, the downside, the primary risk, and one of three words: proceed, renegotiate, pass.</p>
+    <div class="exit__actions">
+      <a class="btn btn--signal" href="mailto:erin@pangeaventures.com?subject=A%20deal%20to%20underwrite">Send us the deal</a>
+      <button class="btn btn--ghost-dark" type="button" data-exit-close>Not right now</button>
+    </div>
+    <p class="exit__note">No list, no sequence. One reply, from one of us.</p>
+  </div>
+</div>
+
 <script src="../assets/js/pangea.js" defer></script>
 </body>
 </html>
 '''
 
+
+
+# --------------------------------------------------------------------------
+# header motifs — same drawing language as the section 04 figures
+# --------------------------------------------------------------------------
+def motif(kind):
+    if kind == "lots":
+        cells = []
+        for i in range(10):
+            x = 40 + i * 62
+            cells.append('<rect class="df%s" x="%d" y="74" width="46" height="70"/>'
+                         % ("" if i < 6 else " sig", x))
+            cells.append('<path class="dl" d="M%d 74 L%d 144"/>' % (x, x))
+        body = ('<path class="dl" d="M28 60 L672 60"/>'
+                '<path class="dl" d="M28 158 L672 158"/>'
+                + "".join(cells) +
+                '<path class="dl" d="M28 176 L672 176"/>')
+    elif kind == "peaks":
+        body = ('<path class="dl" d="M28 118 C 120 44, 200 132, 290 76 S 460 32, 560 94 '
+                'S 640 126, 672 102"/>'
+                '<path class="dl" d="M28 148 C 130 90, 210 156, 300 114 S 470 78, 566 128 '
+                'S 646 152, 672 138"/>')
+        for i, h in [(0, 62), (1, 44), (2, 36), (3, 28)]:
+            x = 150 + i * 112
+            body += ('<rect class="df%s" x="%d" y="%d" width="56" height="%d"/>'
+                     % (" sig" if i == 3 else "", x, 176 - h, h))
+        body += '<path class="dl" d="M28 176 L672 176"/>'
+    else:
+        body = '<path class="dl" d="M40 52 L660 44 L664 148 L44 156 Z"/>'
+        for i in range(1, 4):
+            x0 = 40 + i * 156
+            body += '<path class="dl" d="M%d %d L%d %d"/>' % (x0, 50 - i, x0 + 2, 154 - i)
+        body += ('<rect class="df sig" x="508" y="50" width="152" height="100"/>'
+                 '<path class="dl" d="M24 172 L676 164"/>'
+                 '<path class="dl" d="M24 182 L676 174"/>')
+    # class="dwg" matters: that is where .dl gets fill:none. Without it every
+    # closed path in these motifs fills solid black.
+    return ('<svg class="dwg" viewBox="0 0 700 210" data-draw aria-hidden="true">'
+            '<g class="dstep" data-step="0">%s</g></svg>' % body)
 
 # --------------------------------------------------------------------------
 # helpers for article bodies
@@ -92,6 +146,7 @@ def bars(caption, rows, unit=""):
 ARTICLES = [
 {
  "slug": "the-lot-shortage-ended",
+ "tone": "forest", "motif": "lots",
  "kicker": "United States · Land",
  "title": "The lot shortage ended. Most people are still pricing like it didn’t.",
  "dek": "Finished-lot supply in the US has loosened for seven straight quarters. "
@@ -151,6 +206,7 @@ ARTICLES = [
 },
 {
  "slug": "medellin-is-not-one-market",
+ "tone": "umber", "motif": "peaks",
  "kicker": "Colombia · Residential",
  "title": "Medellín is not one market. It is about nine.",
  "dek": "Prime neighbourhood pricing in Medellín spans roughly three to one. "
@@ -210,6 +266,7 @@ ARTICLES = [
 },
 {
  "slug": "the-split-that-looked-good",
+ "tone": "linen", "motif": "split",
  "kicker": "Worked example · Land",
  "title": "The split that looked good and wasn’t.",
  "dek": "A worked example of a four-lot exempt split where every number was right "
@@ -279,6 +336,7 @@ def render_article(a):
     return (HEAD.format(title=a["title"], dek=a["dek"], site=SITE) + '''
 <article class="art">
   <div class="wrap art__wrap">
+    <div class="arthead arthead--%s rv">%s</div>
     <header class="art__head">
       <p class="label art__kicker rv">%s</p>
       <h1 class="art__title rv" style="--rv-delay:70ms">%s</h1>
@@ -297,19 +355,24 @@ def render_article(a):
     <p class="art__back"><a href="index.html">← All insights</a></p>
   </div>
 </article>
-''' % (a["kicker"], a["title"], a["dek"], a["date"], a["read"], body, src)
+''' % (a["tone"], motif(a["motif"]), a["kicker"], a["title"], a["dek"],
+            a["date"], a["read"], body, src)
             + FOOT.format(site=SITE))
 
 
 def render_index(arts):
     rows = "\n".join('''      <li class="ins rv">
         <a class="ins__link" href="%s.html">
-          <p class="label ins__kicker">%s</p>
-          <h2 class="ins__title">%s</h2>
-          <p class="ins__dek">%s</p>
-          <p class="ins__meta">%s · %s read</p>
+          <span class="ins__thumb arthead--%s">%s</span>
+          <span class="ins__text">
+            <span class="label ins__kicker">%s</span>
+            <span class="ins__title">%s</span>
+            <span class="ins__dek">%s</span>
+            <span class="ins__meta">%s · %s read</span>
+          </span>
         </a>
-      </li>''' % (a["slug"], a["kicker"], a["title"], a["dek"], a["date"], a["read"])
+      </li>''' % (a["slug"], a["tone"], motif(a["motif"]), a["kicker"], a["title"],
+                 a["dek"], a["date"], a["read"])
       for a in arts)
     return (HEAD.format(title="Insights", site=SITE,
             dek="Field notes on land, construction, hospitality and rental assets "
@@ -337,12 +400,16 @@ io.open("insights/index.html", "w", encoding="utf-8").write(render_index(ARTICLE
 home = io.open("index.html", encoding="utf-8").read()
 rows = "\n".join('''      <li class="ins rv">
         <a class="ins__link" href="insights/%s.html">
-          <p class="label ins__kicker">%s</p>
-          <h2 class="ins__title">%s</h2>
-          <p class="ins__dek">%s</p>
-          <p class="ins__meta">%s · %s read</p>
+          <span class="ins__thumb arthead--%s">%s</span>
+          <span class="ins__text">
+            <span class="label ins__kicker">%s</span>
+            <span class="ins__title">%s</span>
+            <span class="ins__dek">%s</span>
+            <span class="ins__meta">%s · %s read</span>
+          </span>
         </a>
-      </li>''' % (a["slug"], a["kicker"], a["title"], a["dek"], a["date"], a["read"])
+      </li>''' % (a["slug"], a["tone"], motif(a["motif"]), a["kicker"], a["title"],
+               a["dek"], a["date"], a["read"])
     for a in ARTICLES)
 home = re.sub(r"<!-- INSIGHTS:START -->.*?<!-- INSIGHTS:END -->",
               "<!-- INSIGHTS:START -->\n" + rows + "\n<!-- INSIGHTS:END -->",

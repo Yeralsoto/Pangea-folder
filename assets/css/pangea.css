@@ -154,7 +154,10 @@ p{ margin:0; }
   height:var(--logo-h); width:auto; display:block;
   transition:height .4s var(--ease), opacity .35s var(--ease);
 }
-.nav__logo .is-dark{ position:absolute; left:0; top:0; }
+/* Only lift the dark mark out of flow when it is stacked ON the light one
+   (the homepage crossfade). On pages that ship a single mark it must stay
+   in flow, or the link collapses to zero height and the logo disappears. */
+.nav__logo .is-light + .is-dark{ position:absolute; left:0; top:0; }
 .nav[data-solid="false"] .nav__logo .is-dark{ opacity:0; }
 .nav[data-solid="true"]  .nav__logo .is-light{ opacity:0; }
 
@@ -857,7 +860,15 @@ p{ margin:0; }
 .inslist{ list-style:none; margin:0; padding:0; }
 .ins{ border-top:var(--rule); }
 .ins:last-child{ border-bottom:var(--rule); }
-.ins__link{ display:block; padding-block:clamp(1.5rem,3.5vh,2.25rem); text-decoration:none; color:inherit; }
+.ins__link{
+  display:grid; gap:1.25rem clamp(1.5rem,3vw,2.5rem);
+  padding-block:clamp(1.5rem,3.5vh,2.25rem); text-decoration:none; color:inherit;
+}
+@media (min-width:48rem){ .ins__link{ grid-template-columns:15rem 1fr; align-items:start; } }
+.ins__thumb{ display:block; border-radius:2px; overflow:hidden; align-self:start; }
+.ins__thumb svg{ display:block; width:100%; height:auto; }
+.ins__text{ display:block; }
+.ins__title, .ins__dek, .ins__meta, .ins__kicker{ display:block; }
 .ins__link:hover .ins__title{ color:var(--clay); }
 .ins__kicker{ color:var(--stone); margin-bottom:.6rem; }
 .ins__title{ font-family:var(--display); font-weight:300; font-size:var(--t31);
@@ -950,3 +961,18 @@ p{ margin:0; }
   .mw > i{ transform:none !important; transition:none !important; }
   .sec-head::after{ transform:scaleX(1) !important; transition:none !important; }
 }
+
+/* ---------- 24. Article header bands ---------- */
+.arthead{ position:relative; border-radius:2px; overflow:hidden; margin-bottom:clamp(2rem,5vh,3rem); }
+.arthead--forest{ background:var(--forest); }
+.arthead--umber{ background:var(--umber); }
+.arthead--linen{ background:var(--linen); }
+.arthead svg{ display:block; width:100%; height:auto; }
+.arthead--forest .dl, .arthead--umber .dl{ stroke:var(--sand); }
+.arthead--linen .dl{ stroke:var(--forest); }
+.arthead--forest .df, .arthead--umber .df{ fill:color-mix(in srgb,var(--sand) 72%,transparent); stroke:none; }
+.arthead--linen .df{ fill:color-mix(in srgb,var(--forest) 22%,transparent); stroke:none; }
+/* The signalled cells read as empty stock, not as a block of colour —
+   truer to the meaning and far lighter on the accent. */
+.arthead .df.sig{ fill:none; stroke:var(--terracotta); stroke-width:1.6;
+  vector-effect:non-scaling-stroke; }

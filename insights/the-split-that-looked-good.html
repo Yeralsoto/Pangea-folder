@@ -31,6 +31,7 @@
 
 <article class="art">
   <div class="wrap art__wrap">
+    <div class="arthead arthead--linen rv"><svg class="dwg" viewBox="0 0 700 210" data-draw aria-hidden="true"><g class="dstep" data-step="0"><path class="dl" d="M40 52 L660 44 L664 148 L44 156 Z"/><path class="dl" d="M196 49 L198 153"/><path class="dl" d="M352 48 L354 152"/><path class="dl" d="M508 47 L510 151"/><rect class="df sig" x="508" y="50" width="152" height="100"/><path class="dl" d="M24 172 L676 164"/><path class="dl" d="M24 182 L676 174"/></g></svg></div>
     <header class="art__head">
       <p class="label art__kicker rv">Worked example · Land</p>
       <h1 class="art__title rv" style="--rv-delay:70ms">The split that looked good and wasn’t.</h1>
@@ -74,6 +75,21 @@
     <p class="footer__legal">© 2026 Pangea Ventures International · Founders Erin Berger and Yeraldin Soto</p>
   </div>
 </footer>
+
+<!-- exit prompt, same as the homepage -->
+<div class="exit" id="exit-prompt" hidden aria-hidden="true">
+  <div class="exit__scrim" data-exit-close></div>
+  <div class="exit__panel" role="dialog" aria-modal="true" aria-labelledby="exit-title" tabindex="-1">
+    <p class="label exit__eyebrow">Before you go</p>
+    <h2 id="exit-title" class="exit__title">Have a deal you cannot read?</h2>
+    <p class="exit__body">Send it over. We will underwrite it against the model it actually fits and come back inside 48 hours with the assumptions, the downside, the primary risk, and one of three words: proceed, renegotiate, pass.</p>
+    <div class="exit__actions">
+      <a class="btn btn--signal" href="mailto:erin@pangeaventures.com?subject=A%20deal%20to%20underwrite">Send us the deal</a>
+      <button class="btn btn--ghost-dark" type="button" data-exit-close>Not right now</button>
+    </div>
+    <p class="exit__note">No list, no sequence. One reply, from one of us.</p>
+  </div>
+</div>
 
 <script src="../assets/js/pangea.js" defer></script>
 </body>

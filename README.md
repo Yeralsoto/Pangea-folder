@@ -92,6 +92,19 @@ That is the honest version of a coverage map. It is not a client-density map,
 and it does not imply work we have not done. Pins are real coordinates and
 drop in sequence once the map is on screen.
 
+## Navigation rules
+
+- **Every page carries the mark, and the mark always goes home.** The homepage
+  logo links to `#top`; every `insights/` page links to `../index.html`.
+  Footer logos link home too.
+- One CSS trap caused a real bug here: `.nav__logo .is-dark` was positioned
+  `absolute` so it could crossfade over `.is-light` on the homepage. Article
+  pages ship a single mark, so the link collapsed to zero height and the logo
+  vanished. The rule is now `.is-light + .is-dark`, which only lifts the dark
+  mark out of flow when it is actually stacked on another.
+- `tools/check_links.py`-style verification is run as part of the build notes:
+  all internal hrefs resolve.
+
 ## Motion
 
 Deliberately quiet, and all of it off under `prefers-reduced-motion`:
