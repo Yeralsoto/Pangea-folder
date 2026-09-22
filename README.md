@@ -167,6 +167,35 @@ fallback is handed a fresh canvas element.
 Only a handful of rooms are lit. Terracotta is the signal, not the cladding —
 a facade of glowing windows would blow the brand's ≤8%.
 
+**The canvas is transparent on purpose.** ACES tone mapping would push a
+Forest clear colour off `#27372D`, leaving the panel a shade away from every
+other Forest surface on the site. The canvas clears to alpha 0 and CSS paints
+`var(--forest)` behind it, so the match is exact — verified as
+`rgb(39,55,45)` on both.
+
+The model reports the **construction step**, which is finer than the five
+stage names beside it:
+
+| phase | step |
+|-------|------|
+| 0.00 | Raw parcel · one road frontage |
+| 0.55 | Boundary walked, topography shot |
+| 0.95 | Plat: setbacks, yield and access |
+| 1.30 | Site cleared, building pad graded |
+| 1.52 | Access road in, services trenched |
+| 1.74 | Footings and slab poured |
+| 1.95–2.48 | Structure rising, one level at a time, to topped out |
+| 2.70 | Envelope closed |
+| 2.92 | Glazed |
+| 3.12 | Terrace, parking and landscape |
+| 3.34 | Handover · the asset starts operating |
+| 3.80 | Stabilised · held, or sold |
+
+Levels go up individually rather than the whole frame scaling, which is the
+part that reads as building rather than as a box being stretched. Trees and
+cars are there for scale, not decoration — without them the massing has no
+size.
+
 Both renderers are driven by `phase` (0 → 4), read from the position of the five `.stage`
 elements, so the model and the written stages never drift apart:
 

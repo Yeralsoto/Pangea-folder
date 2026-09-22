@@ -34,7 +34,7 @@ if (!canvas) { /* nothing to do */ } else {
 function boot() {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
@@ -55,13 +55,19 @@ function boot() {
     lit:    0xC46738,
     deck:   0x97886C,
     sand:   0xC9B69B,
-    bg:     0x24322A,
+    bg:     0x27372D,   /* Deep Forest, identical to --forest */
   };
 
   /* ---------- scene ---------- */
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(C.bg);
-  scene.fog = new THREE.Fog(C.bg, 240, 520);
+  /* No scene background on purpose. ACES tone mapping would push a Forest
+     clear colour off #27372D, and the panel would sit a shade away from every
+     other Forest surface on the site. Leaving the canvas transparent lets the
+     CSS paint it, so the match is exact. Fog still resolves to Forest, which
+     only touches the far apron. */
+  scene.background = null;
+  renderer.setClearAlpha(0);
+  scene.fog = new THREE.Fog(C.bg, 260, 560);
 
   const camera = new THREE.PerspectiveCamera(30, 1, 1, 800);
   camera.position.set(0, 104, 208);
@@ -123,6 +129,12 @@ function boot() {
     lit:    new THREE.MeshStandardMaterial({ color: 0x2A3A33, roughness: 0.2, metalness: 0.2,
                                              emissive: new THREE.Color(C.lit), emissiveIntensity: 0 }),
     deck:   new THREE.MeshStandardMaterial({ color: C.deck, roughness: 0.95, metalness: 0 }),
+    pad:    new THREE.MeshStandardMaterial({ color: 0x8A8161, roughness: 1, metalness: 0 }),
+    road:   new THREE.MeshStandardMaterial({ color: 0x55584F, roughness: 0.95, metalness: 0 }),
+    slab:   new THREE.MeshStandardMaterial({ color: 0xBDB6A6, roughness: 0.95, metalness: 0 }),
+    leaf:   new THREE.MeshStandardMaterial({ color: 0x4E6247, roughness: 1, metalness: 0 }),
+    trunk:  new THREE.MeshStandardMaterial({ color: 0x5B4A38, roughness: 1, metalness: 0 }),
+    car:    new THREE.MeshStandardMaterial({ color: 0xA9A296, roughness: 0.55, metalness: 0.2 }),
     line:   new THREE.MeshStandardMaterial({ color: C.sand, roughness: 0.9, metalness: 0,
                                              transparent: true, opacity: 0 }),
   };
@@ -164,6 +176,21 @@ function boot() {
     root.add(box(1.2, 6, 1.2, M.frame, sx * PARCEL.w / 2, 0, sz * PARCEL.d / 2));
   });
 
+  /* ---------- 00b graded pad, access road, services ---------- */
+  const pad = new THREE.Group();
+  root.add(pad);
+  pad.add(box(MAIN.x1 - MAIN.x0 + 26, 1.6, MAIN.z1 - MAIN.z0 + 40, M.pad, -2, 0, 6));
+
+  const road = new THREE.Group();
+  root.add(road);
+  road.add(box(11, 0.5, 52, M.road, 46, 1.2, 22));
+  road.add(box(70, 0.5, 11, M.road, 16, 1.2, 44));
+  for (let i = 0; i < 7; i++) road.add(box(1.4, 0.2, 3.4, M.line, 46, 1.8, 2 + i * 7.5));
+
+  const services = new THREE.Group();
+  root.add(services);
+  for (let i = 0; i < 5; i++) services.add(box(1, 0.4, 30, M.line, -34 + i * 17, 1.9, 30));
+
   /* ---------- 01 plat ---------- */
   const plat = new THREE.Group();
   root.add(plat);
@@ -172,18 +199,27 @@ function boot() {
   }
   [-16, 16].forEach(z => plat.add(box(PARCEL.w - 8, 0.3, 0.7, M.line, 0, 0.1, z)));
 
-  /* ---------- 02 structure ---------- */
+  /* ---------- 02a foundation ---------- */
+  const footing = new THREE.Group();
+  root.add(footing);
+  footing.add(box(MAIN.x1 - MAIN.x0 + 4, 2.2, MAIN.z1 - MAIN.z0 + 4, M.slab, 0, 1.6, 0));
+
+  /* ---------- 02b structure, one level at a time ---------- */
   const frame = new THREE.Group();
   root.add(frame);
-  for (let gx = MAIN.x0; gx <= MAIN.x1 + 0.1; gx += 16) {
-    for (let gz = MAIN.z0; gz <= MAIN.z1 + 0.1; gz += 15) {
-      frame.add(box(1.5, MAIN.h, 1.5, M.frame, gx, 0, gz));
+  const FLOOR_H = MAIN.h / FLOORS;
+  const floors = [];
+  for (let lv = 0; lv < FLOORS; lv++) {
+    const g = new THREE.Group();
+    g.position.y = 3.8 + lv * FLOOR_H;
+    for (let gx = MAIN.x0; gx <= MAIN.x1 + 0.1; gx += 16) {
+      for (let gz = MAIN.z0; gz <= MAIN.z1 + 0.1; gz += 15) {
+        g.add(box(1.5, FLOOR_H, 1.5, M.frame, gx, 0, gz));
+      }
     }
-  }
-  for (let lv = 1; lv <= FLOORS; lv++) {
-    const y = (MAIN.h / FLOORS) * lv;
-    const slab = box(MAIN.x1 - MAIN.x0 + 3, 0.9, MAIN.z1 - MAIN.z0 + 3, M.frame, 0, y - 0.9, 0);
-    frame.add(slab);
+    g.add(box(MAIN.x1 - MAIN.x0 + 3, 0.9, MAIN.z1 - MAIN.z0 + 3, M.slab, 0, FLOOR_H - 0.9, 0));
+    frame.add(g);
+    floors.push(g);
   }
 
   /* ---------- 03 massing ---------- */
@@ -232,6 +268,26 @@ function boot() {
     });
   }
 
+  /* ---------- 03b landscape, which is also the scale reference ---------- */
+  const site = new THREE.Group();
+  root.add(site);
+  function tree(x, z, h) {
+    const g = new THREE.Group();
+    const t = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.7, h * 0.4, 6), M.trunk);
+    t.position.y = h * 0.2; t.castShadow = true;
+    const c = new THREE.Mesh(new THREE.ConeGeometry(h * 0.3, h * 0.7, 7), M.leaf);
+    c.position.y = h * 0.62; c.castShadow = true;
+    g.add(t); g.add(c); g.position.set(x, 1.6, z);
+    return g;
+  }
+  [[-52, -34, 11], [-48, 12, 9], [-54, 34, 12], [16, -38, 10],
+   [40, -30, 8], [54, 6, 11], [-20, 40, 9], [4, 42, 10]].forEach(
+    ([x, z, h]) => site.add(tree(x, z, h)));
+  for (let i = 0; i < 5; i++) {
+    const car = box(4.6, 1.6, 2.2, M.car, 34 - i * 6.4, 1.9, 40);
+    site.add(car);
+  }
+
   /* ---------- 04 crown ---------- */
   const crown = new THREE.Group();
   root.add(crown);
@@ -241,12 +297,23 @@ function boot() {
 
   /* ---------- phase ---------- */
   const stageEls = Array.prototype.slice.call(document.querySelectorAll('.stage'));
-  const CAPTIONS = [
-    'Raw parcel · boundary and topography',
-    'Plat, setbacks and yield',
-    'Structure · six levels',
-    'Operating asset · glazed and occupied',
-    'Stabilised · held, or sold'
+  /* The five written stages drive `phase`; the model reports the actual
+     construction step, which is finer than the stage names. */
+  const STEPS = [
+    [0.00, 'Raw parcel · one road frontage'],
+    [0.55, 'Boundary walked, topography shot'],
+    [0.95, 'Plat: setbacks, yield and access'],
+    [1.30, 'Site cleared, building pad graded'],
+    [1.52, 'Access road in, services trenched'],
+    [1.74, 'Footings and slab poured'],
+    [1.95, 'Structure rising · level one'],
+    [2.20, 'Structure rising · level four'],
+    [2.48, 'Topped out · six levels'],
+    [2.70, 'Envelope closed'],
+    [2.92, 'Glazed'],
+    [3.12, 'Terrace, parking and landscape'],
+    [3.34, 'Handover · the asset starts operating'],
+    [3.80, 'Stabilised · held, or sold']
   ];
   const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
   const ramp = (v, a, b) => clamp((v - a) / (b - a), 0, 1);
@@ -277,24 +344,48 @@ function boot() {
 
   let capIndex = -1;
   function applyPhase(p) {
-    const survey = band(p, 0.30, 0.85, 1.90, 2.45);
-    const fr     = band(p, 1.10, 1.60, 2.35, 2.85);
-    const rise   = ease(ramp(p, 1.10, 1.90));
-    const solid  = ease(ramp(p, 2.10, 2.85));
-    const glass  = ease(ramp(p, 2.45, 2.95));
-    const lit    = ease(ramp(p, 2.60, 3.05));
-    const cr     = ease(ramp(p, 2.40, 2.90));
+    const survey  = band(p, 0.30, 0.80, 1.85, 2.35);
+    const padUp   = ease(ramp(p, 1.22, 1.46));
+    const roadUp  = ease(ramp(p, 1.46, 1.70));
+    const servUp  = band(p, 1.50, 1.68, 1.95, 2.15);
+    const footUp  = ease(ramp(p, 1.68, 1.92));
+    const solid   = ease(ramp(p, 2.62, 2.92));
+    const glass   = ease(ramp(p, 2.86, 3.10));
+    const lit     = ease(ramp(p, 3.22, 3.52));
+    const cr      = ease(ramp(p, 2.74, 3.02));
+    const siteUp  = ease(ramp(p, 3.04, 3.32));
 
-    M.line.opacity = survey * 0.9;
+    M.line.opacity = Math.max(survey, servUp) * 0.9;
     plat.visible = survey > 0.01;
 
-    frame.visible = fr > 0.01 && rise > 0.01;
-    frame.scale.y = Math.max(rise, 0.001);
-    setOpacity(frame, fr);
+    pad.visible = padUp > 0.01;
+    pad.scale.y = Math.max(padUp, 0.001);
+
+    road.visible = roadUp > 0.01;
+    if (road.visible) setOpacity(road, roadUp);
+
+    services.visible = servUp > 0.01;
+
+    footing.visible = footUp > 0.01;
+    footing.scale.y = Math.max(footUp, 0.001);
+
+    /* Levels go up one at a time. That is the part that reads as building
+       rather than as a box being scaled. */
+    let anyFloor = false;
+    for (let lv = 0; lv < floors.length; lv++) {
+      const t0 = 1.92 + lv * 0.11;
+      const k = ease(ramp(p, t0, t0 + 0.14));
+      floors[lv].visible = k > 0.01;
+      floors[lv].scale.y = Math.max(k, 0.001);
+      if (k > 0.01) anyFloor = true;
+    }
+    const frameFade = 1 - ease(ramp(p, 2.72, 3.00));   /* absorbed by the cladding */
+    frame.visible = anyFloor && frameFade > 0.02;
+    if (frame.visible) setOpacity(frame, frameFade);
 
     mass.visible = solid > 0.01;
-    mass.scale.y = Math.max(rise, 0.001);
-    if (solid > 0.01) setOpacity(mass, solid);
+    mass.scale.y = 1;
+    if (mass.visible) setOpacity(mass, solid);
 
     M.glass.opacity = glass;
     M.glass.transparent = glass < 0.99;
@@ -302,13 +393,17 @@ function boot() {
 
     crown.visible = cr > 0.01;
     crown.scale.y = Math.max(cr, 0.001);
-    if (cr > 0.01) setOpacity(crown, cr);
+    if (crown.visible) setOpacity(crown, cr);
 
-    const ci = clamp(Math.floor(p + 0.3), 0, CAPTIONS.length - 1);
+    site.visible = siteUp > 0.01;
+    site.scale.setScalar(Math.max(siteUp, 0.001));
+
+    let ci = 0;
+    for (let i = 0; i < STEPS.length; i++) if (p >= STEPS[i][0]) ci = i;
     if (ci !== capIndex) {
       capIndex = ci;
-      if (caption) caption.textContent = CAPTIONS[ci];
-      canvas.setAttribute('aria-label', 'Site model, rotating: ' + CAPTIONS[ci]);
+      if (caption) caption.textContent = STEPS[ci][1];
+      canvas.setAttribute('aria-label', 'Site model, rotating: ' + STEPS[ci][1]);
     }
   }
 
