@@ -28,6 +28,12 @@
   (function () {
     var nav = $('.nav'), hero = $('.hero');
     if (!nav) return;
+    /* Article pages have no hero, so the bar is solid from the first pixel —
+       otherwise Bone nav text sits on the Bone page. */
+    if (nav.classList.contains('nav--art')) {
+      nav.setAttribute('data-solid', 'true');
+      return;
+    }
     onScroll(function () {
       var solid;
       if (hero) {
@@ -442,4 +448,22 @@
       idle = setTimeout(open, 9000);
     }, { passive: true });
   }
+})();
+
+/* Bar comparisons in articles fill when they come into view. */
+(function () {
+  'use strict';
+  var els = Array.prototype.slice.call(document.querySelectorAll('[data-bars]'));
+  if (!els.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      !('IntersectionObserver' in window)) {
+    els.forEach(function (e) { e.classList.add('is-in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.4 });
+  els.forEach(function (e) { io.observe(e); });
 })();

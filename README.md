@@ -200,10 +200,44 @@ If either brand moves, re-check this section first.
 - Full keyboard support on the menu, the services accordion and the symbol
   anatomy. With JavaScript off, every word on the page is present and visible.
 
+## Insights library
+
+`tools/make_insights.py` is the single source. Every article page, the
+`insights/` index and the homepage band are written from one `ARTICLES` list,
+so they cannot drift. Adding a piece means adding an entry and re-running it.
+
+Three of a planned fifteen are written:
+
+| Piece | Sourced |
+|-------|---------|
+| The lot shortage ended. Most people are still pricing like it didn't. | 4 sources |
+| Medellín is not one market. It is about nine. | 4 sources |
+| The split that looked good and wasn't. | worked example, labelled as such |
+
+**Rules for this library, which matter more than the word count:**
+
+- Every figure is sourced and linked. Where a number could not be verified it
+  does not appear.
+- Worked examples are labelled as worked examples. They are illustrative and
+  typical; they are not client files, and they never imply a deal we did.
+- Bar comparisons only plot values we actually have. No interpolated points,
+  no invented trend lines.
+
+Still to write (12): property management economics; what a subdivision costs
+before it earns; reading a hospitality P&L; Costa Rica Central Valley;
+build-to-rent maths; the entitlement timeline that ate the return; multifamily
+at small scale; setting rent and defending it; the STR regulation risk; when
+to refinance rather than sell; training an operating team; how to read any
+market in a week.
+
 ## Not built yet
 
 - Spanish version (`Claridad en todo el ciclo inmobiliario.` — the approved
   ES copy is in the brand kit, ready to drop in).
-- Insights / writing section — no content exists for it yet, so the nav
-  carries Services in that slot rather than a dead link.
+- Twelve of the fifteen insight pieces.
+- **Two homepage figures are placeholders.** Search `TODO confirm` in
+  index.html: the founders' years in the trade, and places remaining in the
+  founding cohort. Real numbers go there. Nothing invented ships — a
+  fabricated client count or transaction record on a site that solicits
+  capital is the one thing that would make every other claim here worthless.
 - A real contact form. The CTAs currently open email to the founders.
