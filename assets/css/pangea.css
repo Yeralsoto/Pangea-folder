@@ -619,6 +619,33 @@ p{ margin:0; }
   font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:var(--sand);
 }
 
+/* ---------- How it works: the three doors ---------- */
+.how__head{ display:grid; gap:1.25rem clamp(2rem,6vw,5rem); margin-bottom:clamp(2.5rem,6vh,4rem); }
+@media (min-width:64rem){ .how__head{ grid-template-columns:1fr 1fr; align-items:end; } }
+.how__lede{ color:var(--umber); max-width:46ch; }
+.ways{ list-style:none; margin:0; padding:0; }
+.way{
+  display:grid; gap:.5rem 2rem; padding-block:clamp(1.5rem,3.5vh,2.25rem);
+  border-top:var(--rule);
+}
+.way:last-child{ border-bottom:var(--rule); }
+@media (min-width:60rem){
+  .way{ grid-template-columns:3rem minmax(0,15rem) 1fr 11rem; align-items:baseline; }
+  .way__body{ grid-column:3; }
+  .way__price{ text-align:right; }
+}
+.way__num{ color:var(--stone); }
+.way__name{ font-family:var(--display); font-weight:300; font-size:var(--t31);
+  line-height:1.05; color:var(--forest); letter-spacing:-0.025em; }
+.way__hook{ font-size:var(--t14); color:var(--clay); }
+.way__body{ font-size:var(--t16); color:var(--graphite); max-width:46ch; }
+.way__price{ font-size:var(--t14); font-weight:500; color:var(--forest);
+  font-variant-numeric:tabular-nums; white-space:nowrap; }
+@media (max-width:59.99rem){
+  .way__hook{ order:3; } .way__price{ color:var(--umber); }
+}
+.how__note{ margin-top:1.75rem; font-size:var(--t14); color:var(--stone); max-width:52ch; }
+
 /* ---------- 16. Services ---------- */
 .svc{ border-top:var(--rule); }
 .svc:last-of-type{ border-bottom:var(--rule); }
