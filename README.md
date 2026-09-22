@@ -92,6 +92,17 @@ That is the honest version of a coverage map. It is not a client-density map,
 and it does not imply work we have not done. Pins are real coordinates and
 drop in sequence once the map is on screen.
 
+## Corners and grounds
+
+Two tokens carry every corner, so nothing drifts:
+
+- `--r-sm: 7px` — buttons, controls, focus rings
+- `--r-md: 12px` — panels, images, blocks, the model canvas
+
+There are no hard-coded radii left in the stylesheet. Every dark block uses
+`var(--forest)`; verified identical at `rgb(39,55,45)` across the footer, the
+model canvas, the coverage map and the article bands.
+
 ## Navigation rules
 
 - **Every page carries the mark, and the mark always goes home.** The homepage
