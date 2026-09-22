@@ -314,9 +314,18 @@ market in a week.
 - Spanish version (`Claridad en todo el ciclo inmobiliario.` — the approved
   ES copy is in the brand kit, ready to drop in).
 - Twelve of the fifteen insight pieces.
-- **Two homepage figures are placeholders.** Search `TODO confirm` in
-  index.html: the founders' years in the trade, and places remaining in the
-  founding cohort. Real numbers go there. Nothing invented ships — a
-  fabricated client count or transaction record on a site that solicits
-  capital is the one thing that would make every other claim here worthless.
+- **`hello@pangeaventures.com` has to exist.** Every call to action on the
+  site points at it. Nothing else does.
+
+## No names, by decision
+
+The site speaks as the firm. There is no founders section, no bylines and no
+personal addresses — one shared inbox instead. Worth knowing the trade-off:
+for a new firm, named people are usually the strongest credibility available,
+because trust attaches to people before it attaches to a company. If that
+changes, the founders section is in git history and drops straight back in.
+
+Nothing on the site claims a track record it does not have. There is no
+client count, no transaction total and no trading history — the record band
+says 2026 and says plainly that fifteen is the number being taken, not held.
 - A real contact form. The CTAs currently open email to the founders.
