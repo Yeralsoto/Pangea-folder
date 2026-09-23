@@ -175,6 +175,25 @@ Deliberately quiet, and all of it off under `prefers-reduced-motion`:
 - Figures count up when they land.
 - Nothing loops, nothing bounces, nothing slides in from the side.
 
+## The asset-type morph
+
+`assets/js/asset-types.js` replaces the nine-item register with one silhouette
+that changes shape for each asset type — parcel, house, block, hotel, row,
+frame.
+
+The trick that makes it work: **every shape is sampled from a height profile
+at the same number of points** (180 across the width), so any two can be
+interpolated directly. No path matching, no morph library, and no chance of a
+mismatched point count — the usual reason SVG morphs tear.
+
+Details that cannot be interpolated — lot lines, windows, framing — live on a
+second layer and cross-fade, staggered.
+
+It advances on its own every 3.2 seconds, pauses when off screen, and jumps
+on hover, click or keyboard focus. Terracotta marks the active type and its
+description opens. Under `prefers-reduced-motion` it holds still with every
+description open.
+
 ## The drawings (section 04)
 
 Land, Building, Hospitality and Rentals each carry a technical drawing —

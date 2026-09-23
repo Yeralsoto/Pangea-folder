@@ -1222,3 +1222,63 @@ body.menu-open{ overflow:hidden; }
   .menu{ display:none !important; }
 }
 .menu__foot{ margin-top:2rem; font-size:var(--t12); color:var(--sand); }
+
+/* ---------- 30. Asset-type morph ---------- */
+.at{ display:grid; gap:clamp(2rem,5vw,4rem); align-items:center; }
+@media (min-width:64rem){ .at{ grid-template-columns:1.1fr 1fr; } }
+
+.at__stage{ margin:0; }
+.at__svg{ width:100%; height:auto; display:block; overflow:visible; }
+.at__grid path{ stroke:color-mix(in srgb,var(--sand) 16%, transparent); stroke-width:.6;
+  fill:none; vector-effect:non-scaling-stroke; }
+.at__ground{ stroke:var(--sand); stroke-width:1.2; fill:none;
+  vector-effect:non-scaling-stroke; }
+.at__shape{
+  fill:color-mix(in srgb, var(--sand) 88%, var(--forest));
+  stroke:var(--bone); stroke-width:.7; stroke-linejoin:round;
+  vector-effect:non-scaling-stroke;
+}
+.at__detail{ opacity:0; transition:opacity .28s var(--ease); }
+.at__detail.is-in{ opacity:1; }
+.atd{
+  fill:none; stroke:var(--forest); stroke-width:.9; vector-effect:non-scaling-stroke;
+  opacity:0; animation:atdIn .5s var(--ease) forwards;
+  animation-delay:calc(var(--i,0) * 22ms);
+}
+.atd--f{ fill:color-mix(in srgb, var(--forest) 78%, transparent); stroke:none; }
+@keyframes atdIn{ to{ opacity:1; } }
+
+.at__cap{ display:flex; align-items:center; gap:1rem; margin-top:1.25rem; }
+.at__cap .label{ color:var(--sand); white-space:nowrap; }
+.at__meter{ flex:1; height:2px; background:color-mix(in srgb,var(--sand) 22%, transparent); }
+.at__meter span{ display:block; height:100%; width:11%; background:var(--terracotta);
+  transition:width .5s var(--ease); }
+
+.at__list{ list-style:none; margin:0; padding:0; }
+.at__item{ border-top:1px solid color-mix(in srgb,var(--sand) 20%, transparent); }
+.at__item:last-child{ border-bottom:1px solid color-mix(in srgb,var(--sand) 20%, transparent); }
+.at__item button{
+  all:unset; box-sizing:border-box; display:grid; width:100%; cursor:pointer;
+  grid-template-columns:2.4rem 1fr; gap:.15rem .8rem; padding:.7rem 0;
+  transition:opacity .3s var(--ease);
+}
+.at__item button:focus-visible{ outline:2px solid var(--clay); outline-offset:-3px; }
+.at__n{ font-family:var(--text); font-size:var(--t12); font-weight:500;
+  letter-spacing:.12em; color:var(--sand); opacity:.7; }
+.at__name{ font-family:var(--display); font-weight:300; font-size:var(--t20);
+  line-height:1.2; color:var(--bone); letter-spacing:-0.01em;
+  transition:color .3s var(--ease); }
+.at__d{ grid-column:2; font-size:var(--t12); line-height:1.5;
+  color:color-mix(in srgb,var(--bone) 62%, var(--forest));
+  max-height:0; opacity:0; overflow:hidden;
+  transition:max-height .4s var(--ease), opacity .3s var(--ease); }
+.at__item[aria-current="true"] .at__name{ color:var(--terracotta); }
+.at__item[aria-current="true"] .at__n{ opacity:1; color:var(--terracotta); }
+.at__item[aria-current="true"] .at__d{ max-height:4rem; opacity:1; }
+.at__item:hover .at__name{ color:var(--bone); }
+
+@media (prefers-reduced-motion: reduce){
+  .atd{ opacity:1; animation:none; }
+  .at__detail{ opacity:1; }
+  .at__d{ max-height:4rem; opacity:1; }
+}

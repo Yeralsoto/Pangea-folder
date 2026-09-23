@@ -413,18 +413,37 @@
 <section class="section ground-forest" id="assets">
   <div class="wrap">
     <div class="sec-head rv"><p class="label label--onforest">Every asset type</p></div>
-    <h2 class="rv" style="font-size:var(--d-2);max-width:18ch;margin-bottom:2.5rem">Nine of them, one standard.</h2>
-    <ul class="reg">
-        <li class="reg__row rv"><span class="reg__n">Land &amp; lots</span><span class="reg__d">Raw land, exempt splits, subdivisions, entitlements</span></li>
-        <li class="reg__row rv"><span class="reg__n">Single-family</span><span class="reg__d">New builds, rentals, build-to-rent</span></li>
-        <li class="reg__row rv"><span class="reg__n">Multifamily</span><span class="reg__d">Small and mid-size apartment assets</span></li>
-        <li class="reg__row rv"><span class="reg__n">Commercial</span><span class="reg__d">Retail, office, mixed use, industrial</span></li>
-        <li class="reg__row rv"><span class="reg__n">Hospitality &amp; hotels</span><span class="reg__d">Boutique hotels, lodges, serviced stays</span></li>
-        <li class="reg__row rv"><span class="reg__n">Short-term rentals</span><span class="reg__d">Vacation and furnished rentals</span></li>
-        <li class="reg__row rv"><span class="reg__n">Long-term rentals</span><span class="reg__d">Stabilized rental income</span></li>
-        <li class="reg__row rv"><span class="reg__n">Renovation &amp; flips</span><span class="reg__d">Value-add, repositioning, fix and flip</span></li>
-        <li class="reg__row rv"><span class="reg__n">New construction</span><span class="reg__d">Ground-up buildings with general contractors</span></li>
-    </ul>
+    <h2 class="rv" style="font-size:var(--d-2);max-width:20ch;margin-bottom:1rem">Nine of them. The same discipline on each.</h2>
+    <p class="rv" style="max-width:48ch;color:color-mix(in srgb,var(--bone) 82%,var(--forest));margin-bottom:clamp(2.5rem,6vh,4rem)">A parcel, a house, a block, a hotel. What changes is the shape. What does not change is the working behind it.</p>
+
+    <div class="at" data-assettypes>
+      <figure class="at__stage rv">
+        <svg class="at__svg" viewBox="0 0 200 118" role="img" aria-label="A silhouette that changes shape for each asset type" data-at-svg>
+          <g class="at__grid" aria-hidden="true">
+            <path d="M0 100 H200"/><path d="M0 78 H200"/><path d="M0 56 H200"/><path d="M0 34 H200"/>
+          </g>
+          <path class="at__shape" data-at-shape d=""/>
+          <g class="at__detail" data-at-detail></g>
+          <path class="at__ground" d="M0 100 H200"/>
+        </svg>
+        <figcaption class="at__cap">
+          <span class="label" data-at-label>Land &amp; lots</span>
+          <span class="at__meter"><span data-at-meter></span></span>
+        </figcaption>
+      </figure>
+
+      <ol class="at__list">
+        <li class="at__item"><button type="button" data-at="0"><span class="at__n">01</span><span class="at__name">Land &amp; lots</span><span class="at__d">Raw land, exempt splits, subdivisions, entitlements</span></button></li>
+        <li class="at__item"><button type="button" data-at="1"><span class="at__n">02</span><span class="at__name">Single-family</span><span class="at__d">New builds, rentals, build-to-rent</span></button></li>
+        <li class="at__item"><button type="button" data-at="2"><span class="at__n">03</span><span class="at__name">Multifamily</span><span class="at__d">Small and mid-size apartment assets</span></button></li>
+        <li class="at__item"><button type="button" data-at="3"><span class="at__n">04</span><span class="at__name">Commercial</span><span class="at__d">Retail, office, mixed use, industrial</span></button></li>
+        <li class="at__item"><button type="button" data-at="4"><span class="at__n">05</span><span class="at__name">Hospitality &amp; hotels</span><span class="at__d">Boutique hotels, lodges, serviced stays</span></button></li>
+        <li class="at__item"><button type="button" data-at="5"><span class="at__n">06</span><span class="at__name">Short-term rentals</span><span class="at__d">Vacation and furnished rentals</span></button></li>
+        <li class="at__item"><button type="button" data-at="6"><span class="at__n">07</span><span class="at__name">Long-term rentals</span><span class="at__d">Stabilized rental income</span></button></li>
+        <li class="at__item"><button type="button" data-at="7"><span class="at__n">08</span><span class="at__name">Renovation &amp; flips</span><span class="at__d">Value-add, repositioning, fix and flip</span></button></li>
+        <li class="at__item"><button type="button" data-at="8"><span class="at__n">09</span><span class="at__name">New construction</span><span class="at__d">Ground-up buildings with general contractors</span></button></li>
+      </ol>
+    </div>
   </div>
 </section>
 
@@ -889,6 +908,7 @@
 
 <script src="assets/js/pangea.js" defer></script>
 <script src="assets/js/lifecycle-model.js" defer></script>
+<script src="assets/js/asset-types.js" defer></script>
 <script type="module" src="assets/js/lifecycle-3d.js"></script>
 </body>
 </html>
