@@ -608,11 +608,39 @@
     setTimeout(function () { if (intro.parentNode) intro.remove(); }, 1000);
   }
 
-  requestAnimationFrame(function () {
-    requestAnimationFrame(function () { intro.classList.add('is-in'); });
+  /* The mark draws itself before it inks in. Both halves are filled paths,
+     so we borrow them as strokes for the length of the draw: dash the
+     outline shut, open it, then let CSS bring the fill up underneath. */
+  var marks = Array.prototype.slice.call(
+                intro.querySelectorAll('.intro__mark path'));
+  var DRAW = 900;
+  marks.forEach(function (m, i) {
+    var len = 0;
+    try { len = m.getTotalLength(); } catch (e) {}
+    if (!len) return;
+    m.style.strokeDasharray  = len;
+    m.style.strokeDashoffset = len;
+    m.dataset.draw = '1';
+    m.dataset.delay = i * 110;
   });
 
-  var timer = setTimeout(finish, 2600);
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      intro.classList.add('is-in');
+      marks.forEach(function (m) {
+        if (!m.dataset.draw) return;
+        m.style.transition = 'stroke-dashoffset ' + DRAW +
+                             'ms cubic-bezier(.33,.72,.3,1) ' +
+                             m.dataset.delay + 'ms';
+        m.style.strokeDashoffset = '0';
+      });
+      /* ink arrives just before the outline closes, so the shape fills in
+         rather than snapping on after a beat of dead air */
+      setTimeout(function () { intro.classList.add('is-inked'); }, 860);
+    });
+  });
+
+  var timer = setTimeout(finish, 2700);
   /* never trap anyone */
   ['click', 'keydown', 'wheel', 'touchstart'].forEach(function (ev) {
     window.addEventListener(ev, function once() {
@@ -801,27 +829,45 @@
      sequencer fires on first sight, which for a pinned figure is immediately
      and invisibly. */
   function redraw(el) {
-    var svg = el.querySelector('svg[data-draw]');
-    if (!svg) return;
-    var lines = Array.prototype.slice.call(svg.querySelectorAll('.dl'));
-    lines.forEach(function (l) {
-      var len = 0;
-      try { len = l.getTotalLength(); } catch (e) {}
-      if (!len) return;
-      l.style.transition = 'none';
-      l.style.strokeDasharray = len;
-      l.style.strokeDashoffset = len;
-      l.dataset.len = len;
+    /* HTML diagrams (the step rail) restage by dropping is-on and
+       re-adding it, which replays their CSS transitions. */
+    el.classList.remove('is-on');
+
+    var svgs = Array.prototype.slice.call(el.querySelectorAll('svg[data-draw]'));
+    var steps = Array.prototype.slice.call(el.querySelectorAll('.dstep'));
+    steps.forEach(function (g) { g.classList.remove('is-on'); });
+
+    var all = [];
+    svgs.forEach(function (svg) {
+      svg.classList.remove('is-drawn');
+      Array.prototype.forEach.call(svg.querySelectorAll('.dl'), function (l) {
+        var len = 0;
+        try { len = l.getTotalLength(); } catch (e) {}
+        if (!len) return;
+        l.style.transition = 'none';
+        l.style.strokeDasharray = len;
+        l.style.strokeDashoffset = len;
+        l.dataset.len = len;
+        all.push(l);
+      });
     });
-    svg.classList.remove('is-drawn');
-    void svg.getBoundingClientRect();
-    lines.sort(function (a, b) { return (+a.dataset.len || 0) - (+b.dataset.len || 0); });
-    lines.forEach(function (l, k) {
+
+    void el.getBoundingClientRect();          /* commit the reset */
+
+    /* shortest stroke first: the drawing builds from detail outward */
+    all.sort(function (a, b) { return (+a.dataset.len || 0) - (+b.dataset.len || 0); });
+    all.forEach(function (l, k) {
       l.style.transition = 'stroke-dashoffset 820ms cubic-bezier(.22,.61,.36,1) ' +
-                           (k * 55) + 'ms';
+                           (k * 26) + 'ms';
       l.style.strokeDashoffset = '0';
     });
-    setTimeout(function () { svg.classList.add('is-drawn'); }, 360 + lines.length * 55);
+
+    /* fills and labels land once the outline is mostly there */
+    el.classList.add('is-on');
+    setTimeout(function () {
+      steps.forEach(function (g) { g.classList.add('is-on'); });
+      svgs.forEach(function (svg) { svg.classList.add('is-drawn'); });
+    }, 40);
   }
 
   var current = -1;

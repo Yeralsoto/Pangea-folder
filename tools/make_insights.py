@@ -170,6 +170,104 @@ def ul(items):   return '<ul class="art__list">%s</ul>' % "".join('<li>%s</li>' 
 
 
 
+def _num(s):
+    """Pull a signed number out of a display string like '+4.6%' or '−5.1%'."""
+    t = s.replace("−", "-").replace("–", "-")
+    m = re.search(r"-?\d+(?:\.\d+)?", t)
+    return float(m.group(0)) if m else 0.0
+
+
+def _g(w, h, kind, parts, caption, cls="art__fig dgm"):
+    return ('<figure class="%s" data-dgm>'
+            '<svg class="dwg dwg--ink dwg--%s" viewBox="0 0 %d %d" data-draw aria-hidden="true">'
+            '<g class="dstep" data-step="0">%s</g></svg>'
+            '<figcaption class="art__figcap">%s</figcaption></figure>'
+            % (cls, kind, w, h, "".join(parts), caption))
+
+
+def bars(caption, rows, unit="", prefix=""):
+    """Magnitude comparison, drawn. The axis and every bar outline stroke
+    themselves on, then the fills arrive underneath."""
+    W, PAD, ROW, BARMAX = 300, 16, 44, 224
+    n = len(rows)
+    H = PAD + n * ROW + 6
+    top = max(abs(r[1]) for r in rows) or 1
+    parts = ['<path class="dl dl--ax" d="M1 %d V%d"/>' % (PAD + 4, PAD + n * ROW - 8)]
+    for i, (label, val, tone) in enumerate(rows):
+        t = PAD + i * ROW
+        w = max(7.0, abs(val) / float(top) * BARMAX)
+        parts.append('<text class="dt" x="6" y="%d">%s</text>' % (t + 10, label))
+        parts.append('<rect class="df bfl%s" x="1" y="%d" width="%.1f" height="16"/>'
+                     % (' bfl--sig' if tone else '', t + 16, w))
+        parts.append('<path class="dl%s" d="M1 %d H%.1f V%d H1 Z"/>'
+                     % (' dl--res' if tone else '', t + 16, 1 + w, t + 32))
+        v = ('{:,.1f}'.format(val).rstrip('0').rstrip('.')
+             if isinstance(val, float) and val != int(val) else '{:,}'.format(int(val)))
+        parts.append('<text class="dt dt--v%s" x="%.1f" y="%d">%s%s%s</text>'
+                     % (' dt--sig' if tone else '', 1 + w + 9, t + 29, prefix, v, unit))
+    return _g(W, H, "plot", parts, caption)
+
+
+def board(caption, up, down):
+    """Two directions off one centre line. Gains run right, give-backs run
+    left, so the spread is the picture rather than two lists to compare."""
+    W, CX, PAD, ROW, BARMAX = 300, 150, 34, 24, 98
+    rows = ([(m, _num(v), v, True) for m, v in up] +
+            [(m, _num(v), v, False) for m, v in down])
+    rows.sort(key=lambda r: -r[1])
+    n = len(rows)
+    H = PAD + n * ROW + 10
+    parts = [
+      '<text class="dt dt--hd" x="%d" y="14" text-anchor="end">Giving back</text>' % (CX - 9),
+      '<text class="dt dt--hd" x="%d" y="14">Pulling away</text>' % (CX + 9),
+      '<path class="dl dl--ax" d="M%d 22 V%d"/>' % (CX, PAD + n * ROW - 4),
+    ]
+    top = max(abs(r[1]) for r in rows) or 1
+    for i, (market, val, disp, gain) in enumerate(rows):
+        y = PAD + i * ROW
+        w = max(5.0, abs(val) / top * BARMAX)
+        if gain:
+            parts.append('<rect class="df bfl" x="%d" y="%d" width="%.1f" height="12"/>'
+                         % (CX, y, w))
+            parts.append('<path class="dl" d="M%d %d H%.1f V%d H%d Z"/>'
+                         % (CX, y, CX + w, y + 12, CX))
+            parts.append('<text class="dt" x="%d" y="%d" text-anchor="end">%s</text>'
+                         % (CX - 9, y + 9, market))
+            parts.append('<text class="dt dt--v" x="%.1f" y="%d">%s</text>'
+                         % (CX + w + 7, y + 9, disp))
+        else:
+            parts.append('<rect class="df bfl--sig" x="%.1f" y="%d" width="%.1f" height="12"/>'
+                         % (CX - w, y, w))
+            parts.append('<path class="dl dl--res" d="M%d %d H%.1f V%d H%d Z"/>'
+                         % (CX, y, CX - w, y + 12, CX))
+            parts.append('<text class="dt" x="%d" y="%d">%s</text>' % (CX + 9, y + 9, market))
+            parts.append('<text class="dt dt--v dt--sig" x="%.1f" y="%d" text-anchor="end">%s</text>'
+                         % (CX - w - 7, y + 9, disp))
+    return _g(W, H, "board", parts, caption)
+
+
+def flow(caption, nodes, signal=None):
+    """A chain where each link causes the next. Drawn top to bottom so the
+    labels have room, with the link that matters marked."""
+    W, X, PAD, ROW = 300, 20, 18, 46
+    n = len(nodes)
+    H = PAD + (n - 1) * ROW + 26
+    parts = []
+    for i, node in enumerate(nodes):
+        y = PAD + i * ROW
+        sig = (node == signal)
+        if i < n - 1:
+            parts.append('<path class="dl" d="M%d %d V%d"/>' % (X, y + 7, y + ROW - 13))
+            parts.append('<path class="dl" d="M%d %d L%d %d L%d %d"/>'
+                         % (X - 4, y + ROW - 18, X, y + ROW - 12, X + 4, y + ROW - 18))
+        parts.append('<circle class="df tip%s" cx="%d" cy="%d" r="%s"/>'
+                     % (' tip--sig' if sig else '', X, y, '4.5' if sig else '3.2'))
+        if sig:
+            parts.append('<circle class="dl dl--res" cx="%d" cy="%d" r="8"/>' % (X, y))
+        parts.append('<text class="dt%s" x="%d" y="%d">%s</text>'
+                     % (' dt--sig' if sig else '', X + 18, y + 4, node))
+    return _g(W, H, "flow", parts, caption)
+
 def branch(caption, source, takes, result):
     """A drawn diagram: where a number starts, what peels off it, what is left.
 
@@ -202,49 +300,26 @@ def branch(caption, source, takes, result):
     parts.append('<text class="dt dt--lg dt--sig" x="30" y="%d">%s</text>' % (bot_y + 20, result))
 
     return ('<figure class="art__fig dgm" data-dgm>'
-            '<svg class="dwg dwg--branch" viewBox="0 0 %d %d" data-draw aria-hidden="true">'
+            '<svg class="dwg dwg--ink dwg--branch" viewBox="0 0 %d %d" data-draw aria-hidden="true">'
             '<g class="dstep" data-step="0">%s</g></svg>'
             '<figcaption class="art__figcap">%s</figcaption></figure>'
             % (W, H, "".join(parts), caption))
 
-def board(caption, up, down):
-    """Two columns: markets pulling away, markets giving back."""
-    def col(title, rows, tone):
-        out = "".join(
-          '<li class="brd__r" style="--i:%d"><span class="brd__m">%s</span>'
-          '<span class="brd__v">%s</span></li>' % (i, m, v)
-          for i, (m, v) in enumerate(rows))
-        return ('<div class="brd__c brd__c--%s"><p class="label brd__h">%s</p>'
-                '<ol class="brd__l">%s</ol></div>' % (tone, title, out))
-    return ('<figure class="art__fig dgm" data-dgm><div class="brd">%s%s</div>'
-            '<figcaption class="art__figcap">%s</figcaption></figure>'
-            % (col("Pulling away", up, "up"), col("Giving back", down, "down"), caption))
-
 def steps(caption, items):
-    """A process broken down. Each step lands in turn as you reach it."""
+    """A sequence whose parts need sentences, so the prose stays HTML and the
+    drawing is the rail beside it: the node marks, the line grows down to the
+    next one, and the reader watches the sequence build."""
     out = []
     for i, (n, t, d) in enumerate(items):
         out.append(
           '<li class="stp" style="--i:%d">'
+          '<span class="stp__rail" aria-hidden="true"><i class="stp__dot"></i></span>'
+          '<span class="stp__b">'
           '<span class="stp__n">%s</span>'
-          '<span class="stp__b"><span class="stp__t">%s</span>'
+          '<span class="stp__t">%s</span>'
           '<span class="stp__d">%s</span></span></li>' % (i, n, t, d))
     return ('<figure class="art__fig dgm" data-dgm>'
             '<ol class="stps">%s</ol>'
-            '<figcaption class="art__figcap">%s</figcaption></figure>'
-            % ("".join(out), caption))
-
-
-def flow(caption, nodes, signal=None):
-    """A left-to-right chain. The named node is the one that matters."""
-    out = []
-    for i, n in enumerate(nodes):
-        sig = ' flw__n--sig' if n == signal else ''
-        out.append('<span class="flw__n%s" style="--i:%d">%s</span>' % (sig, i, n))
-        if i < len(nodes) - 1:
-            out.append('<span class="flw__a" style="--i:%d" aria-hidden="true">&rarr;</span>' % i)
-    return ('<figure class="art__fig dgm" data-dgm>'
-            '<div class="flw">%s</div>'
             '<figcaption class="art__figcap">%s</figcaption></figure>'
             % ("".join(out), caption))
 
@@ -257,23 +332,6 @@ def keys(items):
       % (' keyf--sig' if sig else '', i, n, t)
       for i, (n, t, sig) in enumerate(items))
     return '<div class="keys dgm" data-dgm>%s</div>' % out
-
-def bars(caption, rows, unit=""):
-    """Honest two-or-three value comparison. Only values we actually have."""
-    top = max(r[1] for r in rows)
-    out = []
-    for i, (label, val, tone) in enumerate(rows):
-        w = val / top * 100.0
-        out.append(
-          '<div class="bar" style="--i:%d">'
-          '<span class="bar__l">%s</span>'
-          '<span class="bar__track"><span class="bar__fill%s" style="--w:%.1f%%"></span></span>'
-          '<span class="bar__v">%s%s</span></div>'
-          % (i, label, ' bar__fill--sig' if tone else '', w, val, unit))
-    return ('<figure class="art__fig dgm" data-dgm><div class="bars" data-bars>%s</div>'
-            '<figcaption class="art__figcap">%s</figcaption></figure>'
-            % ("".join(out), caption))
-
 
 # --------------------------------------------------------------------------
 ARTICLES = [
@@ -530,7 +588,7 @@ ARTICLES = [
    p("Run the arithmetic before you do it, because it is rarely the trade people think."),
    bars("A $1,800 unit: what a $75 discount costs against what two extra weeks empty cost, "
         "over a two-year tenancy.",
-        [("Discount of $75/mo", 1800, True), ("Two weeks vacant", 900, False)], unit=" USD"),
+        [("Discount of $75/mo", 1800, True), ("Two weeks vacant", 900, False)], prefix="$"),
    p("Seventy-five dollars a month across twenty-four months is $1,800. Two more weeks of "
      "vacancy at $1,800 a month is about $900. Holding the rent and waiting a fortnight is "
      "the cheaper outcome, and it is the one that feels worse."),
@@ -903,6 +961,13 @@ ARTICLES = [
      "Management at 8% is $13,824. Argue it down to 6% and you have saved $3,456."),
    p("Now look at what else happened that year."),
    h2("Where the year actually went"),
+   bars("The fee saving set against what the same operating year actually leaked. "
+        "Every bar but the first is money the fee negotiation never touched.",
+        [("Fee saved, 8% \u2192 6%", 3456, True),
+         ("Lost rent, two turns", 4600, False),
+         ("Delinquency", 3600, False),
+         ("Rent never raised", 2700, False),
+         ("Make-ready", 2400, False)], prefix="$"),
    ul(["<strong>Vacancy and turnover.</strong> Two units turned. Three weeks empty each, plus "
        "paint, clean and a lock change. Call it $4,600 in lost rent and $2,400 in make-ready.",
        "<strong>Delinquency.</strong> One tenant went two months down before anyone moved. "
@@ -914,6 +979,9 @@ ARTICLES = [
        "compounds into the next."]),
    pull("You saved $3,456 on the fee. Turnover alone cost twice that, and the rent you did "
         "not raise costs it again every year."),
+   keys([("$3,456", "Saved by arguing the fee down two points", False),
+         ("$13,300", "Leaked elsewhere in the same year", True),
+         ("3.8\u00d7", "The second number over the first", False)]),
    h2("What the fee is actually buying"),
    p("The manager who charges 8% and holds turnover to one unit, catches the delinquency in "
      "week two and brings you the renewal comps unprompted is not more expensive than the one "
@@ -945,16 +1013,22 @@ ARTICLES = [
      "decision gets deferred by another quarter because nothing is actually on fire."),
    p("That is a choice too. It is just an unpriced one."),
    h2("There are five options, always"),
-   ul(["<strong>Hold.</strong> Defensible when the asset still does what you bought it to do "
-       "and the capital has nowhere better to be. Say that out loud and it stops being a default.",
-       "<strong>Improve.</strong> Capital in, income out. Only if the return on that specific "
-       "spend beats the return on selling and redeploying.",
-       "<strong>Refinance.</strong> Takes chips off the table without triggering tax or losing "
-       "the asset. Constrained by rates and by what the asset now appraises at.",
-       "<strong>Sell.</strong> Clean, taxable, final. The only option that actually tests "
-       "whether the value you have been reporting yourself is real.",
-       "<strong>Reinvest.</strong> Sell and roll, with the structure decided before the "
-       "clock starts, not after."]),
+   steps("Five options, always. Most owners only seriously consider the one they "
+         "happen to be standing in.",
+     [("01", "Hold",
+       "Defensible when the asset still does what you bought it to do and the capital has "
+       "nowhere better to be. Say that out loud and it stops being a default."),
+      ("02", "Improve",
+       "Capital in, income out. Only if the return on that specific spend beats the return "
+       "on selling and redeploying."),
+      ("03", "Refinance",
+       "Takes chips off the table without triggering tax or losing the asset. Constrained "
+       "by rates and by what the asset now appraises at."),
+      ("04", "Sell",
+       "Clean, taxable, final. The only option that actually tests whether the value you "
+       "have been reporting yourself is real."),
+      ("05", "Reinvest",
+       "Sell and roll, with the structure decided before the clock starts, not after.")]),
    pull("The question is never \u201cis this a good asset\u201d. It is \u201cis this the "
         "best available home for this capital, today\u201d. Those have different answers."),
    h2("Why the exit belongs in the acquisition model"),
@@ -962,6 +1036,11 @@ ARTICLES = [
      "is the clearest case. Financing structure decides whether refinancing is even available. "
      "Entity structure decides what selling costs you. The debt maturity decides when you are "
      "forced to act, and being forced is how people sell into a bad quarter."),
+   flow("What deferring the decision actually sets in motion. Nothing here is a surprise; "
+        "each link is visible years ahead of the one that hurts.",
+     ["Decision deferred", "Debt matures", "Options narrow to one",
+      "Forced to act", "Sell into a bad quarter"],
+     signal="Debt matures"),
    p("Underwrite the exit at the same time as the entry, and the hold period stops being "
      "whatever happened."),
    h2("What we would actually check"),
@@ -1053,7 +1132,7 @@ ARTICLES = [
    bars("Asking prices per square foot, prime Medellín neighbourhoods, 2026. The spread between "
         "El Poblado and Sabaneta is roughly three to one at the top of each range.",
         [("El Poblado", 250, False), ("Laureles", 160, False),
-         ("Envigado", 140, False), ("Sabaneta", 120, True)], unit=" /ft²"),
+         ("Envigado", 140, False), ("Sabaneta", 120, True)], prefix="$", unit="/ft²"),
    p("El Poblado runs about $200–$250 per square foot. Laureles $120–$160. Envigado $100–$140. "
      "Sabaneta $80–$120. These are not tiers of quality so much as four different businesses: "
      "different buyers, different tenants, different regulatory attention, different exit."),
@@ -1139,6 +1218,19 @@ ARTICLES = [
    p("The spread you started with was $140,000. You have spent most of it, and the lots you are "
      "selling are worth less than the ones you comped. The fourth lot — the one that made the "
      "arithmetic work — is the one that triggered the review that caused the delay."),
+
+   branch("Where the $140,000 spread goes. The article\u2019s own range for these costs is "
+          "$70,000\u2013$90,000 in total, so what is left is $50,000\u2013$70,000 \u2014 "
+          "before the access discount takes its cut of the sale price too.",
+          "SPREAD $140,000",
+          [("Culvert and drive", ""),
+           ("Survey and legal", ""),
+           ("Plat and plan review", ""),
+           ("Closing \u00d7 4", ""),
+           ("Four extra months of carry", "")],
+          "$50\u201370k LEFT"),   keys([("4", "The lot count that triggered the review", True),
+         ("6 \u2192 10 mo", "Hold, modelled against actual", False),
+         ("$50\u201370k", "Spread left, before the access discount", False)]),
    h2("What would have caught it"),
    ul(["Reading the split ordinance before the LOI, not before closing. It is public, it is "
        "usually four pages, and it is the single highest-return document in the trade.",
