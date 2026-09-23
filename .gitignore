@@ -1,2 +1,12 @@
 .DS_Store
 **/.DS_Store
+
+# Brand source material — kept locally, not published.
+# The brand book, guidelines and kit are internal documents: print-ready
+# business cards, stationery, social templates. The site needs none of them
+# (the logos it uses are copied into assets/logos/), and there is no reason
+# for them to sit in a public repo.
+Pangea Brand Book.pdf
+Pangea Brand Guidelines.pdf
+Pangea Brand Kit.zip
+Pangea Brand Kit/
