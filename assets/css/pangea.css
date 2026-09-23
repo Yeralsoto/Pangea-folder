@@ -1263,3 +1263,74 @@ body.menu-open{ overflow:hidden; }
   .dgm .stp, .dgm .flw__n, .dgm .flw__a, .dgm .keyf, .dgm .bar{
     opacity:1 !important; transform:none !important; }
 }
+
+/* Market scoreboard: two columns, one pulling away, one giving back. */
+.brd{ display:grid; gap:1px; background:color-mix(in srgb,var(--forest) 12%, transparent);
+  border-block:1px solid color-mix(in srgb,var(--forest) 12%, transparent); }
+@media (min-width:44rem){ .brd{ grid-template-columns:1fr 1fr; } }
+.brd__c{ background:var(--bone); padding:1.25rem 1.35rem 1.5rem; }
+.brd__h{ margin-bottom:.9rem; }
+.brd__c--up .brd__h{ color:var(--forest); }
+.brd__c--down .brd__h{ color:var(--clay); }
+.brd__l{ list-style:none; margin:0; padding:0; }
+.brd__r{ display:flex; justify-content:space-between; gap:1rem; align-items:baseline;
+  padding:.5rem 0; border-bottom:1px solid color-mix(in srgb,var(--forest) 8%, transparent); }
+.brd__r:last-child{ border-bottom:0; }
+.brd__m{ font-size:var(--t16); color:var(--graphite); }
+.brd__v{ font-size:var(--t16); font-weight:500; font-variant-numeric:tabular-nums;
+  white-space:nowrap; }
+.brd__c--up .brd__v{ color:var(--forest); }
+.brd__c--down .brd__v{ color:var(--clay); }
+.brd .brd__r{ opacity:0; transform:translateY(10px); }
+.dgm.is-on .brd__r{ opacity:1; transform:none;
+  transition:opacity .5s var(--ease), transform .5s var(--ease);
+  transition-delay:calc(var(--i,0) * 80ms); }
+@media (prefers-reduced-motion: reduce){ .brd .brd__r{ opacity:1 !important; transform:none !important; } }
+
+/* The pinned stage. One diagram visible at a time; the rest wait their turn. */
+.art__pin{ display:none; }
+/* .keys is a div, not a figure — it has to be stacked too, or it sits in
+   flow at full opacity and ghosts behind whichever diagram is live. */
+.art__pin .art__fig,
+.art__pin .keys{ margin:0; position:absolute; top:0; left:0; right:0;
+  opacity:0; transform:translateY(12px); pointer-events:none;
+  transition:opacity .5s var(--ease), transform .5s var(--ease); }
+.art__pin{ position:sticky; }
+.art__pinInner{ position:relative; min-height:22rem; }
+.art__pin .art__fig.is-live,
+.art__pin .keys.is-live{ opacity:1; transform:none; pointer-events:auto; }
+.art__pin .art__figcap{ color:var(--stone); }
+.pinNote{ font-size:var(--t12); letter-spacing:.14em; text-transform:uppercase;
+  color:var(--stone); margin-bottom:1rem; }
+
+/* ---------- 33. Field Note reading layout ---------- */
+/* Narrow: one column, diagrams inline where they were written.
+   Wide: a rail, the argument, and a pinned panel the diagrams are lifted
+   into — so the visual keeps answering the text as you scroll. */
+.toc{ display:none; }
+.art__pin{ display:none; }
+
+@media (min-width:72rem) and (max-width:77.99rem){
+  .art__wrap{
+    max-width:62rem; display:grid; gap:0 3rem;
+    grid-template-columns:11rem minmax(0,1fr); align-items:start;
+  }
+  .toc{ display:block; grid-column:1; grid-row:1 / span 4; position:sticky; top:7rem; }
+  .art__body, .art__sources, .art__cta, .art__back{ grid-column:2; }
+}
+
+@media (min-width:78rem){
+  .art__wrap{
+    max-width:82rem; display:grid; gap:0 3.5rem; align-items:start;
+    grid-template-columns:10rem minmax(0,31rem) minmax(0,27rem);
+  }
+  .toc{ display:block; grid-column:1; grid-row:1 / span 4; position:sticky; top:7rem; }
+  .art__body{ grid-column:2; grid-row:1; }
+  .art__pin{
+    display:block; grid-column:3; grid-row:1; position:sticky; top:7rem;
+    padding-top:.35rem;
+  }
+  .art__sources{ grid-column:2; grid-row:2; }
+  .art__cta{ grid-column:2; grid-row:3; }
+  .art__back{ grid-column:2; grid-row:4; }
+}

@@ -165,6 +165,20 @@ def ul(items):   return '<ul class="art__list">%s</ul>' % "".join('<li>%s</li>' 
 
 
 
+
+def board(caption, up, down):
+    """Two columns: markets pulling away, markets giving back."""
+    def col(title, rows, tone):
+        out = "".join(
+          '<li class="brd__r" style="--i:%d"><span class="brd__m">%s</span>'
+          '<span class="brd__v">%s</span></li>' % (i, m, v)
+          for i, (m, v) in enumerate(rows))
+        return ('<div class="brd__c brd__c--%s"><p class="label brd__h">%s</p>'
+                '<ol class="brd__l">%s</ol></div>' % (tone, title, out))
+    return ('<figure class="art__fig dgm" data-dgm><div class="brd">%s%s</div>'
+            '<figcaption class="art__figcap">%s</figcaption></figure>'
+            % (col("Pulling away", up, "up"), col("Giving back", down, "down"), caption))
+
 def steps(caption, items):
     """A process broken down. Each step lands in turn as you reach it."""
     out = []
@@ -222,6 +236,81 @@ def bars(caption, rows, unit=""):
 
 # --------------------------------------------------------------------------
 ARTICLES = [
+{
+ "slug": "two-countries-one-rent-number",
+ "tone": "forest", "motif": "stack",
+ "kicker": "United States · Markets",
+ "title": "There is no American rental market. There are about a hundred and sixty-five.",
+ "dek": "Ninety-two of them are posting negative rent growth while the Twin Cities "
+        "run at +4.6%. The national figure describes neither.",
+ "date": "September 2026",
+ "read": "9 min",
+ "body": [
+   p("National rent fell about 1.5% year over year through February 2026. That single "
+     "number is the least useful fact in this piece, because 92 of the 165 major metros are "
+     "negative and the rest are not, and the gap between the two ends is nearly ten points."),
+   p("Read the national figure and you will underwrite the wrong half of the country."),
+   board("Year-over-year metro rent growth, 2026. Nearly ten points separate the Twin "
+         "Cities from San Antonio.",
+     [("Twin Cities", "+4.6%"), ("Chicago", "+4.1%"), ("Detroit", "+4.0%"),
+      ("Cleveland", "+4.0%"), ("St. Louis", "+4.0%"), ("Kansas City", "+3.9%"),
+      ("Philadelphia", "+2.9%")],
+     [("San Antonio", "−5.1%"), ("Austin", "−4.0%"), ("Denver", "−3.1%"),
+      ("Tampa", "−2.8%"), ("Phoenix", "−2.7%")]),
+   h2("This is a supply story, not a demand story"),
+   p("The instinct is to read the losing column as places people are leaving. They are not. "
+     "Austin, Denver, Phoenix and Tampa still take population. What they also took was an "
+     "enormous delivery pipeline, and the pipeline landed into a market that had already "
+     "priced the growth."),
+   p("Concessions did the rest. A quoted rent with two months free is not that rent, and it "
+     "does not renew at that rent either."),
+   pull("The Midwest did not win. It simply never got a supply wave, so nothing had to be "
+        "given back."),
+   p("The winning column is mostly markets with limited new deliveries and an affordability "
+     "advantage that never went away. The Northeast is projected to run 4–5% annually and "
+     "the Midwest 3–4.5%. Neither is exciting. Both are bankable."),
+   h2("Land tells the same story a year earlier"),
+   p("Cross the rent table against finished-lot supply and the pattern repeats. Austin, "
+     "Atlanta and Denver read as significantly oversupplied on lots. Los Angeles and "
+     "Philadelphia still do not."),
+   flow("Lot supply leads rent by roughly a cycle. By the time rent turns, the land market "
+        "has already told you.",
+     ["Lots loosen", "Builders slow", "Deliveries land", "Concessions", "Rent gives back"],
+     signal="Lots loosen"),
+   p("That is the practical value of watching land even if you never buy any: it is the "
+     "earliest honest signal in the chain."),
+   h2("What this changes about a deal"),
+   ul(["<strong>Underwrite the submarket, never the metro.</strong> Nashville and Austin "
+       "both contain streets that are tightening. The metro average will not find them.",
+       "<strong>Ask what has been delivered, not what is planned.</strong> Planned units "
+       "get cancelled. Delivered units compete with you on the day they open.",
+       "<strong>Treat a falling metro as an entry, not a veto.</strong> San Antonio at "
+       "−5.1% is a bad place to own a lease-up finished last year and a reasonable place to "
+       "buy one from someone who did.",
+       "<strong>Check concessions in the comps.</strong> In the losing column they are "
+       "doing a lot of quiet work on the quoted numbers.",
+       "<strong>In the winning column, check why.</strong> Limited deliveries can mean a "
+       "constrained market or a market nobody wants to build in. Those are different."]),
+   keys([("92 / 165", "Major metros with negative rent growth", True),
+         ("+4.6%", "Twin Cities, the strongest", False),
+         ("−5.1%", "San Antonio, the weakest", False)]),
+   note("We do not have a favourite market. We have a method, and it produces different "
+        "answers in different places — which is the point. If someone tells you one region "
+        "is the play right now, ask them what the delivery pipeline does in 2027."),
+ ],
+ "sources": [
+   ("CRE Daily — Midwest leads 2026 US multifamily rent growth as Sun Belt lags",
+    "https://www.credaily.com/briefs/midwest-leads-2026-us-multifamily-rent-growth-as-sun-belt-lags/"),
+   ("Yardi Matrix — National multifamily market report",
+    "https://www.yardimatrix.com/blog/national-multifamily-market-report/"),
+   ("National Apartment Association — 2026 apartment housing outlook",
+    "https://naahq.org/news/2026-apartment-housing-outlook"),
+   ("Apartment List — National rent report",
+    "https://www.apartmentlist.com/research/national-rent-data"),
+   ("ResiClub — Lot inventory by metro",
+    "https://www.resiclubanalytics.com/p/austin-atlanta-denver-boast-significantly-oversupplied-lot-inventory-homebuilders"),
+ ],
+},
 {
  "slug": "reading-a-renovation-bid",
  "tone": "forest", "motif": "gantt",
@@ -765,6 +854,7 @@ def render_article(a):
     <div class="art__body">
       %s
     </div>
+    <aside class="art__pin" data-pin aria-hidden="true"></aside>
     %s
     <aside class="art__cta">
       <h2>Have one of these on your desk?</h2>

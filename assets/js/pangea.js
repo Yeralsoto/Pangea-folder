@@ -739,3 +739,88 @@
   }, { threshold: 0.25 });
   els.forEach(function (e) { io.observe(e); });
 })();
+
+/* ============================================================
+   Field Note visuals: lift every diagram out of the prose into a
+   panel beside it, and swap them as the reader moves through the
+   argument. Only on wide screens — below that they stay inline,
+   where they still make sense.
+   ============================================================ */
+(function () {
+  'use strict';
+  var body = document.querySelector('.art__body');
+  var pin  = document.querySelector('[data-pin]');
+  if (!body || !pin) return;
+
+  var WIDE = window.matchMedia('(min-width: 78rem)');
+  var figs = Array.prototype.slice.call(body.querySelectorAll('.art__fig, .keys'));
+  if (!figs.length) { pin.remove(); return; }
+
+  var inner = document.createElement('div');
+  inner.className = 'art__pinInner';
+  var note = document.createElement('p');
+  note.className = 'pinNote';
+  note.textContent = 'The working';
+  pin.appendChild(note);
+  pin.appendChild(inner);
+
+  /* remember where each diagram lived, and which heading owns it */
+  var items = figs.map(function (f) {
+    var owner = null, n = f.previousElementSibling;
+    while (n) { if (n.classList && n.classList.contains('art__h2')) { owner = n; break; }
+                n = n.previousElementSibling; }
+    return { el: f, home: f.nextSibling, parent: f.parentNode, owner: owner, live: false };
+  });
+
+  var moved = false;
+
+  function lift() {
+    if (moved) return;
+    items.forEach(function (it) {
+      it.el.classList.add('is-in', 'is-on');   /* never wait on the inline observers */
+      inner.appendChild(it.el);
+    });
+    pin.style.display = 'block';
+    pin.setAttribute('aria-hidden', 'false');
+    moved = true;
+    show(0);
+  }
+
+  function drop() {
+    if (!moved) return;
+    items.forEach(function (it) {
+      it.parent.insertBefore(it.el, it.home);
+      it.el.classList.remove('is-live');
+    });
+    pin.style.display = 'none';
+    pin.setAttribute('aria-hidden', 'true');
+    moved = false;
+  }
+
+  var current = -1;
+  function show(i) {
+    if (i === current) return;
+    current = i;
+    items.forEach(function (it, k) { it.el.classList.toggle('is-live', k === i); });
+  }
+
+  function track() {
+    if (!moved) return;
+    var line = window.innerHeight * 0.42, pick = 0;
+    items.forEach(function (it, i) {
+      var ref = it.owner || body;
+      if (ref.getBoundingClientRect().top <= line) pick = i;
+    });
+    show(pick);
+  }
+
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; track(); }); }
+  }, { passive: true });
+
+  function sync() { WIDE.matches ? lift() : drop(); track(); }
+  if (WIDE.addEventListener) WIDE.addEventListener('change', sync);
+  else if (WIDE.addListener) WIDE.addListener(sync);
+  sync();
+})();
