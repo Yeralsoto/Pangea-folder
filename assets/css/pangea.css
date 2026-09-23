@@ -1058,8 +1058,23 @@ body.menu-open{ overflow:hidden; }
 }
 .nav__sym{ height:var(--logo-h); width:auto; display:block;
   transition:height .35s var(--ease); }
-.nav__word{ height:calc(var(--logo-h) * 0.42); width:auto; display:block;
+.nav__lock{ display:grid; gap:.3em; }
+.nav__word{ height:calc(var(--logo-h) * 0.40); width:auto; display:block;
   transition:height .35s var(--ease); }
+/* The supplied subline is 11.7 units tall against the wordmark's 73.4. To
+   reach even 8px it would need a 204px lockup, which no navigation bar has
+   room for. PANGEA stays artwork; the descriptor is set in Geist at the
+   brand's own label spec — uppercase, +0.14em — so the full name reads. */
+/* .nav__desc, not .nav__sub — that name already belongs to the desktop
+   dropdown, and reusing it made the descriptor inherit opacity:0. */
+.nav__desc{
+  font-family:var(--text); font-weight:500;
+  font-size:calc(var(--logo-h) * 0.155);
+  letter-spacing:.2em; text-transform:uppercase;
+  color:color-mix(in srgb, var(--sand) 92%, transparent);
+  white-space:nowrap; line-height:1;
+  transition:font-size .35s var(--ease);
+}
 
 .nav{ --logo-h:clamp(46px, 4.4vw, 62px); }
 .nav[data-solid="true"]{ --logo-h:clamp(38px, 3.2vw, 48px); }
