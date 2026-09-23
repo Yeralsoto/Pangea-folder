@@ -349,7 +349,7 @@ If either brand moves, re-check this section first.
 `insights/` index and the homepage band are written from one `ARTICLES` list,
 so they cannot drift. Adding a piece means adding an entry and re-running it.
 
-Eight of a planned fifteen are written, and they deliberately span the whole
+All fifteen are written, and they deliberately span the whole
 cycle rather than clustering on land:
 
 | Piece | Stage | Sourced |

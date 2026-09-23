@@ -240,6 +240,283 @@ def bars(caption, rows, unit=""):
 # --------------------------------------------------------------------------
 ARTICLES = [
 {
+ "slug": "costa-rica-gross-is-not-net",
+ "tone": "forest", "motif": "keys",
+ "kicker": "Costa Rica · Residential",
+ "title": "A 7.6% yield that arrives as 5.5%.",
+ "dek": "Costa Rica advertises gross. What reaches a foreign owner in the "
+        "Central Valley is a different number, and the gap is the whole decision.",
+ "date": "September 2026",
+ "read": "7 min",
+ "body": [
+   p("Costa Rica is sold to foreign buyers on yield. The number quoted is almost always "
+     "gross, and gross is a description of the rent, not of what you keep."),
+   bars("Residential yield in San José, 2026. The distance between the two is management, "
+        "maintenance, vacancy, HOA and tax.",
+        [("Gross yield", 7.5, False), ("Net yield", 5.5, True)], unit="%"),
+   p("National gross sits around 7.63% in Q2 2026 and San José around 7.5%, with most "
+     "landlords between 6% and 9% depending on the neighbourhood. Net lands around 5.5%, "
+     "and most standard investment properties deliver 4% to 6.5% once recurring costs are "
+     "paid. Amenity-heavy buildings sit at the bottom of that range; professionally managed "
+     "ones give up another slice for the privilege of not doing the work yourself."),
+   pull("Five and a half per cent, in dollars, in a stable country, is a perfectly good "
+        "answer. It is just not the answer on the brochure."),
+   h2("Where the yield actually is"),
+   ul(["San Pedro, beside the UCR campus — roughly 6% to 8%, student and staff demand.",
+       "Rohrmoser, the non-trophy units — 5.5% to 7%.",
+       "Curridabat, Freses and Granadilla — 5.5% to 7%.",
+       "The Heredia and Belén border, near the corporate parks — 6% to 8%."]),
+   p("Notice what is absent: the trophy addresses. Escazú and Santa Ana run $1,200 to "
+     "$2,000 per square metre, and a three-bedroom in a gated community is $350,000 to "
+     "$600,000. Those are good places to own a home. They are not where the yield is."),
+   h2("Two things a foreign buyer should price in"),
+   p("Liquidity first. Average days on market in San José is around 180. Well-priced stock "
+     "in La Sabana, Rohrmoser or Escazú moves in 90 to 150. If your exit assumption is three "
+     "months, it is wrong."),
+   p("Then the buyer pool. About 40% of San José transactions involve an international "
+     "buyer — which is healthy demand and also a warning. A market where nearly half the "
+     "bids come from abroad is a market whose liquidity depends on conditions somewhere "
+     "else."),
+   keys([("7.63%", "National gross yield, Q2 2026", False),
+         ("5.5%", "San José net, after costs", True),
+         ("180 days", "Average time to sell", False)]),
+   h2("What we would actually check"),
+   ul(["Net, modelled line by line: HOA, management, maintenance reserve, vacancy, "
+       "municipal tax, and the cost of being eight hours away.",
+       "Whether the building's amenities are an asset or a monthly bill with a pool "
+       "attached.",
+       "Days on market for units that actually closed in that specific corridor.",
+       "The rental demand source — students, corporate, tourism — and what happens to it "
+       "in a soft year.",
+       "Title and the concession question on anything near the coast, which is a different "
+       "article and a longer one."]),
+   note("Prices are expected to rise roughly 3% to 6% a year in dollar terms. That is the "
+        "appreciation case, and it is reasonable. Just do not add it to a gross yield and "
+        "call the total a return."),
+ ],
+ "sources": [
+   ("Global Property Guide — Costa Rica gross rental yields",
+    "https://www.globalpropertyguide.com/latin-america/costa-rica/rental-yields"),
+   ("TheLatinvestor — San José rental yields 2026",
+    "https://thelatinvestor.com/blogs/news/san-jose-rental-yields"),
+   ("TheLatinvestor — San José real estate market analysis 2026",
+    "https://thelatinvestor.com/blogs/news/san-jose-real-estate-market"),
+   ("Costa Rica property prices by region 2026",
+    "https://costaricaretirementvacationproperties.com/articles/real-estate-articles/costa-rica-property-prices-by-region-2026.html"),
+ ],
+},
+{
+ "slug": "reading-a-hotel-p-and-l",
+ "tone": "forest", "motif": "keys",
+ "kicker": "Hospitality · Operations",
+ "title": "A hotel P&L has one line that tells you whether it is being run or just occupied.",
+ "dek": "Occupancy flatters. RevPAR is honest. GOPPAR is the one an owner "
+        "should actually be paid on.",
+ "date": "September 2026",
+ "read": "7 min",
+ "body": [
+   p("Every under-performing hotel we have looked at reported strong occupancy. Filling "
+     "rooms is easy — you drop the rate until they fill. The question is what was left "
+     "after."),
+   steps("Read the statement in this order. Each line answers the one above it.",
+     [("01", "Occupancy",
+       "Rooms sold over rooms available. Tells you the building is busy. Tells you nothing "
+       "about whether being busy was worth it."),
+      ("02", "ADR",
+       "Average daily rate. Occupancy and ADR move against each other; either alone can be "
+       "bought with the other."),
+      ("03", "RevPAR",
+       "Revenue per available room — ADR times occupancy. The first line that cannot be "
+       "gamed by discounting, because discounting shows up in it."),
+      ("04", "TRevPAR",
+       "Total revenue per available room, including food, beverage, spa, parking. Separates "
+       "a hotel from a room-rental business."),
+      ("05", "GOPPAR",
+       "Gross operating profit per available room. What the asset actually produced before "
+       "debt and ownership costs. This is the number to underwrite."),
+      ("06", "Flow-through",
+       "Of each extra dollar of revenue, how much reached GOP. Below about 40% on incremental "
+       "revenue, the operation is leaking.")]),
+   pull("Occupancy is a vanity metric with a hospitality degree. GOPPAR is the job."),
+   h2("The costs that move and the costs that do not"),
+   p("Rooms cost is largely variable — housekeeping, linen, amenities, commissions. "
+     "Undistributed cost is largely not — administration, sales, utilities, maintenance. "
+     "That split is why a hotel at 55% occupancy and one at 75% are not the same business "
+     "even at the same RevPAR."),
+   p("Channel mix is where the quiet money goes. OTA commission at 15–20% on a large share "
+     "of the book is a discount you pay whether or not you needed it. The direct-booking "
+     "share is a P&L line disguised as a marketing metric."),
+   h2("What we would actually check"),
+   ul(["GOPPAR against the competitive set, not RevPAR. Two hotels with identical RevPAR "
+       "can be twenty points apart on GOP margin.",
+       "Flow-through on the last twelve months, which reveals whether growth is being "
+       "converted or spent.",
+       "Channel mix and the true cost of each channel, commission included.",
+       "The maintenance reserve, and what was deferred to make last year look better.",
+       "Whether the management agreement pays the operator on revenue or on profit. They "
+       "behave differently, and only one of them is aligned with you."]),
+   note("If you are buying a hotel on a broker's occupancy figure, you are buying the one "
+        "number the seller can produce most cheaply."),
+ ],
+ "sources": [],
+},
+{
+ "slug": "the-entitlement-that-ate-the-return",
+ "tone": "forest", "motif": "gantt",
+ "kicker": "Worked example · Entitlement",
+ "title": "The deal did not fail. It just took nineteen months longer than the model.",
+ "dek": "A worked example of an entitlement timeline, and why delay is the risk "
+        "that quietly outranks cost.",
+ "date": "September 2026",
+ "read": "8 min",
+ "body": [
+   note("A worked example, not a client file. The sequence is typical; the months are "
+        "illustrative."),
+   p("Cost overruns get the attention because they arrive as invoices. Delay arrives as "
+     "nothing at all — no letter, no line item, just another month where the carry runs and "
+     "nothing is sellable."),
+   p("On a levered deal, delay is usually the larger of the two."),
+   steps("An entitlement sequence that was modelled at eleven months.",
+     [("01", "Pre-application · modelled 1, took 2",
+       "Staff are booked three weeks out. The first meeting produces a list of studies "
+       "nobody budgeted."),
+      ("02", "Studies · modelled 3, took 6",
+       "Traffic, drainage, environmental, and a wetland delineation the seller swore was "
+       "not needed. Two of them can run in parallel. The wetland one cannot."),
+      ("03", "Formal submittal · modelled 1, took 1",
+       "The only stage that behaved."),
+      ("04", "Review cycles · modelled 3, took 9",
+       "Three rounds of comments rather than one. Each round is a full review clock, not a "
+       "continuation of the last."),
+      ("05", "Public hearing · modelled 2, took 7",
+       "Continued once at a neighbour's request, then again when a commissioner was absent. "
+       "Hearings are calendars, not decisions."),
+      ("06", "Recording and permits · modelled 1, took 5",
+       "Conditions of approval had to be satisfied before recording, and two of them needed "
+       "a utility company with its own queue.")]),
+   keys([("11 mo", "Modelled", False), ("30 mo", "Actual", True), ("+19 mo", "Of carry nobody priced", False)]),
+   h2("Why the model broke"),
+   p("Not because any single step was unreasonable. Because the model assumed every step "
+     "ran once, in sequence, at the posted duration — and entitlement is a queue of "
+     "queues, each with its own clock and each able to restart."),
+   pull("Nineteen months of carry on a levered basis is not a delay. It is the return."),
+   h2("What we would actually do"),
+   ul(["Model three timelines: posted, realistic, and bad. Underwrite the middle one and "
+       "survive the third.",
+       "Ask the jurisdiction how many review rounds the last five comparable applications "
+       "took. It is public, and it is the single most predictive number available.",
+       "Identify which studies can run in parallel and start those the week of the LOI, "
+       "not after closing.",
+       "Price the carry per month explicitly so the cost of a slipped hearing is visible on "
+       "the page rather than absorbed.",
+       "Negotiate the contingency period against the realistic timeline, not the posted one.",
+       "Know which conditions of approval depend on a third party, because those are the "
+       "ones with no deadline at all."]),
+   note("This deal still made money. It made roughly a third of what the model said, which "
+        "is a different conversation to have before an investor's capital is in than after."),
+ ],
+ "sources": [],
+},
+{
+ "slug": "build-to-rent-is-a-different-business",
+ "tone": "forest", "motif": "doors",
+ "kicker": "Build-to-rent · Underwriting",
+ "title": "Build-to-rent is not building houses and then renting them.",
+ "dek": "The product, the cost plan and the exit are all different from "
+        "for-sale. Underwrite it as for-sale and the margin disappears on handover.",
+ "date": "September 2026",
+ "read": "7 min",
+ "body": [
+   p("The pitch is tidy: you are already building houses, rent them instead of selling "
+     "them, and keep the income. The arithmetic is not tidy at all, because almost every "
+     "assumption you carry over from for-sale is wrong in the new business."),
+   h2("Three things change on day one"),
+   steps("What actually differs, and what it does to the model.",
+     [("01", "The buyer is a yield, not a family",
+       "A for-sale house is priced against comparable sales. A build-to-rent house is "
+       "priced against a capitalisation rate on its net income. Those two numbers move "
+       "independently, and only one of them cares about your finish level."),
+      ("02", "Spec follows durability, not taste",
+       "The cost plan changes shape: harder surfaces, simpler mechanicals, fewer bespoke "
+       "items, longer-life finishes. Some line items go up. The ones that exist to win a "
+       "weekend buyer come out."),
+      ("03", "Operations start before completion",
+       "Leasing, maintenance and management are a business you now own from the first "
+       "certificate of occupancy. In for-sale they were somebody else's problem on closing "
+       "day.")]),
+   pull("In for-sale you are paid once, on the highest price. In build-to-rent you are paid "
+        "every month, on the lowest cost of keeping it full."),
+   h2("The arithmetic that actually governs it"),
+   p("Value is net operating income divided by cap rate, so every dollar of annual NOI is "
+     "worth many dollars of value at exit. At a 6% cap, $1 of recurring monthly saving is "
+     "worth roughly $200 of asset value. That is why the durable dishwasher is not a "
+     "preference — it is a capital decision."),
+   p("It also means the vacancy and turnover assumptions matter more than the construction "
+     "contingency. A one-point move in stabilised occupancy will usually outweigh a "
+     "reasonable overrun on the build."),
+   h2("What we would actually check"),
+   ul(["The exit cap rate, stress-tested a full point in the wrong direction.",
+       "Turnover cost per unit and expected tenure, because those two numbers set the "
+       "operating floor.",
+       "Whether the spec was written for a renter or inherited from the last for-sale plan.",
+       "Who leases and manages it, at what cost, and whether that cost is in the model at "
+       "all.",
+       "Whether the site works as for-sale if the rental thesis fails. If it does not, the "
+       "downside has no floor."]),
+   note("Build-to-rent is a good business run as a business. It is a poor one run as a "
+        "for-sale project that changed its mind after the drawings were finished."),
+ ],
+ "sources": [],
+},
+{
+ "slug": "setting-rent-and-defending-it",
+ "tone": "forest", "motif": "keys",
+ "kicker": "Operations · Rentals",
+ "title": "The rent you set in week one is the rent you argue about for five years.",
+ "dek": "Most owners price to fill, then spend the tenancy trying to recover. "
+        "Here is the other order.",
+ "date": "September 2026",
+ "read": "6 min",
+ "body": [
+   p("An empty unit is loud. Every day it sits there, the pressure to drop the ask rises, "
+     "and the drop feels small — fifty dollars, seventy-five, whatever ends the discomfort."),
+   p("Run the arithmetic before you do it, because it is rarely the trade people think."),
+   bars("A $1,800 unit: what a $75 discount costs against what two extra weeks empty cost, "
+        "over a two-year tenancy.",
+        [("Discount of $75/mo", 1800, True), ("Two weeks vacant", 900, False)], unit=" USD"),
+   p("Seventy-five dollars a month across twenty-four months is $1,800. Two more weeks of "
+     "vacancy at $1,800 a month is about $900. Holding the rent and waiting a fortnight is "
+     "the cheaper outcome, and it is the one that feels worse."),
+   pull("Vacancy is a one-off cost. A discount is an annuity you granted to someone else."),
+   h2("Set it on evidence, not on the last listing"),
+   ul(["Comparable <em>closed</em> leases, not asking rents. Asking rents are opinions.",
+       "Same building where possible, then same block, then same school zone. Not the "
+       "neighbourhood average.",
+       "Adjust for what a tenant actually pays for: parking, in-unit laundry, outdoor "
+       "space, which floor, whether utilities are included.",
+       "Check what concessions the comps carried. A month free on a twelve-month lease is "
+       "an 8% discount wearing a disguise."]),
+   h2("Then defend it at renewal, which is where the money is"),
+   p("The cheapest rent increase in this business is the one on a tenant who is already "
+     "there. No turn cost, no vacancy, no make-ready, no listing. And it is the one most "
+     "often skipped, because nobody owns the calendar item."),
+   p("Three units left unreviewed at $75 below market is $2,700 a year, and it compounds, "
+     "because next year's increase is calculated off this year's mistake."),
+   keys([("$1,800", "Cost of a $75 discount over two years", True),
+         ("~$900", "Cost of two extra weeks vacant", False),
+         ("90 days", "When the renewal conversation should start", False)]),
+   h2("What we would actually check"),
+   ul(["Whether anyone is contractually responsible for reviewing rent at renewal, and on "
+       "what date.",
+       "Days-to-lease for the last three vacancies, which tells you whether the price was "
+       "right or merely accepted.",
+       "The concession history in the comp set, not just the headline rents.",
+       "Renewal rate. Below about 50% you do not have a pricing problem, you have an "
+       "operations problem."]),
+ ],
+ "sources": [],
+},
+{
  "slug": "two-countries-one-rent-number",
  "tone": "forest", "motif": "stack",
  "kicker": "United States · Markets",
