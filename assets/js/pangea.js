@@ -712,10 +712,6 @@
       it.setAttribute('data-open', String(!open));
       btn.setAttribute('aria-expanded', String(!open));
     });
-    it.addEventListener('mouseleave', function () {
-      it.setAttribute('data-open', 'false');
-      btn.setAttribute('aria-expanded', 'false');
-    });
   });
 
   document.addEventListener('click', function () { closeAll(null); });

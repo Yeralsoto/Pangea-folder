@@ -412,37 +412,40 @@
 <!-- ============ ASSET TYPES ============ -->
 <section class="section ground-forest" id="assets">
   <div class="wrap">
-    <div class="sec-head rv"><p class="label label--onforest">Every asset type</p></div>
-    <h2 class="rv" style="font-size:var(--d-2);max-width:20ch;margin-bottom:1rem">Nine of them. The same discipline on each.</h2>
-    <p class="rv" style="max-width:48ch;color:color-mix(in srgb,var(--bone) 82%,var(--forest));margin-bottom:clamp(2.5rem,6vh,4rem)">A parcel, a house, a block, a hotel. What changes is the shape. What does not change is the working behind it.</p>
+    <div class="sec-head rv"><p class="label label--onforest">The cycle, and everything in it</p></div>
+    <h2 class="rv" style="font-size:var(--d-2);max-width:20ch;margin-bottom:1rem">Five stages. Nine asset types. One loop.</h2>
+    <p class="rv" style="max-width:50ch;color:color-mix(in srgb,var(--bone) 82%,var(--forest));margin-bottom:clamp(2.5rem,6vh,4rem)">An asset does not finish. It arrives somewhere, gets run, and then asks the question again. Follow the ring, or pick a stage.</p>
 
-    <div class="at" data-assettypes>
-      <figure class="at__stage rv">
-        <svg class="at__svg" viewBox="0 0 200 118" role="img" aria-label="A silhouette that changes shape for each asset type" data-at-svg>
-          <g class="at__grid" aria-hidden="true">
-            <path d="M0 100 H200"/><path d="M0 78 H200"/><path d="M0 56 H200"/><path d="M0 34 H200"/>
-          </g>
-          <path class="at__shape" data-at-shape d=""/>
-          <g class="at__detail" data-at-detail></g>
-          <path class="at__ground" d="M0 100 H200"/>
+    <div class="cy" data-cycle>
+      <figure class="cy__stage rv">
+        <svg class="cy__svg" viewBox="-78 -30 476 380" role="img" aria-label="The five-stage real estate cycle as a ring: identify, evaluate, create, operate, optimize">
+          <circle class="cy__track" cx="160" cy="160" r="128"/>
+          <g class="cy__arcs"><path class="cy__arc" data-arc="0" d="M160.0 32.0 A 128 128 0 0 1 281.7 120.4"/><path class="cy__arc" data-arc="1" d="M281.7 120.4 A 128 128 0 0 1 235.2 263.6"/><path class="cy__arc" data-arc="2" d="M235.2 263.6 A 128 128 0 0 1 84.8 263.6"/><path class="cy__arc" data-arc="3" d="M84.8 263.6 A 128 128 0 0 1 38.3 120.4"/><path class="cy__arc" data-arc="4" d="M38.3 120.4 A 128 128 0 0 1 160.0 32.0"/></g>
+          <g class="cy__pulse"><circle class="cy__runner" r="4.5"/></g>
+          <g class="cy__node" data-node="0" transform="translate(160.0 32.0)"><circle class="cy__halo" r="26"/><circle class="cy__dot" r="7"/><text class="cy__num" y="2.6">01</text></g><g class="cy__node" data-node="1" transform="translate(281.7 120.4)"><circle class="cy__halo" r="26"/><circle class="cy__dot" r="7"/><text class="cy__num" y="2.6">02</text></g><g class="cy__node" data-node="2" transform="translate(235.2 263.6)"><circle class="cy__halo" r="26"/><circle class="cy__dot" r="7"/><text class="cy__num" y="2.6">03</text></g><g class="cy__node" data-node="3" transform="translate(84.8 263.6)"><circle class="cy__halo" r="26"/><circle class="cy__dot" r="7"/><text class="cy__num" y="2.6">04</text></g><g class="cy__node" data-node="4" transform="translate(38.3 120.4)"><circle class="cy__halo" r="26"/><circle class="cy__dot" r="7"/><text class="cy__num" y="2.6">05</text></g>
+          <text class="cy__label" data-label="0" x="160.0" y="-14.0" text-anchor="middle">Identify</text><text class="cy__label" data-label="1" x="325.5" y="106.2" text-anchor="start">Evaluate</text><text class="cy__label" data-label="2" x="262.3" y="300.8" text-anchor="start">Create</text><text class="cy__label" data-label="3" x="57.7" y="300.8" text-anchor="end">Operate</text><text class="cy__label" data-label="4" x="-5.5" y="106.2" text-anchor="end">Optimize</text>
+          <text class="cy__centreN" x="160" y="152" text-anchor="middle">01</text>
+          <text class="cy__centre" x="160" y="176" text-anchor="middle">Identify</text>
+          <text class="cy__centreS" x="160" y="194" text-anchor="middle">The land</text>
         </svg>
-        <figcaption class="at__cap">
-          <span class="label" data-at-label>Land &amp; lots</span>
-          <span class="at__meter"><span data-at-meter></span></span>
-        </figcaption>
       </figure>
 
-      <ol class="at__list">
-        <li class="at__item"><button type="button" data-at="0"><span class="at__n">01</span><span class="at__name">Land &amp; lots</span><span class="at__d">Raw land, exempt splits, subdivisions, entitlements</span></button></li>
-        <li class="at__item"><button type="button" data-at="1"><span class="at__n">02</span><span class="at__name">Single-family</span><span class="at__d">New builds, rentals, build-to-rent</span></button></li>
-        <li class="at__item"><button type="button" data-at="2"><span class="at__n">03</span><span class="at__name">Multifamily</span><span class="at__d">Small and mid-size apartment assets</span></button></li>
-        <li class="at__item"><button type="button" data-at="3"><span class="at__n">04</span><span class="at__name">Commercial</span><span class="at__d">Retail, office, mixed use, industrial</span></button></li>
-        <li class="at__item"><button type="button" data-at="4"><span class="at__n">05</span><span class="at__name">Hospitality &amp; hotels</span><span class="at__d">Boutique hotels, lodges, serviced stays</span></button></li>
-        <li class="at__item"><button type="button" data-at="5"><span class="at__n">06</span><span class="at__name">Short-term rentals</span><span class="at__d">Vacation and furnished rentals</span></button></li>
-        <li class="at__item"><button type="button" data-at="6"><span class="at__n">07</span><span class="at__name">Long-term rentals</span><span class="at__d">Stabilized rental income</span></button></li>
-        <li class="at__item"><button type="button" data-at="7"><span class="at__n">08</span><span class="at__name">Renovation &amp; flips</span><span class="at__d">Value-add, repositioning, fix and flip</span></button></li>
-        <li class="at__item"><button type="button" data-at="8"><span class="at__n">09</span><span class="at__name">New construction</span><span class="at__d">Ground-up buildings with general contractors</span></button></li>
-      </ol>
+      <div class="cy__panel rv">
+        <p class="label cy__panelLabel" data-cy-sub>The land</p>
+        <p class="cy__detail" data-cy-detail>Markets, data, leads, acquisitions</p>
+        <p class="label cy__outLabel">What it can become</p>
+        <ul class="cy__outs">
+        <li class="cy__out" data-stages="0,1,4"><span class="cy__outDot"></span>Land &amp; lots</li>
+        <li class="cy__out" data-stages="1,2,4"><span class="cy__outDot"></span>Single-family</li>
+        <li class="cy__out" data-stages="1,2,4"><span class="cy__outDot"></span>Multifamily</li>
+        <li class="cy__out" data-stages="1,2,4"><span class="cy__outDot"></span>Commercial</li>
+        <li class="cy__out" data-stages="1,2,3,4"><span class="cy__outDot"></span>Hospitality &amp; hotels</li>
+        <li class="cy__out" data-stages="1,3,4"><span class="cy__outDot"></span>Short-term rentals</li>
+        <li class="cy__out" data-stages="1,3,4"><span class="cy__outDot"></span>Long-term rentals</li>
+        <li class="cy__out" data-stages="1,2,4"><span class="cy__outDot"></span>Renovation &amp; flips</li>
+        <li class="cy__out" data-stages="1,2"><span class="cy__outDot"></span>New construction</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
@@ -497,21 +500,21 @@
         <h3 class="way__name">Hire us</h3>
         <p class="way__hook">You own the deal. We do the work.</p>
         <p class="way__body">Underwriting, due diligence, transaction coordination, development management, the CRM that keeps your files moving. Priced by the hour, the file or the retainer. You keep every dollar of the upside, because it was your deal.</p>
-        <p class="way__price">From $350 per hour</p>
+        <p class="way__price">Hourly, by the file, or on retainer</p>
       </li>
       <li class="way rv">
         <p class="label way__num">02</p>
         <h3 class="way__name">Bring us a deal</h3>
         <p class="way__hook">You have something on your desk and no idea what it really is.</p>
         <p class="way__body">Send it. We underwrite it against the model it actually fits — split, subdivision, flip, rental, multifamily, hotel, ground-up, entitlement — and come back with assumptions, base case, downside, primary risk and one of three words: proceed, renegotiate, pass. If it is good and you want us to run it, we can.</p>
-        <p class="way__price">48 hours, standard</p>
+        <p class="way__price">48 hours, standard underwrite</p>
       </li>
       <li class="way rv">
         <p class="label way__num">03</p>
         <h3 class="way__name">Invest alongside us</h3>
         <p class="way__hook">You have capital and would rather not learn all of this.</p>
         <p class="way__body">We find it, underwrite it, build it and operate it, and you hold a position in it. Joint ventures across the United States and Latin America. Our money sits in beside yours, and you see the same numbers we see, monthly.</p>
-        <p class="way__price">25–35% of net profit</p>
+        <p class="way__price">A share of net profit, agreed up front</p>
       </li>
     </ol>
     <p class="how__note rv">We underwrite every model we name here. If a deal does not fit one of them, we will say so rather than force it.</p>
@@ -583,12 +586,8 @@
             </div>
             <div class="svc__rates">
               <p class="label" style="margin-bottom:.9rem">Rates</p>
-              <dl>
-              <div class="svc__rate"><dt>Data &amp; lead strategy session</dt><dd>$1,500 one-time</dd></div>
-              <div class="svc__rate"><dt>Quarterly market arbitrage report</dt><dd>$2,500 per quarter</dd></div>
-              <div class="svc__rate"><dt>Automation build (you run it)</dt><dd>From $7,500</dd></div>
-              <div class="svc__rate"><dt>Data pool subscription (we run it)</dt><dd>$950 per month</dd></div>
-              </dl>
+              <p class="svc__rateNote">Quoted per engagement. Scope, asset type and market all move the number, so we price the work in front of us rather than publish a list that goes stale.</p>
+              <a class="svc__rateAsk" href="mailto:hello@pangeaventures.com?subject=Rate%20card">Ask for the current rate card →</a>
             </div>
           </div>
         </div></div>
@@ -612,12 +611,8 @@
             </div>
             <div class="svc__rates">
               <p class="label" style="margin-bottom:.9rem">Rates</p>
-              <dl>
-              <div class="svc__rate"><dt>Tier A · Hourly</dt><dd>$350 per hour</dd></div>
-              <div class="svc__rate"><dt>Tier B · 2 standard + 1 complex</dt><dd>$3,500</dd></div>
-              <div class="svc__rate"><dt>Tier C · 3 standard + 1 complex</dt><dd>$4,200</dd></div>
-              <div class="svc__rate"><dt>Complex or non-standard deals</dt><dd>$550 per hour</dd></div>
-              </dl>
+              <p class="svc__rateNote">Quoted per engagement. Scope, asset type and market all move the number, so we price the work in front of us rather than publish a list that goes stale.</p>
+              <a class="svc__rateAsk" href="mailto:hello@pangeaventures.com?subject=Rate%20card">Ask for the current rate card →</a>
             </div>
           </div>
         </div></div>
@@ -641,10 +636,8 @@
             </div>
             <div class="svc__rates">
               <p class="label" style="margin-bottom:.9rem">Rates</p>
-              <dl>
-              <div class="svc__rate"><dt>Transaction coordination</dt><dd>$495 per file</dd></div>
-              <div class="svc__rate"><dt>CRM implementation</dt><dd>From $3,500</dd></div>
-              </dl>
+              <p class="svc__rateNote">Quoted per engagement. Scope, asset type and market all move the number, so we price the work in front of us rather than publish a list that goes stale.</p>
+              <a class="svc__rateAsk" href="mailto:hello@pangeaventures.com?subject=Rate%20card">Ask for the current rate card →</a>
             </div>
           </div>
         </div></div>
@@ -668,11 +661,8 @@
             </div>
             <div class="svc__rates">
               <p class="label" style="margin-bottom:.9rem">Rates</p>
-              <dl>
-              <div class="svc__rate"><dt>Development and underwriting advisory</dt><dd>$450 per hour</dd></div>
-              <div class="svc__rate"><dt>Consulting retainer</dt><dd>From $3,500 per month</dd></div>
-              <div class="svc__rate"><dt>Pangea-managed projects</dt><dd>25–35% of net profit</dd></div>
-              </dl>
+              <p class="svc__rateNote">Quoted per engagement. Scope, asset type and market all move the number, so we price the work in front of us rather than publish a list that goes stale.</p>
+              <a class="svc__rateAsk" href="mailto:hello@pangeaventures.com?subject=Rate%20card">Ask for the current rate card →</a>
             </div>
           </div>
         </div></div>
@@ -696,10 +686,8 @@
             </div>
             <div class="svc__rates">
               <p class="label" style="margin-bottom:.9rem">Rates</p>
-              <dl>
-              <div class="svc__rate"><dt>Investment advisory</dt><dd>$350 per hour or within a retainer</dd></div>
-              <div class="svc__rate"><dt>Joint-venture projects</dt><dd>25–35% of net profit</dd></div>
-              </dl>
+              <p class="svc__rateNote">Quoted per engagement. Scope, asset type and market all move the number, so we price the work in front of us rather than publish a list that goes stale.</p>
+              <a class="svc__rateAsk" href="mailto:hello@pangeaventures.com?subject=Rate%20card">Ask for the current rate card →</a>
             </div>
           </div>
         </div></div>
@@ -908,7 +896,7 @@
 
 <script src="assets/js/pangea.js" defer></script>
 <script src="assets/js/lifecycle-model.js" defer></script>
-<script src="assets/js/asset-types.js" defer></script>
+<script src="assets/js/cycle.js" defer></script>
 <script type="module" src="assets/js/lifecycle-3d.js"></script>
 </body>
 </html>

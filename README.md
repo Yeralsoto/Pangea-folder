@@ -175,33 +175,20 @@ Deliberately quiet, and all of it off under `prefers-reduced-motion`:
 - Figures count up when they land.
 - Nothing loops, nothing bounces, nothing slides in from the side.
 
-## The asset-type morph
+## The cycle (homepage)
 
-`assets/js/asset-types.js` replaces the nine-item register with one silhouette
-that changes shape for each asset type — parcel, house, block, hotel, row,
-frame.
+`assets/js/cycle.js` draws the five stages as a ring, with a runner travelling
+it continuously so the loop reads as a loop rather than a list. Hover, click
+or tab a stage to hold it; it releases after six seconds and resumes.
 
-Each type is an **explicit outline in viewBox units** — vertical walls
-vertical, roof pitches straight, eaves where eaves go.
+Each asset type is tagged with **every stage it belongs to**, not one:
+you underwrite all nine at Evaluate, build some at Create, run the income ones
+at Operate, and exit nearly all at Optimize. Holding a stage lights only what
+belongs there.
 
-Two shapes can only interpolate if they carry the same number of points, so
-every outline is **resampled to 96 points by inserting extra points along its
-own segments**. Original vertices are never moved, so corners stay exactly
-square at rest.
-
-The first version sampled a height *function* instead. That looks fine in
-theory and is wrong in practice: a step function sampled at fixed x turns
-every vertical wall into a one-sample diagonal, which is why the shapes read
-as soft and badly drawn.
-
-Detail — lot lines, windows, framing — is **clipped to the current
-silhouette**, so nothing can spill into open sky. The clip path is updated
-with the shape on every frame.
-
-It advances on its own every 3.2 seconds, pauses when off screen, and jumps
-on hover, click or keyboard focus. Terracotta marks the active type and its
-description opens. Under `prefers-reduced-motion` it holds still with every
-description open.
+The viewBox is padded to `-78 -30 476 380` because the stage labels sit 46
+units beyond the ring — with `overflow:visible` they painted over the panel
+next to them.
 
 ## The drawings (section 04)
 
