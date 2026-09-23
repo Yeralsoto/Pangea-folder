@@ -797,11 +797,39 @@
     moved = false;
   }
 
+  /* A pinned drawing has to draw when it becomes the live panel — the global
+     sequencer fires on first sight, which for a pinned figure is immediately
+     and invisibly. */
+  function redraw(el) {
+    var svg = el.querySelector('svg[data-draw]');
+    if (!svg) return;
+    var lines = Array.prototype.slice.call(svg.querySelectorAll('.dl'));
+    lines.forEach(function (l) {
+      var len = 0;
+      try { len = l.getTotalLength(); } catch (e) {}
+      if (!len) return;
+      l.style.transition = 'none';
+      l.style.strokeDasharray = len;
+      l.style.strokeDashoffset = len;
+      l.dataset.len = len;
+    });
+    svg.classList.remove('is-drawn');
+    void svg.getBoundingClientRect();
+    lines.sort(function (a, b) { return (+a.dataset.len || 0) - (+b.dataset.len || 0); });
+    lines.forEach(function (l, k) {
+      l.style.transition = 'stroke-dashoffset 820ms cubic-bezier(.22,.61,.36,1) ' +
+                           (k * 55) + 'ms';
+      l.style.strokeDashoffset = '0';
+    });
+    setTimeout(function () { svg.classList.add('is-drawn'); }, 360 + lines.length * 55);
+  }
+
   var current = -1;
   function show(i) {
     if (i === current) return;
     current = i;
     items.forEach(function (it, k) { it.el.classList.toggle('is-live', k === i); });
+    if (items[i]) redraw(items[i].el);
   }
 
   function track() {

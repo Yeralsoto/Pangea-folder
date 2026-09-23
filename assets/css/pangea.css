@@ -1349,3 +1349,14 @@ body.menu-open{ overflow:hidden; }
   .art__cta{ grid-column:2; grid-row:3; }
   .art__back{ grid-column:2; grid-row:4; }
 }
+
+/* Drawn branch diagram: a source, what peels off it, what is left. */
+.dwg--branch{ width:100%; height:auto; display:block; }
+.dwg--branch .dl{ stroke:var(--forest); stroke-width:1.1; fill:none;
+  vector-effect:non-scaling-stroke; }
+.dwg--branch .dl--res{ stroke:var(--terracotta); stroke-width:1.5; }
+.dwg--branch .tip{ fill:var(--stone); stroke:none; }
+.dwg--branch .dt{ font-family:var(--text); font-size:10px; font-weight:500;
+  letter-spacing:.06em; fill:var(--umber); text-transform:none; }
+.dwg--branch .dt--lg{ font-size:12px; letter-spacing:.14em; fill:var(--forest); }
+.dwg--branch .dt--sig{ fill:var(--clay); }

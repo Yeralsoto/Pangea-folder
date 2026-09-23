@@ -169,6 +169,44 @@ def ul(items):   return '<ul class="art__list">%s</ul>' % "".join('<li>%s</li>' 
 
 
 
+
+def branch(caption, source, takes, result):
+    """A drawn diagram: where a number starts, what peels off it, what is left.
+
+    Emitted as .dwg/.dl line work so it draws itself when the panel goes live.
+    """
+    W, H = 300, 90 + len(takes) * 46 + 80
+    spine_x = 52
+    top_y, bot_y = 64, H - 62
+    parts = []
+
+    # the source block
+    parts.append('<path class="dl" d="M18 18 H200 V46 H18 Z"/>')
+    parts.append('<text class="dt dt--lg" x="30" y="37">%s</text>' % source)
+    parts.append('<path class="dl" d="M%d 46 V%d"/>' % (spine_x, top_y))
+
+    # each deduction peels to the right
+    for i, (label, amt) in enumerate(takes):
+        y = top_y + i * 46
+        parts.append('<path class="dl" d="M%d %d C %d %d, %d %d, %d %d"/>'
+                     % (spine_x, y, spine_x, y + 22, spine_x + 42, y + 10, spine_x + 96, y + 26))
+        parts.append('<circle class="df tip" cx="%d" cy="%d" r="3"/>' % (spine_x + 96, y + 26))
+        parts.append('<text class="dt" x="%d" y="%d">%s</text>' % (spine_x + 106, y + 29, label))
+        if amt:
+            parts.append('<text class="dt dt--sig" x="%d" y="%d" text-anchor="end">%s</text>'
+                         % (W - 12, y + 29, amt))
+
+    # the spine continues to what is left
+    parts.append('<path class="dl" d="M%d %d V%d"/>' % (spine_x, top_y, bot_y))
+    parts.append('<path class="dl dl--res" d="M18 %d H200 V%d H18 Z"' % (bot_y, bot_y + 30) + '/>')
+    parts.append('<text class="dt dt--lg dt--sig" x="30" y="%d">%s</text>' % (bot_y + 20, result))
+
+    return ('<figure class="art__fig dgm" data-dgm>'
+            '<svg class="dwg dwg--branch" viewBox="0 0 %d %d" data-draw aria-hidden="true">'
+            '<g class="dstep" data-step="0">%s</g></svg>'
+            '<figcaption class="art__figcap">%s</figcaption></figure>'
+            % (W, H, "".join(parts), caption))
+
 def board(caption, up, down):
     """Two columns: markets pulling away, markets giving back."""
     def col(title, rows, tone):
@@ -251,9 +289,12 @@ ARTICLES = [
  "body": [
    p("Costa Rica is sold to foreign buyers on yield. The number quoted is almost always "
      "gross, and gross is a description of the rent, not of what you keep."),
-   bars("Residential yield in San José, 2026. The distance between the two is management, "
-        "maintenance, vacancy, HOA and tax.",
-        [("Gross yield", 7.5, False), ("Net yield", 5.5, True)], unit="%"),
+   branch("Residential yield in San José, 2026. Gross is the rent. Net is what reaches "
+          "an owner eight hours away.",
+     "GROSS 7.5%",
+     [("Management", "−0.7"), ("Maintenance", "−0.5"), ("Vacancy", "−0.4"),
+      ("HOA", "−0.3"), ("Municipal tax", "−0.1")],
+     "NET 5.5%"),
    p("National gross sits around 7.63% in Q2 2026 and San José around 7.5%, with most "
      "landlords between 6% and 9% depending on the neighbourhood. Net lands around 5.5%, "
      "and most standard investment properties deliver 4% to 6.5% once recurring costs are "
@@ -337,6 +378,12 @@ ARTICLES = [
       ("06", "Flow-through",
        "Of each extra dollar of revenue, how much reached GOP. Below about 40% on incremental "
        "revenue, the operation is leaking.")]),
+   branch("Where room revenue goes before it becomes gross operating profit. The "
+          "proportions vary; the order does not.",
+     "TOTAL REVENUE",
+     [("Rooms cost", "variable"), ("Channel commission", "15–20%"),
+      ("Undistributed", "fixed"), ("Utilities", "fixed"), ("Maintenance", "deferred?")],
+     "GOP"),
    pull("Occupancy is a vanity metric with a hospitality degree. GOPPAR is the job."),
    h2("The costs that move and the costs that do not"),
    p("Rooms cost is largely variable — housekeeping, linen, amenities, commissions. "
