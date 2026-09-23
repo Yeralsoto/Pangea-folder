@@ -719,3 +719,23 @@
     if (e.key === 'Escape') closeAll(null);
   });
 })();
+
+/* Diagrams assemble when you reach them. */
+(function () {
+  'use strict';
+  var els = Array.prototype.slice.call(document.querySelectorAll('[data-dgm]'));
+  if (!els.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      !('IntersectionObserver' in window)) {
+    els.forEach(function (e) { e.classList.add('is-on'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('is-on');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.25 });
+  els.forEach(function (e) { io.observe(e); });
+})();

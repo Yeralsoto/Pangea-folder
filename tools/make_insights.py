@@ -18,7 +18,7 @@ HEAD = '''<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{title} — Pangea Insights</title>
+<title>{title} — Pangea Field Notes</title>
 <meta name="description" content="{dek}">
 <meta name="theme-color" content="#27372D">
 <link rel="icon" href="../assets/logos/pangea-avatar.svg" type="image/svg+xml">
@@ -36,7 +36,7 @@ HEAD = '''<!doctype html>
       <img class="nav__word" src="../assets/logos/pangea-wordmark-only-bone.svg" alt="Pangea Ventures International">
     </a>
     <nav class="nav__links" aria-label="Primary">
-      <a href="index.html">Insights</a>
+      <a href="index.html">Field Notes</a>
       <a href="../index.html#how">How it works</a>
       <a href="../index.html#contact">Contact</a>
     </nav>
@@ -164,6 +164,45 @@ def note(t):     return '<p class="art__note">%s</p>' % t
 def ul(items):   return '<ul class="art__list">%s</ul>' % "".join('<li>%s</li>' % i for i in items)
 
 
+
+def steps(caption, items):
+    """A process broken down. Each step lands in turn as you reach it."""
+    out = []
+    for i, (n, t, d) in enumerate(items):
+        out.append(
+          '<li class="stp" style="--i:%d">'
+          '<span class="stp__n">%s</span>'
+          '<span class="stp__b"><span class="stp__t">%s</span>'
+          '<span class="stp__d">%s</span></span></li>' % (i, n, t, d))
+    return ('<figure class="art__fig dgm" data-dgm>'
+            '<ol class="stps">%s</ol>'
+            '<figcaption class="art__figcap">%s</figcaption></figure>'
+            % ("".join(out), caption))
+
+
+def flow(caption, nodes, signal=None):
+    """A left-to-right chain. The named node is the one that matters."""
+    out = []
+    for i, n in enumerate(nodes):
+        sig = ' flw__n--sig' if n == signal else ''
+        out.append('<span class="flw__n%s" style="--i:%d">%s</span>' % (sig, i, n))
+        if i < len(nodes) - 1:
+            out.append('<span class="flw__a" style="--i:%d" aria-hidden="true">&rarr;</span>' % i)
+    return ('<figure class="art__fig dgm" data-dgm>'
+            '<div class="flw">%s</div>'
+            '<figcaption class="art__figcap">%s</figcaption></figure>'
+            % ("".join(out), caption))
+
+
+def keys(items):
+    """Figures pulled out of the prose for a scanner."""
+    out = "".join(
+      '<div class="keyf%s" style="--i:%d"><span class="keyf__n">%s</span>'
+      '<span class="keyf__t">%s</span></div>'
+      % (' keyf--sig' if sig else '', i, n, t)
+      for i, (n, t, sig) in enumerate(items))
+    return '<div class="keys dgm" data-dgm>%s</div>' % out
+
 def bars(caption, rows, unit=""):
     """Honest two-or-three value comparison. Only values we actually have."""
     top = max(r[1] for r in rows)
@@ -176,13 +215,89 @@ def bars(caption, rows, unit=""):
           '<span class="bar__track"><span class="bar__fill%s" style="--w:%.1f%%"></span></span>'
           '<span class="bar__v">%s%s</span></div>'
           % (i, label, ' bar__fill--sig' if tone else '', w, val, unit))
-    return ('<figure class="art__fig"><div class="bars" data-bars>%s</div>'
+    return ('<figure class="art__fig dgm" data-dgm><div class="bars" data-bars>%s</div>'
             '<figcaption class="art__figcap">%s</figcaption></figure>'
             % ("".join(out), caption))
 
 
 # --------------------------------------------------------------------------
 ARTICLES = [
+{
+ "slug": "reading-a-renovation-bid",
+ "tone": "forest", "motif": "gantt",
+ "kicker": "Worked example · Houston, Texas",
+ "title": "Three bids, forty thousand dollars apart, for the same house.",
+ "dek": "How we read a renovation estimate, what the spread actually means, "
+        "and the line items where the money quietly leaves.",
+ "date": "September 2026",
+ "read": "9 min",
+ "body": [
+   note("A worked example, not a client file. The house, the bids and the numbers "
+        "are illustrative and chosen because they are typical of the corridor."),
+   p("A 1960s ranch inside the Beltway. Twenty-two hundred square feet, original kitchen, "
+     "one bathroom down to the studs already, a roof with maybe three years left. The plan "
+     "is a full cosmetic renovation plus a bathroom addition, then a sale."),
+   p("Three general contractors walk it. The bids come back at $118,000, $142,000 and "
+     "$157,000. Most people take the middle one because the low one feels risky and the "
+     "high one feels greedy. That is not reading a bid. That is picking one."),
+   h2("The spread is information, not noise"),
+   p("A forty-thousand-dollar spread on the same scope means the three contractors are not "
+     "pricing the same job. Before comparing a single number, we make them comparable."),
+   steps("How we get three bids onto the same basis.",
+     [("01", "Normalise the scope",
+       "One schedule of work, line by line, in the same order for all three. Anything a "
+       "bidder excluded gets added back at someone else's price so every total covers the "
+       "same house."),
+      ("02", "Separate allowances from quotes",
+       "An allowance is a guess with a number on it. Tile at $4/sq ft, appliances at "
+       "$6,000, fixtures at $2,400 — those are placeholders, and they are where a low bid "
+       "gets its low."),
+      ("03", "Price the exclusions",
+       "Permits, dumpsters, portable toilet, temporary power, final clean. Cheap "
+       "individually, four to seven thousand together, and routinely left off."),
+      ("04", "Test the schedule against the carry",
+       "Twelve weeks and twenty weeks are different deals. At a typical hard-money rate "
+       "the extra two months can cost more than the gap between two of the bids."),
+      ("05", "Check the contingency is real",
+       "On a sixty-year-old house, ten per cent is optimistic. We budget fifteen and hope "
+       "to hand it back."),
+      ("06", "Read the payment schedule",
+       "Front-loaded draws transfer risk to you. We want draws that trail completed work, "
+       "with a retainage that survives to the punch list.")]),
+   pull("A low bid is not a cheaper house. It is usually the same house with fewer things "
+        "written down."),
+   h2("Where the money actually leaves"),
+   p("Once the three are on one basis, the $118,000 bid became $139,000 — allowances at "
+     "realistic numbers, permits added, and a twenty-week schedule instead of twelve. The "
+     "$157,000 bid became $151,000, because it already included the things the others left "
+     "out. The real spread was twelve thousand, not forty."),
+   keys([("$139k", "Low bid, normalised", False),
+         ("$151k", "High bid, normalised", False),
+         ("$12k", "The actual spread", True)]),
+   p("That is a decision you can make. Forty thousand is not — it is three documents "
+     "describing three different projects."),
+   h2("What we do on a renovation, in practice"),
+   ul(["Walk the scope and write it once, so every bidder prices the same thing.",
+       "Solicit and level the bids, including the exclusions nobody mentions.",
+       "Select the contractor on schedule certainty and crew availability, not price alone.",
+       "Hold the draw schedule, inspect before releasing, keep retainage.",
+       "Weekly reporting: where we are, what is next, what it costs.",
+       "Change orders priced and approved before the work, not discovered on the invoice."]),
+   flow("A change order that follows this path costs what it says. One that skips a step "
+        "arrives as a surprise on a draw request.",
+     ["Issue found", "Priced", "Approved", "Scheduled", "Built", "Inspected", "Drawn"],
+     signal="Approved"),
+   h2("The same discipline scales"),
+   p("Nothing above is specific to a cosmetic renovation. A ground-up build has the same "
+     "structure with more line items and a longer schedule: normalise the scope, separate "
+     "allowance from quote, price the exclusions, test the programme against the carry, "
+     "and hold the draws against completed work."),
+   note("If you have bids on your desk and cannot tell whether they describe the same job, "
+        "send them. Levelling three bids is a couple of hours of work and it is the "
+        "cheapest hours in the project."),
+ ],
+ "sources": [],
+},
 {
  "slug": "the-quiet-turn-in-multifamily",
  "tone": "forest", "motif": "stack",
@@ -637,14 +752,16 @@ def render_article(a):
                '<ol class="art__srclist">%s</ol></section>' % items)
     return (HEAD.format(title=a["title"], dek=a["dek"], site=SITE) + '''
 <article class="art">
+  <header class="ah">
+      <div class="ah__rail" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="ah__inner">
+        <p class="label ah__kicker rv">%s</p>
+        <h1 class="ah__title rv" data-mask style="--rv-delay:60ms">%s</h1>
+        <p class="ah__dek rv" style="--rv-delay:140ms">%s</p>
+        <p class="ah__meta rv" style="--rv-delay:200ms">%s · %s read</p>
+      </div>
+  </header>
   <div class="wrap art__wrap">
-    <div class="arthead arthead--%s rv">%s</div>
-    <header class="art__head">
-      <p class="label art__kicker rv">%s</p>
-      <h1 class="art__title rv" style="--rv-delay:70ms">%s</h1>
-      <p class="art__dek rv" style="--rv-delay:140ms">%s</p>
-      <p class="art__meta rv" style="--rv-delay:200ms">%s · %s read</p>
-    </header>
     <div class="art__body">
       %s
     </div>
@@ -654,11 +771,10 @@ def render_article(a):
       <p>Send it. We will underwrite it against the model it actually fits and come back inside 48 hours with a recommendation: proceed, renegotiate or pass.</p>
       <a class="btn btn--signal" href="mailto:hello@pangeaventures.com?subject=A%%20deal%%20to%%20underwrite">Send us the deal</a>
     </aside>
-    <p class="art__back"><a href="index.html">← All insights</a></p>
+    <p class="art__back"><a href="index.html">← All field notes</a></p>
   </div>
 </article>
-''' % (a["tone"], motif(a["motif"]), a["kicker"], a["title"], a["dek"],
-            a["date"], a["read"], body, src)
+''' % (a["kicker"], a["title"], a["dek"], a["date"], a["read"], body, src)
             + FOOT.format(site=SITE))
 
 
@@ -676,13 +792,13 @@ def render_index(arts):
       </li>''' % (a["slug"], a["tone"], motif(a["motif"]), a["kicker"], a["title"],
                  a["dek"], a["date"], a["read"])
       for a in arts)
-    return (HEAD.format(title="Insights", site=SITE,
+    return (HEAD.format(title="Field Notes", site=SITE,
             dek="Field notes on land, construction, hospitality and rental assets "
                 "across the United States and Latin America.")
       + '''
 <section class="section art-index">
   <div class="wrap">
-    <div class="sec-head rv"><p class="label">Insights</p></div>
+    <div class="sec-head rv"><p class="label">Field Notes</p></div>
     <h1 class="rv" style="font-size:var(--d-1);max-width:16ch;margin-bottom:1rem">Field notes, with the working shown.</h1>
     <p class="lede measure rv" style="margin-bottom:clamp(2.5rem,6vh,4rem)">What we are reading in the markets we work in, and the mistakes we watch people make in each of them. Every figure is sourced. Where we are guessing, we say so.</p>
     <ol class="inslist">

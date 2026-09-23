@@ -973,116 +973,6 @@ section[id], [id^="var-"]{ scroll-margin-top:6.5rem; }
   .sec-head::after{ transform:scaleX(1) !important; transition:none !important; }
 }
 
-/* ---------- 24. Article header bands ---------- */
-.arthead{ position:relative; border-radius:var(--r-md); overflow:hidden; margin-bottom:clamp(2rem,5vh,3rem); }
-/* Every block image sits on the same ground as every other Forest surface.
-   Variety comes from the drawing, not from swapping the background. */
-.arthead--forest,
-.arthead--umber,
-.arthead--linen{ background:var(--forest); }
-.arthead svg{ display:block; width:100%; height:auto; }
-.arthead .dl{ stroke:var(--sand); }
-.arthead .df{ fill:color-mix(in srgb,var(--sand) 72%,transparent); stroke:none; }
-/* The signalled cells read as empty stock, not as a block of colour —
-   truer to the meaning and far lighter on the accent. */
-.arthead .df.sig{ fill:none; stroke:var(--terracotta); stroke-width:1.6;
-  vector-effect:non-scaling-stroke; }
-
-/* ---------- 25. The opening ---------- */
-/* Forest fills the screen, the mark draws itself, the wordmark and the line
-   follow, then the whole thing lifts to reveal the hero. Once per session. */
-.intro{
-  position:fixed; inset:0; z-index:200; background:var(--forest);
-  display:grid; place-items:center;
-  transition:opacity .7s var(--ease), transform .9s cubic-bezier(.66,0,.2,1);
-}
-.intro[hidden]{ display:none !important; }
-.intro__inner{ display:grid; justify-items:center; gap:1.25rem; padding:var(--gutter); }
-
-.intro__mark{
-  width:clamp(74px, 11vw, 132px); height:auto;
-  opacity:0; transform:translateY(14px) scale(.94);
-  transition:opacity .8s var(--ease), transform 1.1s cubic-bezier(.19,.86,.28,1);
-}
-.intro__mark path:nth-of-type(1){ fill:var(--sand) !important; }
-.intro__mark path:nth-of-type(2){ fill:var(--bone) !important; }
-
-.intro__word{
-  width:clamp(168px, 26vw, 300px); height:auto;
-  opacity:0; transform:translateY(12px);
-  transition:opacity .8s var(--ease) .38s, transform .9s var(--ease) .38s;
-}
-.intro__line{
-  font-family:var(--display); font-weight:300;
-  font-size:clamp(.95rem, .85rem + .5vw, 1.3rem);
-  color:color-mix(in srgb, var(--sand) 90%, transparent);
-  letter-spacing:.01em; text-align:center;
-  opacity:0; transform:translateY(10px);
-  transition:opacity .8s var(--ease) .72s, transform .8s var(--ease) .72s;
-}
-
-.intro.is-in .intro__mark,
-.intro.is-in .intro__word,
-.intro.is-in .intro__line{ opacity:1; transform:none; }
-
-.intro.is-out{ opacity:0; transform:translateY(-3%); pointer-events:none; }
-
-/* Hold the hero still underneath until the curtain lifts. */
-html.intro-locked, html.intro-locked body{ overflow:hidden; }
-
-@media (prefers-reduced-motion: reduce){
-  .intro{ display:none !important; }
-}
-
-/* ---------- 26. The reading experience ---------- */
-/* Long text should arrive, not confront. Each block lifts in as it enters,
-   a rail on the left shows where you are, and the numbers pull out of the
-   prose so a scanner still gets the argument. */
-
-@media (min-width:72rem){
-  .art__wrap{ max-width:64rem; display:grid; grid-template-columns:13rem 1fr; gap:4rem; }
-  .art__head, .art__body, .art__sources, .art__cta, .art__back, .arthead{ grid-column:2; }
-  .toc{ grid-column:1; grid-row:2 / span 5; position:sticky; top:8rem; align-self:start; }
-}
-.toc{ display:none; }
-@media (min-width:72rem){ .toc{ display:block; } }
-.toc__label{ margin-bottom:1rem; }
-.toc__list{ list-style:none; margin:0; padding:0; border-left:1px solid color-mix(in srgb,var(--forest) 14%, transparent); }
-.toc__list a{
-  display:block; padding:.5rem 0 .5rem 1rem; margin-left:-1px;
-  border-left:2px solid transparent;
-  font-size:var(--t14); line-height:1.35; color:var(--stone);
-  text-decoration:none; transition:color .3s var(--ease), border-color .3s var(--ease);
-}
-.toc__list a:hover{ color:var(--forest); }
-.toc__list a.is-here{ color:var(--forest); border-left-color:var(--terracotta); }
-
-/* blocks arrive */
-.ar{ opacity:0; transform:translateY(18px); }
-.ar.is-in{ opacity:1; transform:none;
-  transition:opacity .8s var(--ease), transform .8s var(--ease); }
-
-.art__pull.ar{ transform:translateY(18px) scale(.985); }
-.art__pull.ar.is-in{ transform:none; }
-
-/* a key-figure strip, pulled out of the prose */
-.keys{
-  display:grid; gap:1px; margin:clamp(2rem,5vh,3rem) 0;
-  background:color-mix(in srgb,var(--forest) 12%, transparent);
-  border-block:1px solid color-mix(in srgb,var(--forest) 12%, transparent);
-}
-@media (min-width:40rem){ .keys{ grid-template-columns:repeat(3,1fr); } }
-.keyf{ background:var(--bone); padding:1.25rem 1.35rem; }
-.keyf__n{ font-family:var(--text); font-weight:500; font-size:var(--t31);
-  color:var(--forest); letter-spacing:-0.02em; font-variant-numeric:tabular-nums; line-height:1; }
-.keyf--sig .keyf__n{ color:var(--clay); }
-.keyf__t{ margin-top:.5rem; font-size:var(--t12); letter-spacing:.1em;
-  text-transform:uppercase; color:var(--stone); line-height:1.45; }
-
-@media (prefers-reduced-motion: reduce){
-  .ar{ opacity:1 !important; transform:none !important; }
-}
-
 /* ---------- 27. Full-screen menu ---------- */
 .nav__menu{
   display:inline-flex; align-items:center; gap:.6rem; cursor:pointer;
@@ -1294,4 +1184,82 @@ body.menu-open{ overflow:hidden; }
 
 @media (prefers-reduced-motion: reduce){
   .cy__arc, .cy__dot, .cy__out, .cy__label{ transition:none; }
+}
+
+/* ---------- 31. Field Note header ---------- */
+/* A Forest block with a rail of brand squares. No decorative band: the
+   drawings belong inside the argument, where they explain something. */
+.ah{
+  position:relative; background:var(--forest); color:var(--bone);
+  padding:clamp(3.5rem,9vh,6rem) 0 clamp(3rem,7vh,4.5rem);
+  overflow:hidden;
+}
+.ah__inner{
+  max-width:var(--max); margin-inline:auto; padding-inline:var(--gutter);
+  max-width:min(var(--max), 62rem);
+}
+.ah__rail{
+  position:absolute; top:0; bottom:0; left:0; width:clamp(10px,2.2vw,22px);
+  display:grid; grid-auto-rows:1fr;
+}
+.ah__rail i{ display:block; }
+.ah__rail i:nth-child(1){ background:var(--terracotta); }
+.ah__rail i:nth-child(2){ background:var(--umber); }
+.ah__rail i:nth-child(3){ background:var(--sand); }
+.ah__rail i:nth-child(4){ background:color-mix(in srgb,var(--bone) 55%, var(--forest)); }
+.ah__rail i:nth-child(5){ background:var(--gold); }
+
+.ah__kicker{ color:var(--sand); margin-bottom:1.25rem; }
+.ah__title{
+  font-family:var(--display); font-weight:300; font-size:var(--d-1);
+  line-height:1.05; letter-spacing:-0.025em; color:var(--bone);
+  max-width:20ch; margin-bottom:1.25rem;
+}
+.ah__dek{ font-size:var(--t20); line-height:1.5; max-width:44ch;
+  color:color-mix(in srgb,var(--bone) 82%, var(--forest)); }
+.ah__meta{ margin-top:1.75rem; padding-top:1rem;
+  border-top:1px solid color-mix(in srgb,var(--sand) 26%, transparent);
+  font-size:var(--t12); letter-spacing:.14em; text-transform:uppercase;
+  color:var(--sand); }
+
+/* The Forest header runs flush to the banner; the reading column carries its
+   own top space. */
+.art{ padding-block:0 clamp(4rem,9vh,7rem); }
+.art__wrap{ padding-top:clamp(2.5rem,7vh,4.5rem); }
+@media (min-width:72rem){ .toc{ top:6.5rem; } }
+
+/* ---------- 32. Chunked diagrams ---------- */
+/* Every diagram assembles when you reach it, piece by piece, so the argument
+   is told in parts rather than dropped in finished. */
+.dgm .stp, .dgm .flw__n, .dgm .flw__a, .dgm .keyf, .dgm .bar{
+  opacity:0; transform:translateY(10px);
+}
+.dgm.is-on .stp, .dgm.is-on .flw__n, .dgm.is-on .flw__a,
+.dgm.is-on .keyf, .dgm.is-on .bar{
+  opacity:1; transform:none;
+  transition:opacity .55s var(--ease), transform .55s var(--ease);
+  transition-delay:calc(var(--i,0) * 110ms);
+}
+
+.stps{ list-style:none; margin:0; padding:0; display:grid; gap:1px;
+  background:color-mix(in srgb,var(--forest) 12%, transparent);
+  border-block:1px solid color-mix(in srgb,var(--forest) 12%, transparent); }
+.stp{ display:grid; grid-template-columns:3rem 1fr; gap:1rem;
+  background:var(--bone); padding:1.1rem 1.1rem 1.1rem 0; align-items:baseline; }
+.stp__n{ font-family:var(--text); font-size:var(--t12); font-weight:500;
+  letter-spacing:.12em; color:var(--clay); text-align:right; }
+.stp__t{ display:block; font-family:var(--display); font-weight:300;
+  font-size:var(--t20); line-height:1.25; color:var(--forest); }
+.stp__d{ display:block; margin-top:.3rem; font-size:var(--t14); line-height:1.55;
+  color:var(--umber); max-width:52ch; }
+
+.flw{ display:flex; flex-wrap:wrap; align-items:center; gap:.6rem .7rem; }
+.flw__n{ display:inline-block; padding:.5rem .85rem; border-radius:var(--r-sm);
+  background:var(--linen); font-size:var(--t14); color:var(--forest); }
+.flw__n--sig{ background:var(--terracotta); color:#fff; font-weight:500; }
+.flw__a{ color:var(--stone); font-size:var(--t14); }
+
+@media (prefers-reduced-motion: reduce){
+  .dgm .stp, .dgm .flw__n, .dgm .flw__a, .dgm .keyf, .dgm .bar{
+    opacity:1 !important; transform:none !important; }
 }

@@ -343,7 +343,7 @@ If either brand moves, re-check this section first.
 - Full keyboard support on the menu, the services accordion and the symbol
   anatomy. With JavaScript off, every word on the page is present and visible.
 
-## Insights library
+## Field Notes library
 
 `tools/make_insights.py` is the single source. Every article page, the
 `insights/` index and the homepage band are written from one `ARTICLES` list,
