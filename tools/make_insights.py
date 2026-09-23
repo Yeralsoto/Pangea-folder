@@ -102,6 +102,44 @@ def motif(kind):
             body += ('<rect class="df%s" x="%d" y="%d" width="56" height="%d"/>'
                      % (" sig" if i == 3 else "", x, 176 - h, h))
         body += '<path class="dl" d="M28 176 L672 176"/>'
+    elif kind == "stack":
+        body = '<path class="dl" d="M32 34 L668 34"/>'
+        for r in range(4):
+            y = 44 + r * 38
+            for c in range(9):
+                x = 46 + c * 68
+                empty = (r == 0 and c in (3, 7))
+                body += ('<rect class="df%s" x="%d" y="%d" width="54" height="26"/>'
+                         % (" sig" if empty else "", x, y))
+            body += '<path class="dl" d="M32 %d L668 %d"/>' % (y + 32, y + 32)
+    elif kind == "keys":
+        body = '<path class="dl" d="M28 60 L672 60"/><path class="dl" d="M28 186 L672 186"/>'
+        for i in range(14):
+            x = 40 + i * 46
+            h = 34 + (i % 3) * 16
+            body += ('<rect class="df%s" x="%d" y="%d" width="34" height="%d"/>'
+                     % (" sig" if i in (4, 9) else "", x, 178 - h, h))
+    elif kind == "gantt":
+        body = '<path class="dl" d="M32 34 L32 194"/>'
+        for i, (x0, w) in enumerate([(60, 200), (150, 240), (280, 190), (360, 230), (470, 170)]):
+            y = 48 + i * 30
+            body += '<path class="dl" d="M32 %d L668 %d"/>' % (y + 22, y + 22)
+            body += ('<rect class="df%s" x="%d" y="%d" width="%d" height="15"/>'
+                     % (" sig" if i == 4 else "", x0, y, w))
+    elif kind == "waterfall":
+        body = '<path class="dl" d="M28 52 L672 52"/><path class="dl" d="M28 182 L672 182"/>'
+        for i, h in [(0, 118), (1, 96), (2, 80), (3, 60), (4, 96)]:
+            x = 70 + i * 118
+            body += ('<rect class="df%s" x="%d" y="%d" width="82" height="%d"/>'
+                     % (" sig" if i == 4 else "", x, 174 - h, h))
+    elif kind == "doors":
+        body = '<path class="dl" d="M28 196 L672 196"/>'
+        for i in range(8):
+            x = 44 + i * 80
+            body += ('<path class="dl" d="M%d 196 L%d 76 L%d 52 L%d 76 L%d 196"/>'
+                     % (x, x, x + 32, x + 64, x + 64))
+            body += ('<rect class="df%s" x="%d" y="120" width="28" height="34"/>'
+                     % (" sig" if i in (2, 6) else "", x + 18))
     else:
         body = '<path class="dl" d="M40 52 L660 44 L664 148 L44 156 Z"/>'
         for i in range(1, 4):
@@ -144,6 +182,269 @@ def bars(caption, rows, unit=""):
 
 # --------------------------------------------------------------------------
 ARTICLES = [
+{
+ "slug": "the-quiet-turn-in-multifamily",
+ "tone": "forest", "motif": "stack",
+ "kicker": "United States · Multifamily",
+ "title": "For the first time since 2022, more apartments were absorbed than built.",
+ "dek": "Supply has been the whole story in multifamily for three years. That "
+        "story just ended, and most underwriting has not caught up.",
+ "date": "September 2026",
+ "read": "6 min",
+ "body": [
+   p("Every multifamily pro forma written between 2023 and 2025 had the same weak point: "
+     "a lease-up assumption made in a market being flooded with new units. Concessions ate "
+     "the first year. Rent growth arrived late or not at all."),
+   p("That pressure is lifting, and the crossover is measurable."),
+   bars("Trailing four quarters to Q2 2026, US multifamily, thousands of units. Absorption "
+        "exceeded deliveries for the first time since early 2022.",
+        [("Absorbed", 362, False), ("Delivered", 358, True)], unit="k"),
+   p("Net absorption was 167,500 units in Q2 2026 alone, nearly double the 84,300 of Q1. "
+     "Deliveries fell to 77,700, down 14% year over year, and 2026 completions are projected "
+     "to fall 28% to about 382,000 units. Vacancy came down to 4.3%, below the long-run "
+     "average of roughly 5%."),
+   h2("Why the rent number looks disappointing anyway"),
+   p("Average asking rent reached $2,257 in Q2 2026 — up only 0.5% year over year, but 1.5% "
+     "on the quarter. That gap is the whole point. The annual figure is still carrying the "
+     "damage of the supply wave; the quarterly figure is what the market is doing now."),
+   pull("Year-over-year rent tells you where the market has been. Quarter-over-quarter tells "
+        "you where it is."),
+   p("Regional leaders are not where the last cycle's money went. The Midwest led at about 2% "
+     "annual rent growth, then the Northeast at 1.7% and the Pacific at 1.4% — the markets "
+     "that never got a supply wave in the first place."),
+   h2("What we would actually check"),
+   ul(["The submarket delivery pipeline for the next eight quarters, not the metro one. "
+       "Metro-level easing means nothing if four hundred units are opening a mile away.",
+       "Concessions still embedded in the comps. A quoted rent with two months free is not "
+       "that rent, and it will not renew at that rent.",
+       "Whether your lease-up assumption was written during the flood and never revisited.",
+       "Operating expenses, especially insurance and taxes, which did not ease at all while "
+       "rents were flat."]),
+   note("A market turning is not the same as a market that has turned. Absorption beat "
+        "deliveries by about four thousand units out of 360,000 — a rounding error that "
+        "happens to point the right way."),
+ ],
+ "sources": [
+   ("CBRE — US multifamily fundamentals improve in Q2 2026 as demand outpaces new supply",
+    "https://www.cbre.com/press-releases/us-multifamily-fundamentals-improve-q2-2026-demand-outpaces-new-supply"),
+   ("CBRE — Q1 2026 US multifamily figures",
+    "https://www.cbre.com/insights/figures/q1-2026-us-multifamily-figures"),
+   ("Apartments.com — The supply slowdown: 2026 outlook for development and vacancy",
+    "https://www.apartments.com/grow/learning-center/supply-vacancy-outlook-2026"),
+   ("Greystone — Key multifamily takeaways for Q2 2026",
+    "https://www.greystone.com/insights/key-multifamily-takeaways-for-q2-2026/"),
+ ],
+},
+{
+ "slug": "regulation-is-the-first-screen",
+ "tone": "forest", "motif": "doors",
+ "kicker": "Short-term rentals · Operations",
+ "title": "A short-term rental that cannot get a permit is worth nothing, however well it pencils.",
+ "dek": "Nightly rate is the last thing to check, not the first. New York removed "
+        "roughly 83% of its short-term listings with a single law.",
+ "date": "September 2026",
+ "read": "7 min",
+ "body": [
+   p("People bring us short-term rental deals with the revenue projection on page one. "
+     "Occupancy, average daily rate, a seasonality curve, a number at the bottom. It is "
+     "almost always the wrong page to start on."),
+   p("Start with whether the city will let you operate at all."),
+   pull("New York's Local Law 18 cut short-term listings by roughly 83% in its first year. "
+        "Long-term listings rose about 29%. Nothing about the buildings changed."),
+   p("Every one of those owners had a working model the week before. The model was never the "
+     "risk. The permit was."),
+   h2("The market underneath is actually steady"),
+   p("Once you are past the regulatory screen, 2026 is a reasonable year to be operating. "
+     "AirDNA forecasts average occupancy of 57.4%, slightly above the pre-pandemic 57.0%, with "
+     "demand and available listings both growing about 2.7% and RevPAR up 2.9% on stronger "
+     "nightly rates."),
+   bars("US short-term rental listing growth. Supply discipline is what is holding occupancy "
+        "up, not a demand surge.",
+        [("2021–22 peak", 20.0, True), ("2026 forecast", 4.6, False)], unit="%"),
+   p("Listing growth of 4.6% against a peak near 20% is the whole reason rates are holding. "
+     "Mortgage rates back above 6% delayed the new supply that lower borrowing costs were "
+     "expected to bring, which is good news if you already own and a harder entry if you do not."),
+   p("Rate growth accelerated through the year, from 0.7% year over year in January to roughly "
+     "3% by spring. The strongest RevPAR moves were in supply-constrained cities — San Francisco "
+     "+12.1%, Anaheim +11.0%, Philadelphia +10.1% — while the fastest supply growth is expected "
+     "in small-city, rural and mid-size markets. Those two facts belong in the same sentence: "
+     "where supply can arrive, it will."),
+   h2("What we would actually check"),
+   ul(["The ordinance, in full, before the LOI. Permit caps, primary-residence requirements, "
+       "minimum-night rules, whether permits transfer on sale.",
+       "Whether the state preempts local bans, which can make a dull market the safer one.",
+       "Pending legislation, not just current law. A deal underwritten on today's rules and "
+       "closed under tomorrow's is not a deal.",
+       "The long-term rent as a floor. If the property does not work as a boring annual lease, "
+       "you are not buying a building, you are buying a permit."]),
+   note("The last point is the whole discipline. A short-term rental that also works as a "
+        "long-term rental has a downside. One that only works nightly has a regulatory "
+        "cliff instead."),
+ ],
+ "sources": [
+   ("AirDNA via PR Newswire — Steady demand and slower new supply define US short-term rentals in 2026",
+    "https://www.prnewswire.com/news-releases/steady-demand-and-slower-new-supply-define-us-short-term-rentals-in-2026-airdna-finds-302820776.html"),
+   ("Hotel News Resource — AirDNA 2026 short-term rental outlook",
+    "https://www.hotelnewsresource.com/article142057.html"),
+   ("STR regulation reset 2026: where Airbnb still pays",
+    "https://ahlend.com/str-regulation-reset-2026/"),
+ ],
+},
+{
+ "slug": "the-bid-you-get-is-not-the-budget-you-wrote",
+ "tone": "forest", "motif": "gantt",
+ "kicker": "Construction · Development management",
+ "title": "The bid you get is not the budget you wrote.",
+ "dek": "Materials are running +6.4% while final-demand prices run +3.5%. "
+        "Contractors are closing that gap in the back half of 2026, and it "
+        "closes on your project.",
+ "date": "September 2026",
+ "read": "7 min",
+ "body": [
+   p("There is a particular silence on a job when the bids come back. Somebody has to say the "
+     "number out loud, and the number is not the one in the feasibility study that got the "
+     "deal approved."),
+   p("In 2026 there is a specific, documentable reason for that, and it is worth understanding "
+     "before you send the drawings out."),
+   h2("Materials moved first. Bids are moving second."),
+   bars("Year-over-year change, 2026. The gap between what contractors pay and what they have "
+        "been charging is the repricing still to come.",
+        [("Materials inputs", 6.4, True), ("Final-demand prices", 3.5, False)], unit="%"),
+   p("Underneath that average, individual lines are far worse: copper up 36% year over year, "
+     "aluminium up 45%, US hot-rolled steel up 27%. Tariffs of up to 50% are landing on "
+     "structural steel, aluminium and other imported products."),
+   p("Contractors absorbed some of this. They are not going to keep absorbing it — they have "
+     "neither the margin nor the appetite, and bid prices in the back half of 2026 are expected "
+     "to close the gap. The baseline for final project cost, materials and margin together, is "
+     "running around 5% year over year."),
+   pull("A budget written in January and bid in October is not a budget. It is a hypothesis "
+        "about margin compression that somebody else has to fund."),
+   h2("Labour is the constraint people underestimate"),
+   p("Construction wages are up over 4% year over year, and 9–11% in high-demand markets and "
+     "specialised trades. More than 60% of metro markets report labour shortages. Data centre "
+     "construction is actively pulling crews away from multifamily, healthcare and industrial "
+     "work, because it pays better."),
+   p("That matters beyond cost. A trade you cannot staff is a schedule you cannot hold, and "
+     "schedule is where a development deal usually dies — not in the line items, but in the "
+     "carry on an extra two quarters."),
+   h2("What we would actually check"),
+   ul(["An escalation allowance sized to the gap above, not a flat 3% because that is what "
+       "the last deal used.",
+       "When the estimate was written and when the bid date is. Every month between them is "
+       "risk somebody is carrying.",
+       "Which packages are tariff-exposed — structural steel, aluminium, electrical gear — "
+       "and whether they can be bought early or substituted.",
+       "Whether the GC has the crews, not just the price. A low bid from a contractor who "
+       "cannot staff it is the most expensive bid on the table.",
+       "The contingency, tested against a 5% escalation and a two-quarter delay together, "
+       "because they arrive together."]),
+   note("None of this argues against building. It argues for bidding earlier, buying long-lead "
+        "packages sooner, and writing the escalation into the model at the number the market "
+        "is actually printing."),
+ ],
+ "sources": [
+   ("JLL — 2026 mid-year US construction perspective",
+    "https://www.jll.com/en-us/insights/2026-midyear-us-construction-perspective"),
+   ("CRE Daily — US construction costs climb as tariff and labor pressures mount",
+    "https://www.credaily.com/briefs/us-construction-costs-climb-as-tariff-and-labor-pressures-mount/"),
+   ("Tax Credit Advisor — 2026 US construction cost outlook, Q2 update",
+    "https://www.taxcreditadvisor.com/articles/2026-us-construction-cost-outlook-q2-update/"),
+   ("HB Capital — CRE construction costs 2026: tariffs, labor and replacement cost",
+    "https://www.hbcapitalre.com/cre-construction-costs-2026-tariffs-labor/"),
+ ],
+},
+{
+ "slug": "what-property-management-actually-costs",
+ "tone": "forest", "motif": "keys",
+ "kicker": "Operations · Property management",
+ "title": "The eight per cent is not the cost of property management.",
+ "dek": "A worked example of where an operating year actually leaks, and why "
+        "the management fee is almost never the number to argue about.",
+ "date": "September 2026",
+ "read": "6 min",
+ "body": [
+   note("A worked example, not a client file. The figures are illustrative and chosen because "
+        "they are ordinary."),
+   p("Owners negotiate the management fee harder than anything else in the operating budget. "
+     "It is visible, it is a percentage, and it feels like the one line you control."),
+   p("Take a small building: eight units, $1,800 a month each, $172,800 gross potential. "
+     "Management at 8% is $13,824. Argue it down to 6% and you have saved $3,456."),
+   p("Now look at what else happened that year."),
+   h2("Where the year actually went"),
+   ul(["<strong>Vacancy and turnover.</strong> Two units turned. Three weeks empty each, plus "
+       "paint, clean and a lock change. Call it $4,600 in lost rent and $2,400 in make-ready.",
+       "<strong>Delinquency.</strong> One tenant went two months down before anyone moved. "
+       "$3,600, most of which never comes back.",
+       "<strong>Deferred maintenance.</strong> A roof repair postponed twice became a roof "
+       "repair plus a ceiling. The difference is not the roof, it is the ceiling.",
+       "<strong>Under-market rent.</strong> Three units never got the renewal increase because "
+       "nobody ran the comps in time. At $75 a month each, that is $2,700 this year and it "
+       "compounds into the next."]),
+   pull("You saved $3,456 on the fee. Turnover alone cost twice that, and the rent you did "
+        "not raise costs it again every year."),
+   h2("What the fee is actually buying"),
+   p("The manager who charges 8% and holds turnover to one unit, catches the delinquency in "
+     "week two and brings you the renewal comps unprompted is not more expensive than the one "
+     "at 6%. They are several thousand dollars cheaper, and the gap widens every year you hold."),
+   p("This is also why operations belong in the underwriting. A rental model with a management "
+     "fee line and no turnover assumption, no delinquency allowance and no annual rent review "
+     "is not modelling the building. It is modelling a spreadsheet."),
+   h2("What we would actually check"),
+   ul(["Turnover rate and average days vacant, in writing, for the manager's existing portfolio.",
+       "How delinquency is escalated, and on what day.",
+       "Whether anyone is contractually responsible for reviewing rents at renewal.",
+       "The maintenance reserve, and whether last year's deferred items are in this year's budget.",
+       "What the manager does not do, which is usually where the surprise lives."]),
+ ],
+ "sources": [],
+},
+{
+ "slug": "the-exit-you-planned-before-you-bought",
+ "tone": "forest", "motif": "waterfall",
+ "kicker": "Investment · Disposition",
+ "title": "Plan the exit before you sign the purchase agreement.",
+ "dek": "Hold, improve, refinance, sell or reinvest. Most owners only seriously "
+        "consider the option they happen to be standing in.",
+ "date": "September 2026",
+ "read": "6 min",
+ "body": [
+   p("An asset that no longer fits your goals is a decision waiting to be made. Most of the "
+     "time nobody makes it. The building keeps running, the statements keep arriving, and the "
+     "decision gets deferred by another quarter because nothing is actually on fire."),
+   p("That is a choice too. It is just an unpriced one."),
+   h2("There are five options, always"),
+   ul(["<strong>Hold.</strong> Defensible when the asset still does what you bought it to do "
+       "and the capital has nowhere better to be. Say that out loud and it stops being a default.",
+       "<strong>Improve.</strong> Capital in, income out. Only if the return on that specific "
+       "spend beats the return on selling and redeploying.",
+       "<strong>Refinance.</strong> Takes chips off the table without triggering tax or losing "
+       "the asset. Constrained by rates and by what the asset now appraises at.",
+       "<strong>Sell.</strong> Clean, taxable, final. The only option that actually tests "
+       "whether the value you have been reporting yourself is real.",
+       "<strong>Reinvest.</strong> Sell and roll, with the structure decided before the "
+       "clock starts, not after."]),
+   pull("The question is never \u201cis this a good asset\u201d. It is \u201cis this the "
+        "best available home for this capital, today\u201d. Those have different answers."),
+   h2("Why the exit belongs in the acquisition model"),
+   p("A decision made at acquisition shows up years later in the operating budget, and the exit "
+     "is the clearest case. Financing structure decides whether refinancing is even available. "
+     "Entity structure decides what selling costs you. The debt maturity decides when you are "
+     "forced to act, and being forced is how people sell into a bad quarter."),
+   p("Underwrite the exit at the same time as the entry, and the hold period stops being "
+     "whatever happened."),
+   h2("What we would actually check"),
+   ul(["Debt maturity against your intended hold. If the loan matures first, the loan is "
+       "choosing your exit.",
+       "What the asset would trade at today, honestly, not at the number in your own model.",
+       "The tax consequence of each of the five options, before one of them becomes urgent.",
+       "Whether the capital has a better home. If you cannot name it, holding is a real answer.",
+       "Who is responsible for revisiting this, and on what date."]),
+   note("We ask every owner the same thing once a year: if you did not already own this, "
+        "would you buy it today at this price? A no is not an instruction to sell. It is an "
+        "instruction to look properly."),
+ ],
+ "sources": [],
+},
 {
  "slug": "the-lot-shortage-ended",
  "tone": "forest", "motif": "lots",

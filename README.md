@@ -285,13 +285,23 @@ If either brand moves, re-check this section first.
 `insights/` index and the homepage band are written from one `ARTICLES` list,
 so they cannot drift. Adding a piece means adding an entry and re-running it.
 
-Three of a planned fifteen are written:
+Eight of a planned fifteen are written, and they deliberately span the whole
+cycle rather than clustering on land:
 
-| Piece | Sourced |
-|-------|---------|
-| The lot shortage ended. Most people are still pricing like it didn't. | 4 sources |
-| Medellín is not one market. It is about nine. | 4 sources |
-| The split that looked good and wasn't. | worked example, labelled as such |
+| Piece | Stage | Sourced |
+|-------|-------|---------|
+| For the first time since 2022, more apartments were absorbed than built | Multifamily | 4 |
+| A short-term rental that cannot get a permit is worth nothing | Operate · STR | 3 |
+| The bid you get is not the budget you wrote | Create · construction | 4 |
+| The eight per cent is not the cost of property management | Operate · PM | worked example |
+| Plan the exit before you sign the purchase agreement | Optimize · disposition | framework |
+| The lot shortage ended | Identify · land | 4 |
+| Medellín is not one market | Evaluate · residential | 4 |
+| The split that looked good and wasn't | Worked example · land | labelled |
+
+Three of eight are land. The rest are multifamily, short-term rentals,
+construction, property management and disposition — which is the point: the
+library has to demonstrate the full cycle, not assert it.
 
 **Rules for this library, which matter more than the word count:**
 
@@ -302,18 +312,16 @@ Three of a planned fifteen are written:
 - Bar comparisons only plot values we actually have. No interpolated points,
   no invented trend lines.
 
-Still to write (12): property management economics; what a subdivision costs
-before it earns; reading a hospitality P&L; Costa Rica Central Valley;
-build-to-rent maths; the entitlement timeline that ate the return; multifamily
-at small scale; setting rent and defending it; the STR regulation risk; when
-to refinance rather than sell; training an operating team; how to read any
-market in a week.
+Still to write (7): reading a hospitality P&L; Costa Rica Central Valley;
+build-to-rent maths; the entitlement timeline that ate the return; setting
+rent and defending it; when to refinance rather than sell; training an
+operating team.
 
 ## Not built yet
 
 - Spanish version (`Claridad en todo el ciclo inmobiliario.` — the approved
   ES copy is in the brand kit, ready to drop in).
-- Twelve of the fifteen insight pieces.
+- Seven of the fifteen insight pieces.
 - **`hello@pangeaventures.com` has to exist.** Every call to action on the
   site points at it. Nothing else does.
 
