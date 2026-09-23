@@ -30,10 +30,9 @@
     if (!nav) return;
     /* Article pages have no hero, so the bar is solid from the first pixel —
        otherwise Bone nav text sits on the Bone page. */
-    if (nav.classList.contains('nav--art')) {
-      nav.setAttribute('data-solid', 'true');
-      return;
-    }
+    /* Article pages carry a solid Forest banner of their own, so the
+       scroll-driven light/dark swap does not apply. */
+    if (nav.classList.contains('nav--art')) return;
     onScroll(function () {
       var solid;
       if (hero) {
@@ -552,4 +551,107 @@
     }, { threshold: 0.6 });
     els.forEach(function (el) { el.textContent = '0' + (el.dataset.suffix || ''); io.observe(el); });
   })();
+})();
+
+/* ============================================================
+   The opening. Mark, wordmark, line, then the curtain lifts.
+   Once per session — it is a greeting, not a toll booth.
+   ============================================================ */
+(function () {
+  'use strict';
+  var intro = document.getElementById('intro');
+  if (!intro) return;
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var KEY = 'pangea.intro.seen';
+  var seen = false;
+  try { seen = !!sessionStorage.getItem(KEY); } catch (e) {}
+
+  if (reduce || seen) { intro.remove(); return; }
+  try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+
+  var html = document.documentElement;
+  html.classList.add('intro-locked');
+  intro.hidden = false;
+  intro.setAttribute('aria-hidden', 'true');
+
+  function finish() {
+    intro.classList.add('is-out');
+    html.classList.remove('intro-locked');
+    setTimeout(function () { if (intro.parentNode) intro.remove(); }, 1000);
+  }
+
+  requestAnimationFrame(function () {
+    requestAnimationFrame(function () { intro.classList.add('is-in'); });
+  });
+
+  var timer = setTimeout(finish, 2600);
+  /* never trap anyone */
+  ['click', 'keydown', 'wheel', 'touchstart'].forEach(function (ev) {
+    window.addEventListener(ev, function once() {
+      clearTimeout(timer);
+      finish();
+      window.removeEventListener(ev, once);
+    }, { once: true, passive: true });
+  });
+})();
+
+/* ============================================================
+   Article reading experience: a section rail that tracks where
+   you are, and blocks that arrive rather than sitting there.
+   ============================================================ */
+(function () {
+  'use strict';
+  var body = document.querySelector('.art__body');
+  if (!body) return;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- build the rail from the article's own headings ---- */
+  var heads = Array.prototype.slice.call(body.querySelectorAll('.art__h2'));
+  if (heads.length > 1) {
+    var nav = document.createElement('nav');
+    nav.className = 'toc';
+    nav.setAttribute('aria-label', 'Sections in this piece');
+    var html = '<p class="label toc__label">In this piece</p><ul class="toc__list">';
+    heads.forEach(function (h, i) {
+      if (!h.id) h.id = 'sec-' + (i + 1);
+      html += '<li><a href="#' + h.id + '">' + h.textContent + '</a></li>';
+    });
+    nav.innerHTML = html + '</ul>';
+    var wrap = document.querySelector('.art__wrap');
+    if (wrap) wrap.appendChild(nav);
+
+    var links = Array.prototype.slice.call(nav.querySelectorAll('a'));
+    var mark = function () {
+      var line = window.innerHeight * 0.3, cur = -1;
+      heads.forEach(function (h, i) {
+        if (h.getBoundingClientRect().top <= line) cur = i;
+      });
+      links.forEach(function (a, i) { a.classList.toggle('is-here', i === cur); });
+    };
+    var t = false;
+    window.addEventListener('scroll', function () {
+      if (!t) { t = true; requestAnimationFrame(function () { t = false; mark(); }); }
+    }, { passive: true });
+    mark();
+  }
+
+  /* ---- blocks arrive as they enter ---- */
+  var blocks = Array.prototype.slice.call(
+    body.querySelectorAll('.art__p, .art__h2, .art__list, .art__pull, .art__fig, .art__note, .keys'));
+  if (!blocks.length) return;
+  blocks.forEach(function (b) { b.classList.add('ar'); });
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    blocks.forEach(function (b) { b.classList.add('is-in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('is-in');
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  blocks.forEach(function (b) { io.observe(b); });
 })();

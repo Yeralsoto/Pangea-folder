@@ -116,6 +116,30 @@ model canvas, the coverage map and the article bands.
 - `tools/check_links.py`-style verification is run as part of the build notes:
   all internal hrefs resolve.
 
+## The opening
+
+A Forest curtain, the mark, the wordmark, the line, then it lifts to the hero.
+**Once per session** — it is a greeting, not a toll booth — and any click, key,
+scroll or tap skips it immediately. Removed entirely under
+`prefers-reduced-motion`.
+
+## Reading experience (articles)
+
+Long text should arrive, not confront:
+
+- A **section rail** on the left, built from the article's own headings, marking
+  where you are as you scroll. Appears above 1152px; the article is unchanged
+  below that.
+- **Blocks arrive as they enter** — paragraphs, headings, lists, pull quotes,
+  figures — rather than sitting there as a wall.
+- **Bar comparisons fill** when they land, plotting only values we have.
+- A **key-figure strip** (`.keys`) pulls numbers out of the prose so a scanner
+  still gets the argument.
+
+Urgency here comes from the material being current and dated, not from
+countdowns or pressure devices. The brand book rules out pushy and salesy, and
+a firm selling "truth on time" cannot manufacture scarcity.
+
 ## Motion
 
 Deliberately quiet, and all of it off under `prefers-reduced-motion`:
