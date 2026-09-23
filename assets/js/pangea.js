@@ -46,34 +46,58 @@
     });
   })();
 
-  /* ---------- 1b. Mobile menu ---------- */
+  /* ---------- 1b. The full-screen menu ---------- */
   (function () {
-    var nav = $('.nav'), btn = $('.nav__burger'), panel = $('#nav-panel');
-    if (!nav || !btn || !panel) return;
-    var lbl = $('.nav__burgerLabel', btn);
+    var btn = $('.nav__menu'), menu = $('#menu');
+    if (!btn || !menu) return;
+    var lbl = $('.nav__menuLabel', btn);
+    var lastFocus = null;
+
+    function items() {
+      return Array.prototype.slice.call(menu.querySelectorAll('a, button'));
+    }
 
     function set(open) {
-      nav.setAttribute('data-menu', String(open));
       btn.setAttribute('aria-expanded', String(open));
-      panel.hidden = !open;
+      menu.setAttribute('aria-hidden', String(!open));
+      document.body.classList.toggle('menu-open', open);
       if (lbl) lbl.textContent = open ? 'Close' : 'Menu';
-    }
-    set(false);
 
+      if (open) {
+        lastFocus = document.activeElement;
+        menu.hidden = false;
+        /* stagger the list in after paint */
+        var links = Array.prototype.slice.call(menu.querySelectorAll('.menu__list a'));
+        links.forEach(function (a, i) { a.style.transitionDelay = (120 + i * 28) + 'ms'; });
+        requestAnimationFrame(function () { menu.classList.add('is-open'); });
+        var first = items()[0];
+        if (first) first.focus();
+        document.addEventListener('keydown', onKey);
+      } else {
+        menu.classList.remove('is-open');
+        document.removeEventListener('keydown', onKey);
+        setTimeout(function () { menu.hidden = true; }, 460);
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+      }
+    }
+
+    function onKey(e) {
+      if (e.key === 'Escape') { set(false); return; }
+      if (e.key !== 'Tab') return;
+      var f = items();
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+
+    set(false);
     btn.addEventListener('click', function () {
       set(btn.getAttribute('aria-expanded') !== 'true');
     });
-    panel.addEventListener('click', function (e) {
+    menu.addEventListener('click', function (e) {
       if (e.target.closest('a')) set(false);
     });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
-        set(false); btn.focus();
-      }
-    });
-    window.addEventListener('resize', function () {
-      if (window.innerWidth >= 768) set(false);
-    }, { passive: true });
   })();
 
   /* ---------- 2. Reveal on enter ---------- */
@@ -563,12 +587,15 @@
   if (!intro) return;
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var KEY = 'pangea.intro.seen';
-  var seen = false;
-  try { seen = !!sessionStorage.getItem(KEY); } catch (e) {}
+  /* Shown again after six hours, so a returning visit still gets the
+     opening, but clicking around the site inside one sitting does not. */
+  var KEY = 'pangea.intro.at';
+  var WINDOW_MS = 6 * 60 * 60 * 1000;
+  var last = 0;
+  try { last = parseInt(localStorage.getItem(KEY) || '0', 10) || 0; } catch (e) {}
 
-  if (reduce || seen) { intro.remove(); return; }
-  try { sessionStorage.setItem(KEY, '1'); } catch (e) {}
+  if (reduce || (Date.now() - last) < WINDOW_MS) { intro.remove(); return; }
+  try { localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
 
   var html = document.documentElement;
   html.classList.add('intro-locked');

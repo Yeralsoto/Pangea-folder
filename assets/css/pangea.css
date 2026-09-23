@@ -145,12 +145,14 @@ p{ margin:0; }
   padding:1.5rem var(--gutter);
   transition:padding .4s var(--ease);
 }
+/* The banner is Forest on every page and at every scroll position. It used
+   to flip to Bone, which read as two different headers. */
 .nav[data-solid="true"]{
   top:0; left:0; right:0;
   --logo-h:clamp(30px, 2.6vw, 42px);
-  background:color-mix(in srgb, var(--bone) 94%, transparent);
+  background:color-mix(in srgb, var(--forest) 97%, transparent);
   backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-  border-bottom-color:color-mix(in srgb, var(--forest) 12%, transparent);
+  border-bottom-color:color-mix(in srgb, var(--sand) 22%, transparent);
 }
 .nav[data-solid="true"] .nav__bar{ padding-block:.75rem; }
 
@@ -163,15 +165,14 @@ p{ margin:0; }
    (the homepage crossfade). On pages that ship a single mark it must stay
    in flow, or the link collapses to zero height and the logo disappears. */
 .nav__logo .is-light + .is-dark{ position:absolute; left:0; top:0; }
-.nav[data-solid="false"] .nav__logo .is-dark{ opacity:0; }
-.nav[data-solid="true"]  .nav__logo .is-light{ opacity:0; }
+.nav__logo .is-dark{ opacity:0 !important; }   /* Forest banner: the reversed mark always */
 
 .nav__links{ display:flex; gap:clamp(1.25rem,3vw,2.75rem); align-items:center; }
 .nav__links a{
   font-size:clamp(0.95rem, 0.86rem + 0.28vw, 1.15rem); letter-spacing:.01em; text-decoration:none;
   color:var(--bone); opacity:.88; transition:opacity .25s, color .35s;
 }
-.nav[data-solid="true"] .nav__links a{ color:var(--forest); }
+.nav[data-solid="true"] .nav__links a{ color:var(--bone); }
 .nav__links a:hover{ opacity:1; color:var(--terracotta); }
 @media (max-width:47.99rem){ .nav__links{ display:none; } }
 
@@ -188,7 +189,7 @@ p{ margin:0; }
 .nav[data-menu="true"] .nav__burgerIcon i:first-child{ transform:translateY(2.75px) rotate(45deg); }
 .nav[data-menu="true"] .nav__burgerIcon i:last-child{ transform:translateY(-2.75px) rotate(-45deg); }
 .nav__burger{ color:var(--bone); }
-.nav[data-solid="true"] .nav__burger{ color:var(--forest); }
+.nav[data-solid="true"] .nav__burger{ color:var(--bone); }
 
 .nav__panel{
   position:absolute; left:0; right:0; top:100%;
@@ -1081,3 +1082,78 @@ html.intro-locked, html.intro-locked body{ overflow:hidden; }
 @media (prefers-reduced-motion: reduce){
   .ar{ opacity:1 !important; transform:none !important; }
 }
+
+/* ---------- 27. Full-screen menu ---------- */
+.nav__menu{
+  display:inline-flex; align-items:center; gap:.6rem; cursor:pointer;
+  background:none; border:0; padding:.4rem 0; color:var(--bone);
+  font-family:var(--text); font-size:var(--t12); font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase;
+}
+.nav__menuIcon{ display:inline-grid; gap:4px; width:22px; }
+.nav__menuIcon i{ display:block; height:1.5px; background:currentColor;
+  transition:transform .35s var(--ease), opacity .3s var(--ease); }
+body.menu-open .nav__menuIcon i:nth-child(1){ transform:translateY(5.5px) rotate(45deg); }
+body.menu-open .nav__menuIcon i:nth-child(2){ opacity:0; }
+body.menu-open .nav__menuIcon i:nth-child(3){ transform:translateY(-5.5px) rotate(-45deg); }
+
+.menu{
+  position:fixed; inset:0; z-index:70; background:var(--forest); color:var(--bone);
+  overflow-y:auto; opacity:0; transition:opacity .45s var(--ease);
+}
+.menu[hidden]{ display:none !important; }
+.menu.is-open{ opacity:1; }
+.menu__inner{
+  min-height:100%; max-width:var(--max); margin-inline:auto;
+  padding:clamp(6rem,14vh,9rem) var(--gutter) clamp(3rem,8vh,5rem);
+  display:grid; gap:clamp(2.5rem,6vw,4.5rem); align-content:start;
+}
+@media (min-width:64rem){ .menu__inner{ grid-template-columns:1fr 20rem; } }
+.menu__cols{ display:grid; gap:clamp(2rem,4vw,3rem); }
+@media (min-width:48rem){ .menu__cols{ grid-template-columns:repeat(3,1fr); } }
+.menu__label{ color:var(--sand); margin-bottom:1.1rem; }
+.menu__list{ list-style:none; margin:0; padding:0; }
+.menu__list li{ border-top:1px solid color-mix(in srgb,var(--sand) 20%, transparent); }
+.menu__list li:last-child{ border-bottom:1px solid color-mix(in srgb,var(--sand) 20%, transparent); }
+.menu__list a{
+  display:grid; grid-template-columns:2.4rem 1fr; gap:.6rem; align-items:baseline;
+  padding:.8rem 0; text-decoration:none;
+  font-family:var(--display); font-weight:300; font-size:var(--t20);
+  color:var(--bone); letter-spacing:-0.01em;
+  opacity:0; transform:translateY(10px);
+  transition:color .25s var(--ease), opacity .5s var(--ease), transform .5s var(--ease);
+}
+.menu.is-open .menu__list a{ opacity:1; transform:none; }
+.menu__list a:hover{ color:var(--terracotta); }
+.menu__n{ font-family:var(--text); font-size:var(--t12); font-weight:500;
+  letter-spacing:.12em; color:var(--sand); }
+
+.menu__rates{
+  border:1px solid color-mix(in srgb,var(--sand) 24%, transparent);
+  border-radius:var(--r-md); padding:clamp(1.25rem,3vw,1.75rem); align-self:start;
+}
+.menu__rateList{ margin:0 0 1.5rem; display:grid; gap:.65rem; }
+.menu__rateList div{ display:flex; justify-content:space-between; gap:1rem;
+  padding-bottom:.6rem; border-bottom:1px solid color-mix(in srgb,var(--sand) 16%, transparent); }
+.menu__rateList div:last-child{ border-bottom:0; }
+.menu__rateList dt{ font-size:var(--t14); color:color-mix(in srgb,var(--bone) 80%,var(--forest)); }
+.menu__rateList dd{ margin:0; font-size:var(--t14); font-weight:500; color:var(--bone);
+  font-variant-numeric:tabular-nums; white-space:nowrap; }
+.menu__cta{ width:100%; justify-content:center; }
+.menu__note{ margin-top:1rem; font-size:var(--t12); color:var(--sand); line-height:1.5; }
+
+body.menu-open{ overflow:hidden; }
+
+/* ---------- 28. About ---------- */
+.about__grid{ display:grid; gap:clamp(2rem,5vw,4rem); align-items:start; }
+@media (min-width:64rem){ .about__grid{ grid-template-columns:1fr 1.2fr; } }
+.about__body > * + *{ margin-top:1.1rem; }
+.about__body p{ color:var(--umber); max-width:48ch; }
+.ground-forest .about__body p{ color:color-mix(in srgb,var(--bone) 84%,var(--forest)); }
+.refine{ list-style:none; margin:0; padding:0; }
+.refine li{ display:grid; grid-template-columns:3rem 1fr; gap:1rem; align-items:baseline;
+  padding-block:1rem; border-top:1px solid color-mix(in srgb,var(--sand) 22%, transparent);
+  font-size:var(--t16); color:color-mix(in srgb,var(--bone) 86%,var(--forest)); }
+.refine li:last-child{ border-bottom:1px solid color-mix(in srgb,var(--sand) 22%, transparent); }
+.refine__n{ font-family:var(--text); font-size:var(--t12); font-weight:500;
+  letter-spacing:.12em; color:var(--sand); }
