@@ -181,13 +181,22 @@ Deliberately quiet, and all of it off under `prefers-reduced-motion`:
 that changes shape for each asset type — parcel, house, block, hotel, row,
 frame.
 
-The trick that makes it work: **every shape is sampled from a height profile
-at the same number of points** (180 across the width), so any two can be
-interpolated directly. No path matching, no morph library, and no chance of a
-mismatched point count — the usual reason SVG morphs tear.
+Each type is an **explicit outline in viewBox units** — vertical walls
+vertical, roof pitches straight, eaves where eaves go.
 
-Details that cannot be interpolated — lot lines, windows, framing — live on a
-second layer and cross-fade, staggered.
+Two shapes can only interpolate if they carry the same number of points, so
+every outline is **resampled to 96 points by inserting extra points along its
+own segments**. Original vertices are never moved, so corners stay exactly
+square at rest.
+
+The first version sampled a height *function* instead. That looks fine in
+theory and is wrong in practice: a step function sampled at fixed x turns
+every vertical wall into a one-sample diagonal, which is why the shapes read
+as soft and badly drawn.
+
+Detail — lot lines, windows, framing — is **clipped to the current
+silhouette**, so nothing can spill into open sky. The clip path is updated
+with the shape on every frame.
 
 It advances on its own every 3.2 seconds, pauses when off screen, and jumps
 on hover, click or keyboard focus. Terracotta marks the active type and its
