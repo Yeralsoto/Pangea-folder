@@ -39,12 +39,34 @@ HEAD = '''<!doctype html>
       </span>
     </a>
     <nav class="nav__links" aria-label="Primary">
-      <a href="index.html">Field Notes</a>
-      <a href="../index.html#how">How it works</a>
+      <a href="../index.html#cycle">What we do</a>
+      <a href="../index.html#services">Services</a>
+      <a href="../insights/index.html">Field Notes</a>
+      <a href="../about.html">About us</a>
       <a href="../index.html#contact">Contact</a>
     </nav>
+    <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu">
+      <span class="nav__menuLabel">Menu</span>
+      <span class="nav__menuIcon" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
   </div>
 </header>
+
+<div class="menu" id="menu" hidden aria-hidden="true">
+  <div class="menu__inner">
+    <nav aria-label="All sections">
+      <ul class="menu__list">
+        <li><a href="../index.html" style="--i:0"><span class="menu__n">I</span><span class="menu__b"><span class="menu__t">Home</span><span class="menu__d">Clarity across the real estate lifecycle</span></span></a></li>
+        <li><a href="../index.html#cycle" style="--i:1"><span class="menu__n">II</span><span class="menu__b"><span class="menu__t">What we do</span><span class="menu__d">The full cycle, land through operations</span></span></a></li>
+        <li><a href="../index.html#services" style="--i:2"><span class="menu__n">III</span><span class="menu__b"><span class="menu__t">Services</span><span class="menu__d">How we work, and what it costs</span></span></a></li>
+        <li><a href="../insights/index.html" style="--i:3"><span class="menu__n">IV</span><span class="menu__b"><span class="menu__t">Field Notes</span><span class="menu__d">Fifteen pieces on markets and deals</span></span></a></li>
+        <li><a href="../about.html" style="--i:4"><span class="menu__n">V</span><span class="menu__b"><span class="menu__t">About us</span><span class="menu__d">The firm, and the mark</span></span></a></li>
+        <li><a href="../index.html#contact" style="--i:5"><span class="menu__n">VI</span><span class="menu__b"><span class="menu__t">Contact</span><span class="menu__d">Reply inside one business day</span></span></a></li>
+      </ul>
+    </nav>
+    <p class="menu__foot">Reply inside one business day. Bad news the same day we find it.</p>
+  </div>
+</div>
 
 <main id="main">
 '''

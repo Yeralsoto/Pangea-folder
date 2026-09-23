@@ -711,43 +711,6 @@
   blocks.forEach(function (b) { io.observe(b); });
 })();
 
-/* ============================================================
-   Desktop submenus. Click to open, click away or Escape to close,
-   one open at a time. Phone uses the burger instead.
-   ============================================================ */
-(function () {
-  'use strict';
-  var items = Array.prototype.slice.call(document.querySelectorAll('.nav__item'));
-  if (!items.length) return;
-
-  function closeAll(except) {
-    items.forEach(function (it) {
-      if (it === except) return;
-      it.setAttribute('data-open', 'false');
-      var b = it.querySelector('.nav__top');
-      if (b) b.setAttribute('aria-expanded', 'false');
-    });
-  }
-
-  items.forEach(function (it) {
-    var btn = it.querySelector('.nav__top');
-    if (!btn) return;
-    it.setAttribute('data-open', 'false');
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var open = it.getAttribute('data-open') === 'true';
-      closeAll(it);
-      it.setAttribute('data-open', String(!open));
-      btn.setAttribute('aria-expanded', String(!open));
-    });
-  });
-
-  document.addEventListener('click', function () { closeAll(null); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeAll(null);
-  });
-})();
-
 /* Diagrams assemble when you reach them. */
 (function () {
   'use strict';

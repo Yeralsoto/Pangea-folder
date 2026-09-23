@@ -371,7 +371,7 @@ section[id], [id^="var-"]{ scroll-margin-top:6.5rem; }
 }
 .cycle__meter{ display:flex; align-items:center; gap:.75rem; margin-top:2rem; }
 .cycle__track{ flex:1; height:2px; background:color-mix(in srgb,var(--forest) 14%, transparent); position:relative; }
-.cycle__fill{ position:absolute; inset:0 auto 0 0; width:0%; background:var(--terracotta); transition:width .45s var(--ease); }
+.cycle__fill{ position:absolute; inset:0 auto 0 0; width:0%; background:var(--terracotta); transition:width .3s var(--ease); }
 .cycle__count{ font-size:var(--t12); letter-spacing:.14em; color:var(--stone); font-weight:500; }
 
 /* Below 1024px the grid is one column, so the model would scroll away before
@@ -1082,24 +1082,37 @@ body.menu-open .nav__menuIcon i:nth-child(3){ transform:translateY(-5.5px) rotat
   display:grid; gap:clamp(2.5rem,6vw,4.5rem); align-content:start;
 }
 @media (min-width:64rem){ .menu__inner{ grid-template-columns:1fr 20rem; } }
-.menu__cols{ display:grid; gap:clamp(2rem,4vw,3rem); }
-@media (min-width:48rem){ .menu__cols{ grid-template-columns:repeat(3,1fr); } }
-.menu__label{ color:var(--sand); margin-bottom:1.1rem; }
+/* One flat list, numbered, stacked. No columns and no submenus — on a
+   phone this is the whole navigation, so it has to read straight down. */
 .menu__list{ list-style:none; margin:0; padding:0; }
 .menu__list li{ border-top:1px solid color-mix(in srgb,var(--sand) 20%, transparent); }
 .menu__list li:last-child{ border-bottom:1px solid color-mix(in srgb,var(--sand) 20%, transparent); }
 .menu__list a{
-  display:grid; grid-template-columns:2.4rem 1fr; gap:.6rem; align-items:baseline;
-  padding:.8rem 0; text-decoration:none;
-  font-family:var(--display); font-weight:300; font-size:var(--t20);
-  color:var(--bone); letter-spacing:-0.01em;
+  display:grid; grid-template-columns:2.6rem minmax(0,1fr); gap:.85rem;
+  align-items:baseline;
+  padding:1.05rem .25rem 1.15rem; text-decoration:none;
+  color:var(--bone);
   opacity:0; transform:translateY(10px);
-  transition:color .25s var(--ease), opacity .5s var(--ease), transform .5s var(--ease);
+  transition:color .25s var(--ease), background .25s var(--ease),
+             opacity .5s var(--ease), transform .5s var(--ease);
 }
-.menu.is-open .menu__list a{ opacity:1; transform:none; }
-.menu__list a:hover{ color:var(--terracotta); }
+.menu.is-open .menu__list a{ opacity:1; transform:none;
+  transition-delay:calc(var(--i,0) * 55ms); }
 .menu__n{ font-family:var(--text); font-size:var(--t12); font-weight:500;
   letter-spacing:.12em; color:var(--sand); }
+.menu__b{ display:block; min-width:0; }
+.menu__t{
+  display:block; font-family:var(--display); font-weight:300;
+  font-size:clamp(1.5rem, 1.1rem + 2.2vw, 2.1rem); line-height:1.15;
+  letter-spacing:-0.01em;
+}
+.menu__d{
+  display:block; margin-top:.3rem;
+  font-family:var(--text); font-size:var(--t12); letter-spacing:.02em;
+  line-height:1.45; color:color-mix(in srgb, var(--sand) 82%, transparent);
+}
+.menu__list a:hover, .menu__list a:focus-visible{ color:var(--terracotta); }
+.menu__list a:hover .menu__n, .menu__list a:focus-visible .menu__n{ color:var(--terracotta); }
 
 .menu__rates{
   border:1px solid color-mix(in srgb,var(--sand) 24%, transparent);
@@ -1148,8 +1161,6 @@ body.menu-open{ overflow:hidden; }
    reach even 8px it would need a 204px lockup, which no navigation bar has
    room for. PANGEA stays artwork; the descriptor is set in Geist at the
    brand's own label spec — uppercase, +0.14em — so the full name reads. */
-/* .nav__desc, not .nav__sub — that name already belongs to the desktop
-   dropdown, and reusing it made the descriptor inherit opacity:0. */
 .nav__desc{
   font-family:var(--text); font-weight:500;
   font-size:calc(var(--logo-h) * 0.155);
@@ -1162,50 +1173,13 @@ body.menu-open{ overflow:hidden; }
 .nav{ --logo-h:clamp(46px, 4.4vw, 62px); }
 .nav[data-solid="true"]{ --logo-h:clamp(38px, 3.2vw, 48px); }
 
-/* desktop: top-level items that open their own submenu */
-.nav__item{ position:relative; }
-.nav__top{
-  all:unset; cursor:pointer; display:inline-flex; align-items:center; gap:.4rem;
-  font-family:var(--text); font-size:clamp(0.95rem,0.86rem + 0.28vw,1.1rem);
-  color:var(--bone); opacity:.88; padding:.35rem 0;
-  transition:opacity .25s, color .3s;
-}
-.nav__top::after{
-  content:""; width:5px; height:5px; margin-top:-2px;
-  border-right:1.4px solid currentColor; border-bottom:1.4px solid currentColor;
-  transform:rotate(45deg); transition:transform .3s var(--ease);
-}
-.nav__item[data-open="true"] .nav__top::after{ transform:rotate(-135deg); }
-.nav__top:hover, .nav__item[data-open="true"] .nav__top{ opacity:1; color:var(--terracotta); }
-.nav__top:focus-visible{ outline:2px solid var(--clay); outline-offset:4px; }
-
+/* A flat top bar: five names, no dropdowns. The burger carries the same
+   list on anything narrower than a laptop. */
 .nav__plain{
   font-size:clamp(0.95rem,0.86rem + 0.28vw,1.1rem); text-decoration:none;
   color:var(--bone); opacity:.88; transition:opacity .25s, color .3s;
 }
 .nav__plain:hover{ opacity:1; color:var(--terracotta); }
-
-.nav__item::after{           /* invisible bridge under the trigger */
-  content:""; position:absolute; left:0; right:0; top:100%; height:1rem;
-  display:none;
-}
-.nav__item[data-open="true"]::after{ display:block; }
-.nav__sub{
-  position:absolute; top:100%; left:-1rem; min-width:16rem; margin-top:0;
-  background:var(--forest); border:1px solid color-mix(in srgb,var(--sand) 24%, transparent);
-  border-radius:var(--r-md); padding:1.25rem .5rem .5rem;
-  display:grid; box-shadow:0 18px 40px -18px rgba(0,0,0,.6);
-  opacity:0; transform:translateY(-6px); pointer-events:none;
-  transition:opacity .28s var(--ease), transform .28s var(--ease);
-}
-.nav__sub[hidden]{ display:grid !important; }
-.nav__item[data-open="true"] .nav__sub{ opacity:1; transform:none; pointer-events:auto; }
-.nav__sub a{
-  display:block; padding:.6rem .8rem; border-radius:calc(var(--r-sm) - 2px);
-  font-size:var(--t14); color:var(--bone); text-decoration:none; opacity:.9;
-  transition:background .2s var(--ease), color .2s var(--ease);
-}
-.nav__sub a:hover{ background:color-mix(in srgb,var(--bone) 9%, transparent); color:var(--bone); opacity:1; }
 
 /* phone: everything lives in the burger */
 .nav__menu{ display:none; }
@@ -1230,20 +1204,20 @@ body.menu-open{ overflow:hidden; }
   margin-inline:auto; overflow:hidden; }
 .cy__track{ fill:none; stroke:color-mix(in srgb,var(--sand) 20%, transparent); stroke-width:1; }
 .cy__arc{ fill:none; stroke:color-mix(in srgb,var(--sand) 34%, transparent);
-  stroke-width:1.6; stroke-linecap:round; transition:stroke .4s var(--ease), stroke-width .4s var(--ease); }
+  stroke-width:1.6; stroke-linecap:round; transition:stroke .26s var(--ease), stroke-width .26s var(--ease); }
 .cy__arc[data-on="true"]{ stroke:var(--terracotta); stroke-width:3; }
 .cy__runner{ fill:var(--terracotta); }
 
 .cy__node{ cursor:pointer; }
 .cy__halo{ fill:transparent; }
 .cy__dot{ fill:var(--forest); stroke:var(--sand); stroke-width:1.6;
-  transition:fill .35s var(--ease), stroke .35s var(--ease), r .35s var(--ease); }
+  transition:fill .24s var(--ease), stroke .24s var(--ease), r .24s var(--ease); }
 .cy__node[data-on="true"] .cy__dot{ fill:var(--terracotta); stroke:var(--terracotta); r:9; }
 .cy__node:focus-visible .cy__dot{ stroke:var(--bone); }
 .cy__node:focus{ outline:none; }
 .cy__num{ font-family:var(--text); font-size:7px; font-weight:500; letter-spacing:.06em;
   fill:var(--sand); text-anchor:middle; pointer-events:none;
-  transition:fill .35s var(--ease), opacity .35s var(--ease); opacity:0; }
+  transition:fill .24s var(--ease), opacity .24s var(--ease); opacity:0; }
 .cy__node[data-on="true"] .cy__num{ fill:var(--bone); opacity:1; }
 
 .cy__label{
@@ -1271,12 +1245,12 @@ body.menu-open{ overflow:hidden; }
   display:flex; align-items:center; gap:.7rem; padding:.55rem 0;
   border-top:1px solid color-mix(in srgb,var(--sand) 16%, transparent);
   font-size:var(--t14); color:color-mix(in srgb,var(--bone) 58%, var(--forest));
-  transition:color .35s var(--ease); cursor:default;
+  transition:color .24s var(--ease); cursor:default;
 }
 .cy__out:last-child{ border-bottom:1px solid color-mix(in srgb,var(--sand) 16%, transparent); }
 .cy__outDot{ width:5px; height:5px; border-radius:50%; flex:none;
   background:color-mix(in srgb,var(--sand) 40%, transparent);
-  transition:background .35s var(--ease), transform .35s var(--ease); }
+  transition:background .24s var(--ease), transform .24s var(--ease); }
 .cy__out[data-on="true"]{ color:var(--bone); }
 .cy__out[data-on="true"] .cy__outDot{ background:var(--terracotta); transform:scale(1.5); }
 

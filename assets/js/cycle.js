@@ -61,7 +61,7 @@
   /* the runner keeps moving; the ring is a loop, not a list */
   function frame(t) {
     if (t0 === null) t0 = t;
-    var p = ((t - t0) / 17000) % 1;                 /* one lap every 17s */
+    var p = ((t - t0) / 9500) % 1;                  /* one lap every 9.5s */
     var a = -Math.PI / 2 + p * Math.PI * 2;
     var xy = point(a);
     runner.setAttribute('cx', xy[0].toFixed(1));
@@ -77,7 +77,7 @@
     held = true;
     paint(i);
     clearTimeout(hold._t);
-    hold._t = setTimeout(function () { held = false; }, 6000);
+    hold._t = setTimeout(function () { held = false; }, 3800);
   }
 
   nodes.forEach(function (n, i) {
