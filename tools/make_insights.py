@@ -31,8 +31,9 @@ HEAD = '''<!doctype html>
 
 <header class="nav nav--art" data-solid="false">
   <div class="nav__bar">
-    <a class="nav__logo" href="../index.html" aria-label="{site} — home">
-      <img class="is-light" src="../assets/logos/pangea-horizontal-reversed.svg" alt="{site}">
+    <a class="nav__logo" href="../index.html" aria-label="Pangea Ventures International — home">
+      <img class="nav__sym" src="../assets/logos/pangea-symbol-reversed.svg" alt="">
+      <img class="nav__word" src="../assets/logos/pangea-wordmark-only-bone.svg" alt="Pangea Ventures International">
     </a>
     <nav class="nav__links" aria-label="Primary">
       <a href="index.html">Insights</a>

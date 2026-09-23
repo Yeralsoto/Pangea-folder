@@ -103,6 +103,31 @@ There are no hard-coded radii left in the stylesheet. Every dark block uses
 `var(--forest)`; verified identical at `rgb(39,55,45)` across the footer, the
 model canvas, the coverage map and the article bands.
 
+## The lockup, and why the bar does not use the full one
+
+The brand book sets a 140px minimum width for the horizontal lockup. At
+navigation scale the bar was rendering it 86–120px wide — under the minimum —
+and at that size "VENTURES INTERNATIONAL" is roughly two pixels tall and
+cannot be read.
+
+The bar now uses the **symbol beside a wordmark-only mark**, which is legible
+at every size it appears. The full lockup, subline and all, stays in the
+opening and the footer where it has room.
+
+`assets/logos/pangea-wordmark-only-{white,bone,forest}.svg` are derived from
+the supplied wordmark artwork by cropping the viewBox to the PANGEA row —
+nothing distorted, recoloured or retyped. **Worth adding to the official kit**,
+since every brand hits this problem the first time it builds a nav.
+
+## Navigation
+
+- **Desktop (≥1024px):** top-level items — The firm, The work, Engage — each
+  opening its own submenu on click, plus Insights as a direct link. One open
+  at a time; click away or Escape closes.
+- **Phone:** everything in the burger, full screen.
+- Rates are no longer splashed across the menu. They live inside Engage →
+  Services & rates, where someone looking for them will go.
+
 ## Navigation rules
 
 - **Every page carries the mark, and the mark always goes home.** The homepage

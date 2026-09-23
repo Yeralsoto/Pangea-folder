@@ -115,14 +115,39 @@
 <header class="nav" data-solid="false">
   <div class="nav__bar">
     <a class="nav__logo" href="#top" aria-label="Pangea Ventures International — home">
-      <img class="is-light" src="assets/logos/pangea-horizontal-reversed.svg" alt="Pangea Ventures International">
-      <img class="is-dark" src="assets/logos/pangea-horizontal-twotone.svg" alt="" aria-hidden="true">
+      <img class="nav__sym" src="assets/logos/pangea-symbol-reversed.svg" alt="">
+      <img class="nav__word" src="assets/logos/pangea-wordmark-only-bone.svg" alt="Pangea Ventures International">
     </a>
 
     <nav class="nav__links" aria-label="Primary">
-      <a href="#cycle">Lifecycle</a>
-      <a href="#services">Services</a>
-      <a href="insights/index.html">Insights</a>
+      <div class="nav__item">
+        <button class="nav__top" type="button" aria-expanded="false" aria-controls="sub-firm">The firm</button>
+        <div class="nav__sub" id="sub-firm" hidden>
+          <a href="about.html">About &amp; the mark</a>
+          <a href="#story">Our approach</a>
+          <a href="#record">The record</a>
+          <a href="#clients">Who we work with</a>
+        </div>
+      </div>
+      <div class="nav__item">
+        <button class="nav__top" type="button" aria-expanded="false" aria-controls="sub-work">The work</button>
+        <div class="nav__sub" id="sub-work" hidden>
+          <a href="#cycle">The full cycle</a>
+          <a href="#variations">Land · Building · Hospitality · Rentals</a>
+          <a href="#assets">Every asset type</a>
+          <a href="#markets">Markets</a>
+        </div>
+      </div>
+      <div class="nav__item">
+        <button class="nav__top" type="button" aria-expanded="false" aria-controls="sub-engage">Engage</button>
+        <div class="nav__sub" id="sub-engage" hidden>
+          <a href="#how">Three ways in</a>
+          <a href="#services">Services &amp; rates</a>
+          <a href="#standards">Service standards</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+      <a class="nav__plain" href="insights/index.html">Insights</a>
     </nav>
 
     <button class="nav__menu" type="button" aria-expanded="false" aria-controls="menu">
@@ -138,46 +163,36 @@
       <div class="menu__col">
         <p class="label menu__label">The firm</p>
         <ul class="menu__list">
-          <li><a href="about.html"><span class="menu__n">01</span>About &amp; the mark</a></li>
-          <li><a href="#story"><span class="menu__n">02</span>Our approach</a></li>
-          <li><a href="#record"><span class="menu__n">03</span>The record</a></li>
-          <li><a href="#clients"><span class="menu__n">04</span>Who we work with</a></li>
+          <li><a href="about.html">About &amp; the mark</a></li>
+          <li><a href="#story">Our approach</a></li>
+          <li><a href="#record">The record</a></li>
+          <li><a href="#clients">Who we work with</a></li>
         </ul>
       </div>
       <div class="menu__col">
         <p class="label menu__label">The work</p>
         <ul class="menu__list">
-          <li><a href="#cycle"><span class="menu__n">05</span>The full cycle</a></li>
-          <li><a href="#variations"><span class="menu__n">06</span>Land · Building · Hospitality · Rentals</a></li>
-          <li><a href="#assets"><span class="menu__n">07</span>Every asset type</a></li>
-          <li><a href="#markets"><span class="menu__n">08</span>Markets</a></li>
+          <li><a href="#cycle">The full cycle</a></li>
+          <li><a href="#variations">Land · Building · Hospitality · Rentals</a></li>
+          <li><a href="#assets">Every asset type</a></li>
+          <li><a href="#markets">Markets</a></li>
         </ul>
       </div>
       <div class="menu__col">
         <p class="label menu__label">Engage</p>
         <ul class="menu__list">
-          <li><a href="#how"><span class="menu__n">09</span>Three ways in</a></li>
-          <li><a href="#services"><span class="menu__n">10</span>Services &amp; rates</a></li>
-          <li><a href="insights/index.html"><span class="menu__n">11</span>Insights</a></li>
-          <li><a href="#contact"><span class="menu__n">12</span>Contact</a></li>
+          <li><a href="#how">Three ways in</a></li>
+          <li><a href="#services">Services &amp; rates</a></li>
+          <li><a href="#standards">Service standards</a></li>
+          <li><a href="insights/index.html">Insights</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
       </div>
     </nav>
-
-    <aside class="menu__rates">
-      <p class="label menu__label">What it costs</p>
-      <dl class="menu__rateList">
-        <div><dt>Underwriting, hourly</dt><dd>$350</dd></div>
-        <div><dt>Standard underwrite, delivered</dt><dd>48 hrs</dd></div>
-        <div><dt>Transaction coordination</dt><dd>$495 / file</dd></div>
-        <div><dt>Development advisory</dt><dd>$450 / hr</dd></div>
-        <div><dt>Joint ventures</dt><dd>25–35% of net profit</dd></div>
-      </dl>
-      <a class="btn btn--bone menu__cta" href="mailto:hello@pangeaventures.com?subject=A%20deal%20to%20underwrite">Send us a deal</a>
-      <p class="menu__note">Reply inside one business day. Bad news the same day we find it.</p>
-    </aside>
+    <p class="menu__foot">Reply inside one business day. Bad news the same day we find it.</p>
   </div>
 </div>
+
 
 <main id="main">
 
