@@ -8,23 +8,22 @@ the other, numbered the way the practice site does it.
 import io, re, glob
 
 # numeral, name, descriptor, href template ({p} = path back to the site root)
+# Every item is its own page. A menu click is a navigation, not a scroll.
 ITEMS = [
     ("I",   "Home",        "Clarity across the real estate lifecycle", "{p}index.html"),
-    ("II",  "What we do",  "The full cycle, land through operations",  "{p}index.html#cycle"),
-    ("III", "Services",    "How we work, and what it costs",           "{p}index.html#services"),
+    ("II",  "What we do",  "The full cycle, land through operations",  "{p}what-we-do.html"),
+    ("III", "Services",    "How we work, and what it costs",           "{p}services.html"),
     ("IV",  "Field Notes", "Fifteen pieces on markets and deals",      "{p}insights/index.html"),
     ("V",   "About us",    "The firm, and the mark",                   "{p}about.html"),
-    ("VI",  "Contact",     "Reply inside one business day",            "{p}index.html#contact"),
+    ("VI",  "Contact",     "Reply inside one business day",            "{p}contact.html"),
 ]
 BAR = ["What we do", "Services", "Field Notes", "About us", "Contact"]
 
 
 def _href(tpl, p, home):
     h = tpl.format(p=p)
-    if home:                      # on the homepage, hashes stay local
-        h = h.replace("index.html#", "#").replace("#cycle", "#cycle")
-        if h == "index.html":
-            h = "#top"
+    if home and h == "index.html":
+        h = "#top"
     return h
 
 
@@ -95,7 +94,9 @@ def apply(path, p, home):
 
 
 if __name__ == "__main__":
-    done = [apply('index.html', '', True), apply('about.html', '', False)]
+    done = [apply('index.html', '', True)]
+    for f in ('about.html', 'what-we-do.html', 'services.html', 'contact.html'):
+        done.append(apply(f, '', False))
     for f in sorted(glob.glob('insights/*.html')):
         done.append(apply(f, '../', False))
     print("nav + menu written to %d pages" % len(done))

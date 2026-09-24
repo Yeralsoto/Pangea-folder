@@ -1359,7 +1359,7 @@ rows = "\n".join('''      <li class="ins rv">
         </a>
       </li>''' % (a["slug"], a["tone"], motif(a["motif"]), a["kicker"], a["title"],
                a["dek"], a["date"], a["read"])
-    for a in ARTICLES)
+    for a in ARTICLES[:3])          # the homepage teases three; the library has the rest
 home = re.sub(r"<!-- INSIGHTS:START -->.*?<!-- INSIGHTS:END -->",
               "<!-- INSIGHTS:START -->\n" + rows + "\n<!-- INSIGHTS:END -->",
               home, flags=re.S)
