@@ -12,12 +12,13 @@ import io, re, glob
 ITEMS = [
     ("I",   "Home",        "Clarity across the real estate lifecycle", "{p}index.html"),
     ("II",  "What we do",  "The full cycle, land through operations",  "{p}what-we-do.html"),
-    ("III", "Services",    "How we work, and what it costs",           "{p}services.html"),
-    ("IV",  "Field Notes", "Fifteen pieces on markets and deals",      "{p}insights/index.html"),
-    ("V",   "About us",    "The firm, and the mark",                   "{p}about.html"),
-    ("VI",  "Contact",     "Reply inside one business day",            "{p}contact.html"),
+    ("III", "Markets",     "Where we are on the ground, and where we underwrite", "{p}markets.html"),
+    ("IV",  "Services",    "How we work, and what it costs",           "{p}services.html"),
+    ("V",   "Field Notes", "Fifteen pieces on markets and deals",      "{p}insights/index.html"),
+    ("VI",  "About us",    "The firm, and the mark",                   "{p}about.html"),
+    ("VII", "Contact",     "Reply inside one business day",            "{p}contact.html"),
 ]
-BAR = ["What we do", "Services", "Field Notes", "About us", "Contact"]
+BAR = ["What we do", "Markets", "Services", "Field Notes", "About us", "Contact"]
 
 
 def _href(tpl, p, home):
@@ -95,7 +96,8 @@ def apply(path, p, home):
 
 if __name__ == "__main__":
     done = [apply('index.html', '', True)]
-    for f in ('about.html', 'what-we-do.html', 'services.html', 'contact.html'):
+    for f in ('about.html', 'what-we-do.html', 'markets.html',
+              'services.html', 'contact.html'):
         done.append(apply(f, '', False))
     for f in sorted(glob.glob('insights/*.html')):
         done.append(apply(f, '../', False))

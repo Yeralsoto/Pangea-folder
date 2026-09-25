@@ -274,21 +274,29 @@ section[id], [id^="var-"]{ scroll-margin-top:6.5rem; }
 /* No overflow:hidden here — it silently disables position:sticky on every
    descendant, which is how the pinned map is built. */
 .story{ background:var(--forest); color:var(--bone); }
-.story__grid{ display:grid; gap:clamp(2.5rem,6vw,5rem); align-items:start; }
-@media (min-width:64rem){
-  .story__grid{ grid-template-columns:1fr 1.05fr; }
+.story__grid{ display:grid; gap:clamp(2rem,5vw,4.5rem); align-items:start; }
+/* Side by side as soon as there is room for it. At 64rem a laptop at 125%
+   browser zoom falls back to the stacked layout, where the map goes
+   full-bleed and the text sits under it — which is the one arrangement this
+   section should never be in. 52rem clears that. */
+@media (min-width:52rem){
+  .story__grid{ grid-template-columns:1fr 1.02fr; }
   /* The map pins so the break-apart plays while it is centred and the text
      scrolls past it. The TEXT column carries the travel — a sticky grid item
      can only stick for as long as its own grid row is tall, so giving the
      section a min-height would just leave the map stranded in empty space. */
   .story__body{
-    min-height:190vh;
+    min-height:135vh;
     display:flex; flex-direction:column; justify-content:space-between;
-    padding-block:6vh 14vh;
+    padding-block:4vh 10vh;
   }
   .story__body > * + *{ margin-top:0; }
-  .story__fig{ position:sticky; top:18vh; }
+  .story__fig{ position:sticky; top:20vh; }
+  .story__body p{ max-width:40ch; }
 }
+/* Stacked (phone): the map is a figure, not a backdrop. Cap it so it never
+   swallows the screen and keep it clear of the text above and below. */
+.story__fig{ max-width:min(100%, 34rem); margin-inline:auto; }
 .story h2{ font-size:var(--d-1); margin-bottom:1.5rem; max-width:14ch; }
 .story__body > * + *{ margin-top:1.15rem; }
 .story__body p{ color:color-mix(in srgb,var(--bone) 84%, var(--forest)); max-width:44ch; }
@@ -328,6 +336,23 @@ section[id], [id^="var-"]{ scroll-margin-top:6.5rem; }
 }
 .record__body{ color:var(--umber); max-width:44ch; }
 .record__body + .record__body{ margin-top:1rem; }
+
+/* The record's working, drawn: what the first 48 hours actually produce.
+   Sits under both columns, which is where the section used to run out. */
+.record__fig{
+  margin-top:clamp(2.5rem,6vh,4rem);
+  padding-top:clamp(2rem,4vh,2.75rem);
+  border-top:1px solid color-mix(in srgb,var(--forest) 14%, transparent);
+}
+.dwg--record{ width:100%; height:auto; }
+.dwg--record .dl{ stroke:color-mix(in srgb,var(--forest) 62%, transparent); }
+.dwg--record .dl--res{ stroke:var(--terracotta); stroke-width:1.4; }
+@media (max-width:52rem){
+  /* Horizontal timelines do not survive a phone. Let it scroll on its own
+     rather than crush four labels into each other. */
+  .record__fig{ overflow-x:auto; }
+  .dwg--record{ min-width:640px; }
+}
 
 .facts{ list-style:none; margin:0; padding:0; }
 .fact{
@@ -553,6 +578,10 @@ section[id], [id^="var-"]{ scroll-margin-top:6.5rem; }
 /* ---------- 13. Disclosure block ---------- */
 .disclose{ background:var(--forest); color:var(--bone); }
 .disclose__grid{ display:grid; gap:clamp(2rem,5vw,4rem); align-items:start; }
+/* A grid item defaults to min-width:auto, so the column refuses to shrink
+   below the disclosure table's min-content (26rem) and pushes the whole
+   page sideways on a phone. min-width:0 lets .dblock__scroll do its job. */
+.disclose__grid > *{ min-width:0; }
 @media (min-width:64rem){ .disclose__grid{ grid-template-columns:20rem 1fr; } }
 .disclose h2{ font-size:var(--d-2); margin-bottom:1.25rem; }
 .disclose__note{ color:color-mix(in srgb,var(--bone) 82%, var(--forest)); font-size:var(--t14); max-width:32ch; }
@@ -676,8 +705,11 @@ section[id], [id^="var-"]{ scroll-margin-top:6.5rem; }
    where it drops to 4.43 — under the 4.5 floor at 14px. Darkened. */
 .way__hook{ font-size:var(--t14); color:color-mix(in srgb, var(--clay) 84%, var(--forest)); }
 .way__body{ font-size:var(--t16); color:var(--graphite); max-width:46ch; }
+/* nowrap made sense when this column held a figure. It now holds a phrase
+   ("Hourly, by the file, or on retainer"), which at 11rem overflowed its
+   track and pushed the whole document 21px wide. Let it wrap. */
 .way__price{ font-size:var(--t14); font-weight:500; color:var(--forest);
-  font-variant-numeric:tabular-nums; white-space:nowrap; }
+  font-variant-numeric:tabular-nums; text-wrap:pretty; }
 @media (max-width:59.99rem){
   .way__hook{ order:3; } .way__price{ color:var(--umber); }
 }
